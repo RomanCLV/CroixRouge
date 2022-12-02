@@ -1,16 +1,15 @@
 import React from "react";
-import "../styles/Main.css";
+import "../styles/Payment.css";
 import {
     Container
 } from "reactstrap";
 
-const Main = () => {
-
+const Payment = () => {
     return (
         <Container>
-            <h2>Main</h2>
+            <h2>Payment</h2>
         </Container>
     );
 }
 
-export default Main;
+export default Payment;

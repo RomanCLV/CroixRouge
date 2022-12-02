@@ -1,15 +1,15 @@
 import React from "react";
-import "../styles/Signin.css";
+import "../styles/Product.css";
 import {
     Container
 } from "reactstrap";
 
-const SignIn = () => {
+const Product = () => {
     return (
         <Container>
-            <h2>S'inscrire</h2>
+            <h2>Product</h2>
         </Container>
     );
 }
 
-export default SignIn;
+export default Product;

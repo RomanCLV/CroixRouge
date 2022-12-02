@@ -4,14 +4,15 @@ import {
     Container
 } from "reactstrap";
 
-import "../styles/City.css";
+import "../styles/ErrorPage.css";
 
-const NotFound = () => {
+const ErrorPage = () => {
     const error = useRouteError();
 
     return (
         <Container>
-            <h2>404 Not found</h2>
+            <h1>Oops!</h1>
+            <p>Sorry, an unexpected error has occurred.</p>
             <p>
                 <i>{error.statusText || error.message}</i>
             </p>
@@ -19,4 +20,4 @@ const NotFound = () => {
     );
 }
 
-export default NotFound;
+export default ErrorPage;

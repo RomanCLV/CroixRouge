@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
+import ProductListModel from "../models/productListModel";
 
 export const storeSlice = createSlice({
     name: 'store',
     initialState: {
         city: null,
-        productList: [],
+        productList: new ProductListModel(),
         account: null
     },
     reducers: {
@@ -16,20 +17,13 @@ export const storeSlice = createSlice({
         },
 
         addProduct: (state, newProduct) => {
-            const newProductListAdd = state.productList;
-            // TODO : Check if product is already in the list
-            newProductListAdd.add(newProduct);
-
-            state.productList = newProductListAdd;
+            state.productList.addProduct(newProduct);
         },
-        removeProduct: (state, productId) => {
-            const newProductListRemove = state.productList;
-            // TODO : remove product
-            newProductListRemove.remove(null);
-            state.productList = newProductListRemove;
+        deleteProduct: (state, productId) => {
+            state.productList.deleteProduct(productId);
         },
         clearProduct: (state) => {
-            state.productList = []
+            state.productList.clear();
         },
 
         setCity: (state, newCity) => {
@@ -44,13 +38,13 @@ export const storeSlice = createSlice({
 export const selectAccount = (state) => state.account;
 
 export const isConnected = (state) => {
-    return selectAccount(state) != null
+    return selectAccount(state) != null;
 }
 
 export const selectProductList = (state) => state.productList;
 
 export const hasProducts = (state) => {
-    return selectProductList(state).length > 0;
+    return !selectProductList(state).isEmpty();
 };
 
 export const selectCity = (state) => state.city;
@@ -63,7 +57,7 @@ export const {
     connect,
     disconnect,
     addProduct,
-    removeProduct,
+    deleteProduct,
     clearProduct,
     setCity,
     clearCity

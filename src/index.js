@@ -13,40 +13,61 @@ import App from "./App";
 import Main from "./views/Main";
 import City from "./views/City";
 import Login from "./views/Login";
-import SignIn from "./views/Signin";
+import SignUp from "./views/Signup";
 import Cart from "./views/Cart";
 import Account from "./views/Account";
 import PasswordReset from "./views/PasswordReset";
-import NotFound from "./views/NotFound";
+import ErrorPage from "./views/ErrorPage";
 
 import './styles/index.css';
 import store from "./store/store";
+import { generateData } from "./data/data";
+import RequireCity from "./requires/RequireCity";
+import Search from "./views/Search";
+import Payment from "./views/Payment";
+import RequireNotAuth from "./requires/RequireNotAuth";
+import RequireHasProduct from "./requires/RequireHasProducts";
+import Product from "./views/Product";
+
+generateData();
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <App />,
-        errorElement: <NotFound />,
+        errorElement: <ErrorPage />,
         children: [
             {
                 index: true,
-                element: <Main />
+                element: <RequireCity><Main /></RequireCity>
             },
             {
                 path: "city",
                 element: <City />
             },
             {
+                path: "search",
+                element: <RequireCity><Search /></RequireCity>
+            },
+            {
                 path: "cart",
                 element: <Cart />
             },
             {
-                path: "login",
-                element: <Login />
+                path: "payment",
+                element: <RequireHasProduct><Payment /></RequireHasProduct>
             },
             {
-                path: "signin",
-                element: <SignIn />
+                path: "/product/:id",
+                element: <Product />
+            },
+            {
+                path: "login",
+                element: <RequireNotAuth><Login /></RequireNotAuth>
+            },
+            {
+                path: "signup",
+                element: <RequireNotAuth><SignUp /></RequireNotAuth>
             },
             {
                 path: "account",

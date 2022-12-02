@@ -1,16 +1,15 @@
 import React from "react";
-import "../styles/Main.css";
+import "../styles/Signup.css";
 import {
     Container
 } from "reactstrap";
 
-const Main = () => {
-
+const Signup = () => {
     return (
         <Container>
-            <h2>Main</h2>
+            <h2>S'inscrire</h2>
         </Container>
     );
 }
 
-export default Main;
+export default Signup;

@@ -2,14 +2,13 @@ import { useSelector } from "react-redux";
 import { isConnected } from "../store/storeSlice";
 import { Navigate } from "react-router-dom";
 
-const RequireAuth = ( { children } ) => {
+const RequireNotAuth = ( { children } ) => {
 
     const connected = useSelector(isConnected);
-
-    if (!connected) {
-        return <Navigate to={"/login"} />
+    if (connected) {
+        return <Navigate to={"/"} />
     }
     return children;
 }
 
-export default RequireAuth;
+export default RequireNotAuth;

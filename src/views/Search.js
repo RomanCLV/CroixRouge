@@ -1,16 +1,15 @@
 import React from "react";
-import "../styles/Main.css";
+import "../styles/Search.css";
 import {
     Container
 } from "reactstrap";
 
-const Main = () => {
-
+const Search = () => {
     return (
         <Container>
-            <h2>Main</h2>
+            <h2>Search</h2>
         </Container>
     );
 }
 
-export default Main;
+export default Search;

@@ -9,11 +9,18 @@ export const storeSlice = createSlice({
         account: null
     },
     reducers: {
-        connect: (state, newAccount) => {
+        setUser: (state, newAccount) => {
             state.account = newAccount;
         },
-        disconnect: (state) => {
+        logout: (state) => {
             state.account = null;
+        },
+
+        setCity: (state, newCity) => {
+            state.city = newCity;
+        },
+        clearCity: (state) => {
+            state.city = null;
         },
 
         addProduct: (state, newProduct) => {
@@ -24,13 +31,6 @@ export const storeSlice = createSlice({
         },
         clearProduct: (state) => {
             state.productList.clear();
-        },
-
-        setCity: (state, newCity) => {
-            state.city = newCity;
-        },
-        clearCity: (state) => {
-            state.city = null;
         }
     }
 });
@@ -54,13 +54,13 @@ export const isCitySelected = (state) => {
 };
 
 export const {
-    connect,
-    disconnect,
+    setUser,
+    logout,
+    setCity,
+    clearCity,
     addProduct,
     deleteProduct,
-    clearProduct,
-    setCity,
-    clearCity
+    clearProduct
 } = storeSlice.actions;
 
 export default storeSlice.reducer;

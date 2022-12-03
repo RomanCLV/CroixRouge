@@ -26,4 +26,6 @@ export default function ProductListModel() {
     }
 
     this.isEmpty = () => this.items.length === 0;
+
+    this.count = () => this.items.length;
 }

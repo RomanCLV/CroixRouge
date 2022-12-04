@@ -6,7 +6,6 @@ import { ROUTES } from "../routes";
 const RequireAuth = ( { children } ) => {
 
     const connected = useSelector(isConnected);
-
     if (!connected) {
         return <Navigate to={ROUTES.root} />
     }

@@ -29,10 +29,20 @@ import Account from "./views/Account";
 import PasswordReset from "./views/PasswordReset";
 import ErrorPage from "./views/ErrorPage";
 
-import './styles/index.css';
 import { generateData } from "./data/data";
 import { citiesLoader } from "./router/loaders/citiesLoader";
 import { selectedCityLoader } from "./router/loaders/selectedCityLoader";
+import { searchLoader } from "./router/loaders/searchLoader";
+
+import './styles/index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
+// useful links:
+// https://fontawesome.com/v5/docs/web/use-with/react
+// https://reactstrap.github.io/?path=/story/home-installation--page
+// https://reactrouter.com/en/main/start/tutorial
+// https://react-redux.js.org/tutorials/quick-start
 
 generateData();
 
@@ -58,7 +68,12 @@ const router = createBrowserRouter([
             },
             {
                 path: ROUTES.search,
-                element: <RequireCity><Search /></RequireCity>
+                element: <RequireCity><Search /></RequireCity>,
+            },
+            {
+                path: ROUTES.search + "/:search",
+                element: <RequireCity><Search /></RequireCity>,
+                loader: searchLoader
             },
             {
                 path: ROUTES.product + "/:id",

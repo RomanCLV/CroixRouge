@@ -15,7 +15,7 @@ export const userSlice = createSlice({
     }
 });
 
-export const selectUser = (state) => state.user;
+export const selectUser = (state) => state.user.value;
 
 export const isConnected = (state) => {
     return selectUser(state) != null;

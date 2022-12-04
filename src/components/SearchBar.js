@@ -21,7 +21,7 @@ const SearchBar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const [localSearch, setLocalSearch] = useState(search);
+    const [localSearch, setLocalSearch] = useState(search.toString());
 
     const onSearchButtonClick = () => {
         navigate(ROUTES.search + "/" + localSearch);
@@ -38,7 +38,7 @@ const SearchBar = () => {
                 <Col>
                     <Input
                         placeholder={"Recherche"}
-                        value={localSearch.toString()}
+                        value={localSearch}
                         onChange={e => onTextChanged(e.target.value)}
                     />
                 </Col>

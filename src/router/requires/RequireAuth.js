@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
-import { isConnected } from "../../store/storeSlice";
 import { Navigate } from "react-router-dom";
-import {ROUTES} from "../routes";
+import { isConnected } from "../../store/slices/userSlice";
+import { ROUTES } from "../routes";
 
 const RequireAuth = ( { children } ) => {
 
@@ -11,6 +11,6 @@ const RequireAuth = ( { children } ) => {
         return <Navigate to={ROUTES.root} />
     }
     return children;
-}
+};
 
 export default RequireAuth;

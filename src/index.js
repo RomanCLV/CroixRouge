@@ -7,33 +7,38 @@ import {
 } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 
-import RequireAuth from "./requires/RequireAuth";
+import store from "./store/store";
+import { ROUTES } from "./router/routes";
+
+import RequireAuth from "./router/requires/RequireAuth";
+import RequireCity from "./router/requires/RequireCity";
+import RequireNotAuth from "./router/requires/RequireNotAuth";
+import RequireHasProduct from "./router/requires/RequireHasProducts";
 
 import App from "./App";
 import Main from "./views/Main";
-import City from "./views/City";
+import Cities from "./views/Cities";
+import SelectedCity from "./views/SelectedCity";
+import Search from "./views/Search";
+import Product from "./views/Product";
+import Cart from "./views/Cart";
+import Payment from "./views/Payment";
 import Login from "./views/Login";
 import SignUp from "./views/Signup";
-import Cart from "./views/Cart";
 import Account from "./views/Account";
 import PasswordReset from "./views/PasswordReset";
 import ErrorPage from "./views/ErrorPage";
 
 import './styles/index.css';
-import store from "./store/store";
 import { generateData } from "./data/data";
-import RequireCity from "./requires/RequireCity";
-import Search from "./views/Search";
-import Payment from "./views/Payment";
-import RequireNotAuth from "./requires/RequireNotAuth";
-import RequireHasProduct from "./requires/RequireHasProducts";
-import Product from "./views/Product";
+import { citiesLoader } from "./router/loaders/citiesLoader";
+import { selectedCityLoader } from "./router/loaders/selectedCityLoader";
 
 generateData();
 
 const router = createBrowserRouter([
     {
-        path: "/",
+        path: ROUTES.root,
         element: <App />,
         errorElement: <ErrorPage />,
         children: [
@@ -42,40 +47,46 @@ const router = createBrowserRouter([
                 element: <RequireCity><Main /></RequireCity>
             },
             {
-                path: "city",
-                element: <City />
+                path: ROUTES.cities,
+                element: <Cities />,
+                loader: citiesLoader
             },
             {
-                path: "search",
+                path: ROUTES.city + "/:id",
+                element: <SelectedCity />,
+                loader: selectedCityLoader
+            },
+            {
+                path: ROUTES.search,
                 element: <RequireCity><Search /></RequireCity>
             },
             {
-                path: "cart",
-                element: <Cart />
-            },
-            {
-                path: "payment",
-                element: <RequireHasProduct><Payment /></RequireHasProduct>
-            },
-            {
-                path: "/product/:id",
+                path: ROUTES.product + "/:id",
                 element: <Product />
             },
             {
-                path: "login",
+                path: ROUTES.cart,
+                element: <Cart />
+            },
+            {
+                path: ROUTES.payment,
+                element: <RequireHasProduct><Payment /></RequireHasProduct>
+            },
+            {
+                path: ROUTES.login,
                 element: <RequireNotAuth><Login /></RequireNotAuth>
             },
             {
-                path: "signup",
+                path: ROUTES.signup,
                 element: <RequireNotAuth><SignUp /></RequireNotAuth>
             },
             {
-                path: "account",
-                element: <RequireAuth><Account /></RequireAuth>
+                path: ROUTES.passwordReset,
+                element: <PasswordReset />
             },
             {
-                path: "password-reset",
-                element: <PasswordReset />
+                path: ROUTES.account,
+                element: <RequireAuth><Account /></RequireAuth>
             }
         ]
     }

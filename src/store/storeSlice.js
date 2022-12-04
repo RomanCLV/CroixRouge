@@ -9,25 +9,25 @@ export const storeSlice = createSlice({
         account: null
     },
     reducers: {
-        setUser: (state, newAccount) => {
-            state.account = newAccount;
+        setUser: (state, action) => {
+            state.account = action.payload;
         },
         logout: (state) => {
             state.account = null;
         },
 
-        setCity: (state, newCity) => {
-            state.city = newCity;
+        setCity: (state, action) => {
+            state.city = action.payload;
         },
         clearCity: (state) => {
             state.city = null;
         },
 
-        addProduct: (state, newProduct) => {
-            state.productList.addProduct(newProduct);
+        addProduct: (state, action) => {
+            state.productList.addProduct(action.payload);
         },
-        deleteProduct: (state, productId) => {
-            state.productList.deleteProduct(productId);
+        deleteProduct: (state, action) => {
+            state.productList.deleteProduct(action.payload);
         },
         clearProduct: (state) => {
             state.productList.clear();

@@ -7,30 +7,9 @@ import {
     Container,
 } from "reactstrap";
 import "../styles/City.css";
+import {ROUTES} from "../router/routes";
 
 const Cities = () => {
-
-    // const [cities, setCities] = useState([]);
-    //
-    // useEffect(() => {
-    //     const fetchedCities = getCities().sort((a, b) => a.name.localeCompare(b.name));
-    //     let hasToSetCities = fetchedCities.length !== cities.length;
-    //     if (hasToSetCities) {
-    //         setCities(fetchedCities);
-    //     }
-    //     else {
-    //         for (const city of cities) {
-    //             const match = fetchedCities.find(fetchedCity => city.id === fetchedCity);
-    //             hasToSetCities = match != null;
-    //             if (hasToSetCities) {
-    //                 break;
-    //             }
-    //         }
-    //         if (hasToSetCities) {
-    //             setCities(fetchedCities);
-    //         }
-    //     }
-    // }, [cities]);
 
     const cities = useLoaderData();
 
@@ -45,7 +24,7 @@ const Cities = () => {
                         {
                             cities.map(city =>
                                 <li key={city.id}>
-                                    <Link to={"/city/" + city.name}>{city.name}</Link>
+                                    <Link to={ROUTES.city + "/" + city.name}>{city.name}</Link>
                                 </li>
                             )
                         }

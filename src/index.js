@@ -33,16 +33,17 @@ import { generateData } from "./data/data";
 import { citiesLoader } from "./router/loaders/citiesLoader";
 import { selectedCityLoader } from "./router/loaders/selectedCityLoader";
 import { searchLoader } from "./router/loaders/searchLoader";
+import { productLoader } from "./router/loaders/productLoader";
 
 import './styles/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 // useful links:
-// https://fontawesome.com/v5/docs/web/use-with/react
-// https://reactstrap.github.io/?path=/story/home-installation--page
-// https://reactrouter.com/en/main/start/tutorial
-// https://react-redux.js.org/tutorials/quick-start
+// Repo Git    : https://github.com/Estia-1a/sgv_etu_2022-theambersunflower
+// Reactstrap  : https://reactstrap.github.io/?path=/story/home-installation--page
+// fontawesome : https://fontawesome.com/v5/docs/web/use-with/react
+// reactrouter : https://reactrouter.com/en/main/start/tutorial
+// react-redux : https://react-redux.js.org/tutorials/quick-start
 
 generateData();
 
@@ -77,7 +78,8 @@ const router = createBrowserRouter([
             },
             {
                 path: ROUTES.product + "/:id",
-                element: <Product />
+                element: <Product />,
+                loader: productLoader
             },
             {
                 path: ROUTES.cart,

@@ -2,71 +2,133 @@ import CityModel from "../models/cityModel";
 import ProductModel from "../models/productModel";
 
 import { CATEGORIES, SIZE, GENDER } from "./dataType";
-import AccountModel from "../models/accountModel";
-import CityReducedModel from "../models/cityReducedModel";
+import AccountModel, {getWithoutPassword} from "../models/accountModel";
 
 const data = {
     users: [
-        new AccountModel({
-            id: 1,
-            username: "Marie Lemoine",
-            email: "marie.lomoine@gmail.com",
+        AccountModel({
+            username: "1",
+            email: "1@gmail.com",
             password: "1",
-            avatar: "%PUBLIC_URL%/assets/images/avatar1.png"
+            avatar: "./assets/images/avatar1.png"
         }),
-        new AccountModel({
-            id: 2,
+        AccountModel({
+            username: "Marie Lemoine",
+            email: "marie.lemoine@gmail.com",
+            password: "1",
+            avatar: "./assets/images/avatar1.png"
+        }),
+        AccountModel({
             username: "Jean Sarcelle",
             email: "jean.sarcelle@gmail.com",
             password: "2",
-            avatar: "%PUBLIC_URL%/assets/images/avatar2.png"
+            avatar: "./assets/images/avatar2.png"
         }),
-        new AccountModel({
-            id: 3,
+        AccountModel({
             username: "Cécile Anate",
             email: "cecile.anate@gmail.com",
             password: "3",
-            avatar: "%PUBLIC_URL%/assets/images/avatar3.png"
+            avatar: "./assets/images/avatar3.png"
         }),
-        new AccountModel({
-            id: 4,
+        AccountModel({
             username: "Jean Bouchin",
             email: "jean.bouhchin@gmail.com",
             password: "4",
-            avatar: "%PUBLIC_URL%/assets/images/avatar4.png"
+            avatar: "./assets/images/avatar4.png"
         }),
-        new AccountModel({
-            id: 5,
+        AccountModel({
             username: "Nicolas Ratier",
             email: "nicolas.ratier@gmail.com",
             password: "5",
-            avatar: "%PUBLIC_URL%/assets/images/avatar5.png"
+            avatar: "./assets/images/avatar5.png"
         }),
-        new AccountModel({
-            id: 6,
+        AccountModel({
             username: "Julie Sampaut",
             email: "julie.sampaut@gmail.com",
             password: "6",
-            avatar: "%PUBLIC_URL%/assets/images/avatar6.png"
+            avatar: "./assets/images/avatar6.png"
         })
     ],
     cities: [
-        new CityModel({
+        CityModel({
             name: "Bayonne",
+            address: "58 All. Marines, 64100 Bayonne",
             image: "https://t2.gstatic.com/licensed-image?q=tbn:ANd9GcScXy1LZ5BUC0ObCTsMJtfTeWl75Crjoq_fqVjj8eeZL6zzSfoy7GpK2YHTfGFm3eSc"
         }),
-        new CityModel({
+        CityModel({
             name: "Biarritz",
+            address: "16 Av. d'Etienne Villa Banuelos, 64200 Biarritz",
             image: "https://www.biarritz-pays-basque.com/wp-content/uploads/2019/04/Biarritz_Town_4.png"
         }),
-        new CityModel({
+        CityModel({
             name: "Paris",
+            address: "9 Rue Laplace, 75005 Paris",
             image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/La_Tour_Eiffel_vue_de_la_Tour_Saint-Jacques%2C_Paris_ao%C3%BBt_2014_%282%29.jpg/1200px-La_Tour_Eiffel_vue_de_la_Tour_Saint-Jacques%2C_Paris_ao%C3%BBt_2014_%282%29.jpg"
+        }),
+        CityModel({
+            name: "Saint-Jean-de-Luz",
+            address: "Pavillon Henry Dunant, All. Perkain, 64500 Saint-Jean-de-Luz",
+            image: "https://www.saint-jean-de-luz.com/wp-content/uploads/2021/04/sjdlz-tvmf-24-780x0.jpg"
+        }),
+        CityModel({
+            name: "Bordeaux",
+            address: "50 Rue Ferrere, 33000 Bordeaux",
+            image: "https://t1.gstatic.com/licensed-image?q=tbn:ANd9GcQYBPdeeQ34uOStqa9VX_5TSfr3634gXIUyVuZh2m6RmzQIqqt3TGWey8rYC1_ECno7"
+        }),
+        CityModel({
+            name: "Marseille",
+            address: "64 Rue Clovis Hugues, 13003 Marseille",
+            image: "https://www.okvoyage.com/wp-content/uploads/2020/03/marseille-france.jpg"
+        }),
+        CityModel({
+            name: "Lyon",
+            address: "28 Rue Montgolfier, 69006 Lyon",
+            image: "https://images.ctfassets.net/bth3mlrehms2/3FT2t7eUwluY8vEHRcQcBt/737ba261438c62dcc2bfc873d93690ed/France_Lyon_Quais_de_Sao__ne.jpg?w=2119&h=1414&fl=progressive&q=50&fm=jpg"
+        }),
+        CityModel({
+            name: "La Rochelle",
+            address: "Ilot Joffre, Rue Franc Lapeyre, 17000 La Rochelle",
+            image: "https://media.routard.com/image/44/6/la-rochelle.1554446.jpg"
+        }),
+        CityModel({
+            name: "Rennes",
+            address: "4 Rue du Bois Perrin, 35700 Rennes",
+            image: "https://noscurieuxvoyageurs.com/wp-content/uploads/2020/09/DSF2847.jpg"
+        }),
+        CityModel({
+            name: "Brest",
+            address: "460 Rue Jurien de la Gravière, 29200 Brest",
+            image: "https://www.bretagne.com/sites/default/files/post/Chateau%20Brest_2.jpg"
+        }),
+        CityModel({
+            name: "Le Havre",
+            address: "115 Av. René Coty, 76600 Le Havre",
+            image: "https://en.normandie-tourisme.fr/wp-content/uploads/sites/3/2020/04/le-havre-promenade-de-nuit-herve-sentucq.jpg"
+        }),
+        CityModel({
+            name: "Lille",
+            address: "10-12 Pl. Guy de Dampierre, 59000 Lille",
+            image: "https://upload.wikimedia.org/wikipedia/commons/f/f8/Lille_vue_gd_place.JPG"
+        }),
+        CityModel({
+            name: "Strasbourg",
+            address: "30 Rue Schweighaeuser, 67000 Strasbourg",
+            image: "https://upload.wikimedia.org/wikipedia/commons/0/0e/Strasbourg_vue_a%C3%A9rienne_vers_la_cath%C3%A9drale_septembre_2015.jpg"
+        }),
+        CityModel({
+            name: "Clermont-Ferrand",
+            address: "21 Rue Jean Richepin, 63000 Clermont-Ferrand",
+            image: "https://uil.unesco.org/sites/default/files/clermont-ferrand_france_angelus_yodason_flickr.jpg"
+        }),
+        CityModel({
+            name: "Nantes",
+            address: "2 Bis Pl. Catinat, 44100 Nantes",
+            image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/33/f7/3a/nantes.jpg?w=700&h=500&s=1"
         })
     ],
-    products: [
+    defaultProducts: [
         // region TShirt
-        new ProductModel(generateTShirt(
+        ProductModel(generateTShirt(
             "Haut chic",
             GENDER.FEMALE,
             5,
@@ -81,7 +143,7 @@ const data = {
                 "https://images1.vinted.net/t/02_00de3_qbXxF1z1xvU2sBAL8UY8a83p/f800/1670072056.jpeg?s=f8428a3aeac709164aac2c00ddc97e125dbd06c2"
             ]
         )),
-        new ProductModel(generateTShirt(
+        ProductModel(generateTShirt(
             "Jersey",
             GENDER.FEMALE,
             4,
@@ -93,7 +155,7 @@ const data = {
                 "https://images.vinted.net/t/03_0222f_Puxx6NJDoUcnxZtdjTvgE1vw/f800/1670071947.jpeg?s=e514ae49edf3158b9ec038beeacd8eeb609f8ca7"
             ]
         )),
-        new ProductModel(generateTShirt(
+        ProductModel(generateTShirt(
             "Pull Sézane Leon bleu",
             GENDER.FEMALE,
             4,
@@ -107,7 +169,7 @@ const data = {
                 "https://images1.vinted.net/t/03_006e9_c9XTujksgvpzuQNofCoiYzj4/f800/1670071754.jpeg?s=58a14e6664021bbde1ecdd7a7fb0b8dd27d1f45b"
             ]
         )),
-        new ProductModel(generateTShirt(
+        ProductModel(generateTShirt(
             "T-shirt Narcos",
             GENDER.MALE,
             5,
@@ -120,7 +182,7 @@ const data = {
                 "https://images1.vinted.net/t/02_0120b_uxuc8pvKAakQAYihRtXiavEQ/f800/1670080773.jpeg?s=bbf0a0cd0875a82518195a9318bba2af04e637c9"
             ]
         )),
-        new ProductModel(generateTShirt(
+        ProductModel(generateTShirt(
             "T-shirt Goku Dragonball Super",
             GENDER.KID,
             4,
@@ -133,7 +195,7 @@ const data = {
                 "https://images1.vinted.net/t/02_01dfb_JRNpU6PrCh4wF7CTGKTJidZD/f800/1670080364.jpeg?s=9109b2332f1eba2fe14b54bc1c62615947c7805c"
             ]
         )),
-        new ProductModel(generateTShirt(
+        ProductModel(generateTShirt(
             "T-shirt assassinassions Classe Room",
             GENDER.MIX,
             4,
@@ -150,7 +212,7 @@ const data = {
         // endregion
 
         // region SWEAT
-        new ProductModel(generateSweat(
+        ProductModel(generateSweat(
             "Polaire rose",
             GENDER.FEMALE,
             4,
@@ -163,7 +225,7 @@ const data = {
                 "https://images1.vinted.net/t/03_02035_pZPDQjS7ANreJnfunSMPsrXk/f800/1670072682.jpeg?s=8ff2614310d8b96bec199648ad0a67e2467c96bc"
             ]
         )),
-        new ProductModel(generateSweat(
+        ProductModel(generateSweat(
             "Sweat Nike",
             GENDER.MALE,
             5,
@@ -178,7 +240,7 @@ const data = {
                 "https://images1.vinted.net/t/02_007f5_c2dq5dtpkjvE2MDU4oB5LsHD/f800/1670084638.jpeg?s=859ea7cb499e0b29174313632ebad61b787758b9"
             ]
         )),
-        new ProductModel(generateSweat(
+        ProductModel(generateSweat(
             "Sweat bleu Brooklyn",
             GENDER.FEMALE,
             4,
@@ -192,7 +254,7 @@ const data = {
                 "https://images1.vinted.net/t/02_024b2_5Ab9nKYgyqhiGuTcQRL1R1MS/f800/1670088313.jpeg?s=132f03a80847a835a6866efd9a7a17d0387057ac"
             ]
         )),
-        new ProductModel(generateSweat(
+        ProductModel(generateSweat(
             "Sweat umbro vintage oversize blanc rouge XL",
             GENDER.MALE,
             3,
@@ -205,7 +267,7 @@ const data = {
                 "https://images1.vinted.net/t/02_022ce_a94giQ5heu2zismvtBLeU6wQ/f800/1670094146.jpeg?s=6fba2cc5fb156c13f799c8499d6538d8aeb2e749"
             ]
         )),
-        new ProductModel(generateSweat(
+        ProductModel(generateSweat(
             "Pull Nike",
             GENDER.MALE,
             2,
@@ -220,7 +282,7 @@ const data = {
                 "https://images1.vinted.net/t/01_013db_jHmdETVWJsCyPL1qJHKxtGZa/f800/1669935056.jpeg?s=b678922124bcca7abf737edf1e1868184fa34647"
             ]
         )),
-        new ProductModel(generateSweat(
+        ProductModel(generateSweat(
             "Pull Levis",
             GENDER.FEMALE,
             5,
@@ -236,7 +298,7 @@ const data = {
         // endregion
 
         // region PANTS
-        new ProductModel(generatePants(
+        ProductModel(generatePants(
             "Pantalon Skinny Kiabi",
             GENDER.MALE,
             4,
@@ -250,7 +312,7 @@ const data = {
                 "https://images1.vinted.net/t/03_00d9d_2NZPE5XiqKFRoJ1CnpTxXS4D/f800/1669223774.jpeg?s=00bd68a7d18d6e00ab86dc6416a81715fc188a72"
             ]
         )),
-        new ProductModel(generatePants(
+        ProductModel(generatePants(
             "Pantalon de ski Wed’ze",
             GENDER.MIX,
             3,
@@ -263,7 +325,7 @@ const data = {
                 "https://images1.vinted.net/t/03_0150b_VURhA76MAv8t8F5CL5UZmnXV/f800/1670085335.jpeg?s=f3480f67d10854d61d7aef4a63e3dac8d7894e0e"
             ]
         )),
-        new ProductModel(generatePants(
+        ProductModel(generatePants(
             "Jeans Levis",
             GENDER.FEMALE,
             4,
@@ -277,7 +339,7 @@ const data = {
                 "https://images1.vinted.net/t/03_01389_F2TpQAaFQRzcgdEWQ2DY7yoA/f800/1668698069.jpeg?s=436fb4c469b2e42e1772fd97e927b04500de75b5"
             ]
         )),
-        new ProductModel(generatePants(
+        ProductModel(generatePants(
             "Jean noir Wragger",
             GENDER.MALE,
             3,
@@ -290,7 +352,7 @@ const data = {
                 "https://images1.vinted.net/t/02_00d01_gNsEpHuxTbe6hbpcctGBBs53/f800/1670093221.jpeg?s=585e582121ce32c77cdabdf0d78960dbe629e17c"
             ]
         )),
-        new ProductModel(generatePants(
+        ProductModel(generatePants(
             "Jean Meltin Pot",
             GENDER.MALE,
             5,
@@ -307,7 +369,7 @@ const data = {
                 "https://images1.vinted.net/t/03_01c84_cDjNr569v1tisn6apKZwqfdR/f800/1669885959.jpeg?s=3772c42b65b20a7092e05da72d6584b9f6c7760b"
             ]
         )),
-        new ProductModel(generatePants(
+        ProductModel(generatePants(
             "Pantalon Rinascimento",
             GENDER.FEMALE,
             5,
@@ -327,7 +389,7 @@ const data = {
         // endregion
 
         // region JACKET
-        new ProductModel(generateJacket(
+        ProductModel(generateJacket(
             "Veste Polaire The North Face Fleece Zippée",
             GENDER.MALE,
             4,
@@ -340,7 +402,7 @@ const data = {
                 "https://images1.vinted.net/t/03_01e4c_ShQUgAv9htr3CAXcdFQS2x7M/f800/1669990758.jpeg?s=5882f412b96cc3ead67a84f460533644960a3d5e"
             ]
         )),
-        new ProductModel(generateJacket(
+        ProductModel(generateJacket(
             "Veste type kimono The kooples",
             GENDER.FEMALE,
             5,
@@ -354,7 +416,7 @@ const data = {
                 "https://images1.vinted.net/t/01_01e63_hywG5yuUQ7PYrfcoawFqLZmR/f800/1670062898.jpeg?s=4e7cd1f75d32dee7440fa358eb74e4a2b4cb3156"
             ]
         )),
-        new ProductModel(generateJacket(
+        ProductModel(generateJacket(
             "Blazer Gerry Weber, couleur rose",
             GENDER.FEMALE,
             5,
@@ -370,7 +432,7 @@ const data = {
                 "https://images1.vinted.net/t/03_01127_J6YELWBRz7KxMcNZFDqCA81Q/f800/1669887831.jpeg?s=2d65b00d109be1d2733c854a7f943529dc689e65"
             ]
         )),
-        new ProductModel(generateJacket(
+        ProductModel(generateJacket(
             "Veste Mango",
             GENDER.FEMALE,
             4,
@@ -386,7 +448,7 @@ const data = {
                 "https://images1.vinted.net/t/03_000b9_dDv1YBc21E6ST1eZnoR1EXFy/f800/1669884160.jpeg?s=4b135a966082739ba533a8d3a97ce801f0ea882d"
             ]
         )),
-        new ProductModel(generateJacket(
+        ProductModel(generateJacket(
             "Veste tout en taille M",
             GENDER.MALE,
             5,
@@ -397,7 +459,7 @@ const data = {
                 "https://images1.vinted.net/t/01_00e45_Wq2MeBTUeRXbRvR4xk4KBdvh/f800/1670058571.jpeg?s=3b73b7fdfc8845f3787447314c6a829f0403cb6e"
             ]
         )),
-        new ProductModel(generateJacket(
+        ProductModel(generateJacket(
             "Veste d'entraînement Adidas Climawarm",
             GENDER.MALE,
             4,
@@ -416,7 +478,7 @@ const data = {
         // endregion
 
         // region COAT
-        new ProductModel(generateCoat(
+        ProductModel(generateCoat(
             "Veste en velours homme",
             GENDER.MALE,
             3,
@@ -430,7 +492,7 @@ const data = {
                 "https://images1.vinted.net/t/03_00d9f_x4nBe4eRAcW8R3LPsgqWECyA/f800/1669992459.jpeg?s=ba2fff6f077e2d1b876d3511099bc4afb3a2dec0"
             ]
         )),
-        new ProductModel(generateCoat(
+        ProductModel(generateCoat(
             "Caban Zara",
             GENDER.FEMALE,
             4,
@@ -443,7 +505,7 @@ const data = {
                 "https://images.vinted.net/t/01_00303_jnuYdiGtwP7F6uCrCJSGFcHt/f800/1670066440.jpeg?s=976df3f0e1dc7040637904795827fcb248de120b"
             ]
         )),
-        new ProductModel(generateCoat(
+        ProductModel(generateCoat(
             "Manteau North Face avec capuche",
             GENDER.MALE,
             4,
@@ -457,7 +519,7 @@ const data = {
                 "https://images1.vinted.net/t/01_025a2_iuYkkovdwkWxni9szg3tNUTQ/f800/1669898074.jpeg?s=08ff5cb96bf1b4f1282c8f20ace04d7a1283db05"
             ]
         )),
-        new ProductModel(generateCoat(
+        ProductModel(generateCoat(
             "Manteau coupe vent d'occasion",
             GENDER.MALE,
             2,
@@ -471,7 +533,7 @@ const data = {
                 "https://images1.vinted.net/t/03_0075f_GxcuCf6HxwPWsgm3m4Cs9c91/f800/1667140716.jpeg?s=dd61f3b7ad17ea3f4b35b9b69bc584ebf5d1171a"
             ]
         )),
-        new ProductModel(generateCoat(
+        ProductModel(generateCoat(
             "Doudoune rouge Club Des Sports Femme",
             GENDER.FEMALE,
             4,
@@ -490,7 +552,7 @@ const data = {
                 "https://images1.vinted.net/t/03_01c09_4kCh8Ls7CK86bMDyr8pCUmXF/f800/1668351744.jpeg?s=f0b63d9ba7c3fd661be1c9cd319307440bed0d9d"
             ]
         )),
-        new ProductModel(generateCoat(
+        ProductModel(generateCoat(
             "Doudoune noire Oltre",
             GENDER.FEMALE,
             4,
@@ -506,13 +568,14 @@ const data = {
             ]
         ))
         // endregion
-    ]
+    ],
+    products: []
 };
 
 // region generate functions
 
 function getRandomInt(min, max) {
-    return Math.random() * (max - min) + min;
+    return  parseInt(Math.random() * (max - min) + min);
 }
 
 function generateDate() {
@@ -525,6 +588,7 @@ function generateDate() {
 }
 
 function generateProduct(name, gender, vestingState, description, size, price, images) {
+    const creationDate = generateDate();
     return {
         name: name,
         gender: gender,
@@ -533,7 +597,9 @@ function generateProduct(name, gender, vestingState, description, size, price, i
         price: price,
         size: size,
         images: images,
-        creationDate: generateDate()
+        creationDateYear: creationDate.getFullYear(),
+        creationDateMonth: creationDate.getMonth(),
+        creationDateDay: creationDate.getDay()
     };
 }
 
@@ -573,19 +639,16 @@ function generateCoat(name, gender, vestingState, description, size, price, imag
 }
 
 export function generateData() {
-    getCitiesFull().forEach(city => {
-        const pds = getUnreferencedProducts()
-        const count = getRandomInt(2 * pds.length, 4 * pds.length + 1);
-        let products = [];
+    const defaultProducts = getDefaultProducts();
+    getCities().forEach(city => {
+        const count = getRandomInt(2 * defaultProducts.length, 4 * defaultProducts.length + 1);
         for (let i = 0; i < count; i++) {
-            products.push(new ProductModel({
-                city: city.id,
-                ...pds[i % pds.length]
-            }));
-        }
-        products = products.sort((a, b) => 0.5 - Math.random());
-        for (let i = 0; i < products.length; i++) {
-            city.productList.addProduct(products[i]);
+            const product = ProductModel({
+                cityId: city.id,
+                ...defaultProducts[i % defaultProducts.length /*getRandomInt(0, defaultProducts.length)*/]
+            });
+            data.products.push(product);
+            city.products.push(product.id);
         }
     });
 }
@@ -601,43 +664,26 @@ function getUsers() {
     return fetchData().users;
 }
 
-function getUnreferencedProducts() {
-    return fetchData().products;
+function getDefaultProducts() {
+    return fetchData().defaultProducts;
 }
 
 function getProducts() {
-    let products = [];
-    const cities = getCitiesFull();
-    for (let i = 0; i < cities.length; i++) {
-        for (let j = 0; j < cities[i].productList.length; j++) {
-            products.push(cities[i].productList[j]);
-        }
-    }
-    return products;
+    return fetchData().products;
 }
-
-function getCitiesFull() {
+export function getCities() {
     return fetchData().cities;
 }
 
-export function getCities() {
-    return fetchData().cities.map(city => new CityReducedModel(city));
-}
-
 function registerAccount(props) {
-    const account = new AccountModel({
-        id: getUsers().length,
+    const account = AccountModel({
         username: props.username,
         email: props.email,
         password: props.password,
-        avatar: "%PUBLIC_URL%/assets/images/default.png"
+        avatar: "./assets/images/default.png"
     });
     getUsers().push(account);
     return account;
-}
-
-export function getUserById(id) {
-    return getUsers().find(user => user.id === id);
 }
 
 export function getUserByUsername(username) {
@@ -649,36 +695,50 @@ export function getUserByEmail(email) {
 }
 
 export function login(props) {
-    return getUsers().find(user => user.email.toLowerCase() === props.email.toLowerCase() && user.password === props.password);
+    const username = props.username;
+    const password = props.password;
+
+    let user = getUserByEmail(username);
+    if (!user) {
+        user = getUserByUsername(username);
+    }
+    if (user) {
+        user = user.password === password ? getWithoutPassword(user) : null;
+    }
+    if (!user) {
+        user = { error: "Identifiants incorrects." }
+    }
+    return user;
 }
 
 export function signIn(props) {
     let match = getUserByUsername(props.username);
     if (match) {
-        return null;
+        return { error: "Ce nom d'utilisateur est déjà utilisé." };
     }
     match = getUserByEmail(props.email);
     if (match) {
-        return null;
+        return { error: "Cette adresse email est déjà utilisée." };
     }
-    return registerAccount(props);
+    registerAccount(props);
+    return { success: true };
 }
 
 export function getNameCities() {
-    return getCitiesFull().map(x => x.name);
+    return getCities().map(x => x.name);
 }
 
 export function getCityById(id) {
-    return getCitiesFull().find(city => city.id === id);
+    return getCities().find(city => city.id === id);
 }
 
 export function getCityByName(cityName) {
-    return getCitiesFull().find(city => city.name.toLowerCase() === cityName.toLowerCase());
+    return getCities().find(city => city.name.toLowerCase() === cityName.toLowerCase());
 }
 
-export function getProductsByCity(cityId) {
+export function getProductsByCityId(cityId) {
     const city = getCityById(cityId);
-    return city ? city.productList.items : [];
+    return city ? city.products : [];
 }
 
 export function getProductById(id) {
@@ -686,7 +746,7 @@ export function getProductById(id) {
 }
 
 export function search(query) {
-    let products = getProductsByCity(query.city);
+    let products = getProductsByCityId(query.cityId);
     if (query.text) {
         const t = query.text.toLowerCase();
         products = products.filter(p => p.name.toLowerCase().contains(t) || p.description.toLowerCase().contains(t));

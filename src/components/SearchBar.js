@@ -33,22 +33,24 @@ const SearchBar = () => {
     };
 
     return (
-        <Container>
-            <Row className="row-cols-lg-auto g-3 align-items-center">
-                <Col>
-                    <Input
-                        placeholder={"Recherche"}
-                        value={localSearch}
-                        onChange={e => onTextChanged(e.target.value)}
-                    />
-                </Col>
-                <Col>
-                    <Button color="primary" onClick={onSearchButtonClick} >
-                        <FontAwesomeIcon icon={faMagnifyingGlass} color={"white"} />
-                    </Button>
-                </Col>
-            </Row>
-        </Container>
+        <div className={"redFilledRectangle search-bar-container"}>
+            <Container>
+                <Row className="row-cols-lg-auto g-3 justify-content-center align-items-center">
+                    <Col>
+                        <Input
+                            placeholder={"Recherche"}
+                            value={localSearch}
+                            onChange={e => onTextChanged(e.target.value)}
+                        />
+                    </Col>
+                    <Col>
+                        <Button color="primary" onClick={onSearchButtonClick} >
+                            <FontAwesomeIcon icon={faMagnifyingGlass} color={"white"} />
+                        </Button>
+                    </Col>
+                </Row>
+            </Container>
+        </div>
     );
 }
 

@@ -1,31 +1,24 @@
-export default function ProductListModel() {
+export const getProductById = (products, id) => products.items.find(x => x.id === id);
 
-    this.items = [];
-
-    this.getProductById = (id) => this.items.find(x => x.id === id);
-
-    this.addProduct = (product) => {
-        const match = this.getProductById(product.id);
-        if (!match) {
-            this.items.push(product);
-        }
+export const addProduct = (products, product) => {
+    const match = getProductById(product.id);
+    if (!match) {
+        products.push(product);
     }
-
-    this.deleteProduct = (productId) => {
-        const newItems = this.items.filter(x => x.id !== productId);
-        this.clear();
-        for (let i = 0; i < newItems.length; i++) {
-            this.items.push(newItems[i]);
-        }
-    }
-
-    this.clear = () => {
-        while (this.items.length > 0) {
-            this.items.pop();
-        }
-    }
-
-    this.isEmpty = () => this.items.length === 0;
-
-    this.count = () => this.items.length;
 }
+
+export const deleteProduct = (products, productId) => {
+    const newItems = products.filter(x => x.id !== productId);
+    clear(products);
+    for (let i = 0; i < newItems.length; i++) {
+        products.push(newItems[i]);
+    }
+}
+
+export const clear = (products) => {
+    while (!isEmpty(products)) {
+        products.pop();
+    }
+}
+
+export const isEmpty = (products) => products.length === 0;

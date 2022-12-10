@@ -1,16 +1,21 @@
 import { v4 } from "uuid";
 
-export default function ProductModel (props) {
-
-        this.id = v4();
-        this.cityId = props.cityId || null;
-        this.category = props.category || "";
-        this.name = props.name || "";
-        this.gender = props.gender || "";
-        this.vestingState = props.vestingState || 0;
-        this.description = props.description || "";
-        this.creationDate = props.creationDate || new Date();
-        this.price =  props.price || 0.0;
-        this.size =  props.size || "";
-        this.images = props.images || [];
+const ProductModel = (props) => {
+    return {
+        id: v4(),
+        cityId: props.cityId || null,
+        category: props.category || "",
+        name: props.name || "",
+        gender: props.gender || "",
+        vestingState: props.vestingState || 0,
+        description: props.description || "",
+        creationDateYear: props.creationDateYear || 1970,
+        creationDateMonth: props.creationDateMonth || 0,
+        creationDateDay: props.creationDateDay || 1,
+        price: props.price || 0.0,
+        size: props.size || "",
+        images: props.images || []
+    };
 }
+
+export default ProductModel;

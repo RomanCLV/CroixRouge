@@ -1,24 +1,24 @@
 export const CATEGORIES = {
-    TSHIRT: "hauts & t-shirt",
-    SWEAT: "sweat",
-    PANTS: "pantalon",
-    JACKET: "veste",
-    COAT: "manteau"
+    TSHIRT: "Hauts & T-Shirt",
+    SWEAT: "Sweat",
+    PANTS: "Pantalon",
+    JACKET: "Veste",
+    COAT: "Manteau"
 };
 
 export const SIZE = {
-    XS: "xs",
-    S: "s",
-    M: "m",
-    L: "l",
-    XL: "xl",
-    XXL: "xxl",
-    XXXL: "> xxl"
+    XS: "XS",
+    S: "S",
+    M: "M",
+    L: "L",
+    XL: "XL",
+    XXL: "XXL",
+    XXXL: "> XXL"
 };
 
 export const GENDER = {
-    MALE: "homme",
-    FEMALE: "femme",
-    MIX: "mix",
-    KID: "enfant"
+    MALE: "Homme",
+    FEMALE: "Femme",
+    MIX: "Mix",
+    KID: "Enfant"
 };

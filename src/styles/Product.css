@@ -1,0 +1,15 @@
+.productNamePriceContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.productNamePriceContainerItem {
+    margin: 0;
+    padding: 0;
+}
+
+.productImagesContainer {
+    max-width: 40vh;
+    margin: auto;
+}

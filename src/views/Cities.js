@@ -7,7 +7,7 @@ import {
     Container,
 } from "reactstrap";
 import "../styles/City.css";
-import {ROUTES} from "../router/routes";
+import CitiesMap from "../components/CitiesMap";
 
 const Cities = () => {
 
@@ -24,12 +24,13 @@ const Cities = () => {
                         {
                             cities.map(city =>
                                 <li key={city.id}>
-                                    <Link to={ROUTES.city + "/" + city.name}>{city.name}</Link>
+                                    <Link to={"/city/" + city.name}>{city.name}</Link>
                                 </li>
                             )
                         }
                     </ul>
             }
+            <CitiesMap cities={cities} />
         </Container>
     );
 }

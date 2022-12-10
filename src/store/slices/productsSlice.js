@@ -1,22 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const productListSlice = createSlice({
-    name: 'productList',
+export const productsSlice = createSlice({
+    name: 'products',
     initialState: {
         value: []
     },
     reducers: {
-        getProductById: (state, action) => state.value.find(x => x.id === action.payload),
         addProduct: (state, action) => {
             const product = action.payload;
-            const match = this.getProductById(state, { payload: product.id });
+            const match = state.value.find(x => x.id === product.id);
             if (!match) {
                 state.value.push(product);
             }
         },
         deleteProduct: (state, action) => {
             const newItems = state.value.filter(x => x.id !== action.payload.id);
-            this.clearProducts();
+            // clearProducts
+            while (state.value.length > 0) {
+                state.value.pop();
+            }
             for (let i = 0; i < newItems.length; i++) {
                 state.value.push(newItems[i]);
             }
@@ -29,17 +31,16 @@ export const productListSlice = createSlice({
     }
 });
 
-export const selectProductList = (state) => state.productList.value;
+export const selectProducts = (state) => state.products.value;
 
 export const hasProducts = (state) => {
-    return !selectProductList(state).isEmpty();
+    return !selectProducts(state).isEmpty();
 };
 
 export const {
-    getProductById,
     addProduct,
     deleteProduct,
     clearProducts
-} = productListSlice.actions;
+} = productsSlice.actions;
 
-export default productListSlice.reducer;
+export default productsSlice.reducer;

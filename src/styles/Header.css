@@ -1,0 +1,51 @@
+#Header {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 1;
+
+    box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
+}
+
+.headerDiv1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 10vh;
+    min-height: 50px;
+}
+
+.redFilledRectangle {
+    height: 10vh;
+    min-height: 50px;
+    background: var(--primary-red);
+}
+
+#logo {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+}
+
+#logo-img {
+    height: 8vh;
+    min-height: 50px;
+    margin-right: 20px;
+    object-fit: contain;
+}
+
+#header-icons-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#header-icons-div p {
+    margin: auto;
+}
+
+.header-icon {
+    margin: 20px;
+    cursor: pointer;
+}

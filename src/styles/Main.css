@@ -1,0 +1,26 @@
+.search-bar-container {
+    height: 20vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.slogan {
+    color: white;
+    font-size: 5vh;
+}
+
+.product-list-container {
+    padding: 10vh 0;
+}
+
+.product-list-category {
+    margin: 5vh 0;
+}
+
+.ProductCard {
+    margin-top: 3vh;
+    box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+    cursor: pointer;
+}

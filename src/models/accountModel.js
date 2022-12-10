@@ -1,8 +1,22 @@
-export default function AccountModel(props) {
+import {v4} from "uuid";
 
-    this.id = props.id || null;
-    this.username = props.username || "";
-    this.email = props.email || "";
-    this.password = props.password || "";
-    this.avatar = props.avatar || "";
+const AccountModel = props => {
+    return {
+        id: v4(),
+        username: props.username || "",
+        email: props.email || "",
+        password: props.password || "",
+        avatar: props.avatar || ""
+    };
 }
+
+export const getWithoutPassword = (account) => {
+    return {
+        id: account.id,
+        username: account.username,
+        email: account.email,
+        avatar: account.avatar
+    }
+}
+
+export default AccountModel;

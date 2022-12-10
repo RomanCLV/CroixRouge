@@ -10,7 +10,7 @@ export const searchSlice = createSlice({
             state.value = action.payload;
         },
         clearSearch: (state) => {
-            state.value = null;
+            state.value = "";
         }
     }
 });

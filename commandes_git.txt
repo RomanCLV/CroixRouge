@@ -1,0 +1,77 @@
+Rappel commandes git :
+
+git status
+Voir la branche où on est actuellement (aussi affiché en bas à droite sur WebStorm)
+Voir les fichiers modifiers / ajouter / supprimer
+Voir les fichiers qui sont pris dans le commit (rouge : non | vert : oui)
+
+git add chemin/de/mon_fichier.type
+Ajouter un fichier dans le commit
+
+git add .
+Ajouter tous les fichiers modifier dans le commit
+
+(Si vous faites un "git status", puis "git add .", puis "git status" vous verrez que tous vos fichiers sont en vert)
+
+git commit -m "mon message de commit"
+Créer un commit local qui enregistre les modifications des fichiers que vous avez séléctionné pour le commit
+exemple : git commit -m "cities view done"
+
+git push
+Envoyer vos commits locaux sur le serveur.
+
+AVANT DE PUSH :
+- on verifie que le code est bien indenté, pas de warning dans la console de compilation, aucune dépendances,
+variable ou fonction inutiles
+- suppression de tous les console.log()
+- le code a été plusieurs fois (console du navigateur ouverte pour etre sur qu'il n'y a pas d'erreur en cours d'exécution)
+- orthographe : pas de faute sinon il faudra faire des commits juste pour corriger l'orthographe, ca sera relou
+
+git fetch
+Prendre connaissances des infos venant du serveur (nouvelles branches, nouveaux commit, ...) mais sans les importer
+
+git pull
+Récupérer les commits de la branche sur laquelle vous êtes (git pull appelle git fetch en interne)
+
+git stash
+Supprimer toutes vos modifications depuis le dernier commit (d'où l'intérêt de faire plusieurs commits locaux)
+
+git checkout une_branche
+Se diriger vers une branche
+ps :
+- si vous avez fait des modifications non enregistrées dans un commit, git vous dira que vous ne pouvez pas checkout
+  il faut donc soit faire un commit local, soit faire un git stash pour effacer vos modifs
+
+git checkout -b ma_nouvelle_branche
+Créer une nouvelle branche et se diriger dessus
+ps :
+- verifier bien la branche actuelle avant de créer une nouvelle branche
+- pas d'espace ni de caractères spéciaux (" ' é î @ ; . ,) uniquement des (- _)
+- avant de créer une branche, utiliser git fetch puis git branch -av (ou vérifier sur le repo github) pour être sûr que le nom n'est pas utilisé)
+- une fois votre branche créer en local, pusher là directement avec git push
+  le terminal vous dira que la branche n'existe pas sur le serveur et proposera la command git push --set-upstream origin ma_nouvelle_branche
+  copier là et faite là
+
+git branch
+Voir vos branches locales
+
+
+Concernant les merges, on ferra ça sur GitHub
+
+--- Exemple d'une procédure réelle
+
+Situation : vous avez modifié des fichiers
+
+git status (voir ce qui peut être ajouter dans le commit et verifier qu'on ne va pas envoyer n'importe quoi)
+git add .
+git status (verifier que tout ce que vous voulez est en vert)
+git commit -m "modification du formulaire d'inscription"
+
+[plusieurs commits locaux peuvent être fait donc les précédentes étapes peuvent être répéter]
+
+git push (quand vous êtes satisfait, envoyer sur serveur)
+
+Sitation : un merge a été fait sur une branche (la branche dev par exemple)
+git checkout dev (aller sur la branche dev)
+git pull (récupérer les modifs)
+[si des modules ont été ajouté, il sera nécessaire d'éxecuer npm install]

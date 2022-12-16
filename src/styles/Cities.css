@@ -1,0 +1,16 @@
+.mapContainer {
+    margin: 10vh auto;
+    height: 60vh;
+    width: calc(60vh * 1.618);
+}
+
+.CityCard {
+    margin: 3vh 0;
+    box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+    cursor: pointer;
+}
+
+.price-text {
+    min-width: 100px !important;
+    text-align: right;
+}

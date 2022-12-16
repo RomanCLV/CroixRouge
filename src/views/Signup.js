@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import "../styles/Signup.css";
 import {
     Button,
-    Container, Form
+    Container, Form, Row
 } from "reactstrap";
 import InputManager from "../components/InputManager";
 import {Link, useNavigate} from "react-router-dom";
@@ -38,7 +38,7 @@ const Signup = () => {
     const validateEmail = (email) => {
         return email.match(
             /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        );
+        ) !== null;
     };
 
     const isUsernameFree = (username) => {
@@ -95,8 +95,9 @@ const Signup = () => {
     }
 
     return (
-        <Container>
-            <Form>
+        <Container className={"login-container"}>
+            <h2>Inscription</h2>
+            <Form className={"margin-top-10vh"}>
                 {
                     errorMessage && <p className={"errorElement"}>{errorMessage}</p>
                 }
@@ -165,10 +166,11 @@ const Signup = () => {
                     S'inscrire
                 </Button>
             </Form>
-            {' '}
-            <Link to={ROUTES.login}>
-                J'ai déjà un compte
-            </Link>
+            <Row className={"margin-top-20px"}>
+                <Link to={ROUTES.login}>
+                    J'ai déjà un compte
+                </Link>
+            </Row>
         </Container>
     );
 }

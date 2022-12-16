@@ -13,6 +13,14 @@ body {
   transform: translate(-20px, -10px);
 }
 
+.errorElement {
+  color: var(--bs-red)
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .color-primary-red {
   color: var(--primary-red);
 }
@@ -29,6 +37,35 @@ body {
   margin-top: 10vh !important;
 }
 
+.margin-bottom-10vh {
+  margin-bottom: 10vh !important;
+}
+
 .margin-top-20px {
   margin-top: 20px !important;
+}
+
+.margin-bottom-20px {
+  margin-top: 20px !important;
+}
+
+.margin-left-20px {
+  margin-left: 20px !important;
+}
+
+.margin-auto {
+  margin: auto;
+}
+
+.margin-auto-0 {
+  margin: auto 0;
+}
+
+.margin-20px-0 {
+  margin: 20px 0;
+}
+
+div a[title*="webhost"] img, div[class="disclaimer"] /*block pub de l'hébergeur*/
+{
+  display: none;
 }

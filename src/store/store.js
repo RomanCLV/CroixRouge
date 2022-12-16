@@ -4,6 +4,7 @@ import cityReducer from "./slices/citySlice";
 import productsReducer from "./slices/productsSlice";
 import searchReducer from "./slices/searchSlice";
 import toastReducer from "./slices/toastSlice";
+import commandReducer from "./slices/commandSlice";
 
 export default configureStore({
     reducer: {
@@ -11,6 +12,7 @@ export default configureStore({
         user: userReducer,
         products: productsReducer,
         search: searchReducer,
-        toast: toastReducer
+        toast: toastReducer,
+        command: commandReducer
     }
 });

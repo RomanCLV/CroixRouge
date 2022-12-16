@@ -7,7 +7,7 @@ const RequireAuth = ( { children } ) => {
 
     const connected = useSelector(isConnected);
     if (!connected) {
-        return <Navigate to={ROUTES.root} />
+        return <Navigate to={ROUTES.login} />
     }
     return children;
 };

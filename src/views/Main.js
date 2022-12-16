@@ -9,6 +9,7 @@ import {clearSearch} from "../store/slices/searchSlice";
 import {getProductById} from "../data/data";
 import SearchBar from "../components/SearchBar";
 import ProductsList from "../components/ProductsList";
+import {ROUTES} from "../router/routes";
 
 const Main = () => {
 
@@ -49,7 +50,12 @@ const Main = () => {
             <Container>
                 {
                     categories.map((category, index) =>
-                        <ProductsList key={index} category={category.category} products={category.products} />)
+                        <ProductsList
+                            key={index}
+                            category={category.category}
+                            products={category.products}
+                            seeMore={ROUTES.search + "/categories=" + category.category}
+                        />)
                 }
             </Container>
         </div>

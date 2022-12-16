@@ -9,5 +9,6 @@ export const ROUTES = {
     login: "/login",
     signup: "/signup",
     passwordReset: "/password-reset",
-    account: "/account"
+    account: "/account",
+    paymentDone : "/payment-done"
 };

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,40 +11,39 @@ import {
     Button,
 } from "reactstrap";
 
-import {ROUTES} from "../router/routes";
-import {selectSearch, setSearch} from "../store/slices/searchSlice";
 import "../styles/Account.css";
+import {selectSearch, setSearchText} from "../store/slices/searchSlice";
+import {getNavigateUrlSearch, navigateSearch} from "./FiltersSection";
 
 const SearchBar = () => {
 
-    const search = useSelector(selectSearch);
     const dispatch = useDispatch();
+    const query = useSelector(selectSearch);
     const navigate = useNavigate();
 
-    const [localSearch, setLocalSearch] = useState(search.toString());
-
     const onSearchButtonClick = () => {
-        navigate(ROUTES.search + "/" + localSearch);
+        navigateSearch(getNavigateUrlSearch(query), navigate);
     };
 
     const onTextChanged = (value) => {
-        dispatch(setSearch(value));
-        setLocalSearch(value);
+        dispatch(setSearchText(value));
     };
 
     return (
         <div className={"redFilledRectangle search-bar-container"}>
             <Container>
-                <Row className="row-cols-lg-auto g-3 justify-content-center align-items-center">
-                    <Col>
+                <Row>
+                    <Col xs={{size: 4, offset: 4}}>
                         <Input
-                            placeholder={"Recherche"}
-                            value={localSearch}
+                            type="search"
+                            id="search"
+                            placeholder="Recherche"
                             onChange={e => onTextChanged(e.target.value)}
+                            value={query.text}
                         />
                     </Col>
                     <Col>
-                        <Button color="primary" onClick={onSearchButtonClick} >
+                        <Button color="primary" onClick={onSearchButtonClick} className={"border-0"} >
                             <FontAwesomeIcon icon={faMagnifyingGlass} color={"white"} />
                         </Button>
                     </Col>

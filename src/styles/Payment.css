@@ -1,0 +1,8 @@
+.form-Payment {
+    padding: 7vh;
+    justify-content: center;
+    align-items: center;
+
+    box-shadow: rgba(0, 0, 0, 0.30) 0 1px 4px;
+    border-radius: 10px;
+}

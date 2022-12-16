@@ -3,6 +3,7 @@ import {Card, CardBody, CardImg, CardSubtitle, CardTitle, Col, Row} from "reacts
 import VestingState from "./VestingState";
 import {useNavigate} from "react-router-dom";
 import {ROUTES} from "../router/routes";
+import {getPriceToDisplay} from "./CartTicket";
 
 const ProductCard = (props) => {
 
@@ -29,19 +30,15 @@ const ProductCard = (props) => {
                     className="mb-2 text-muted"
                     tag="h6"
                 >
-                    <Row className={"d-flex flex-wrap flex-sm-wrap"}>
-                        <Col className={"d-flex"}>
+                    <Row>
+                        <Col>
                             <p>{product.gender}</p>
+                            <p>{getPriceToDisplay(product.price)} €</p>
+                            <p>Taille : {product.size}</p>
                         </Col>
                         <Col className={"d-flex justify-content-end"}>
                             <VestingState vestingState={product.vestingState} />
                         </Col>
-                    </Row>
-                    <Row>
-                        <p>{product.price}€</p>
-                    </Row>
-                    <Row>
-                        <p>Taille : {product.size}</p>
                     </Row>
                 </CardSubtitle>
             </CardBody>

@@ -12,8 +12,8 @@ const Logo = () => {
     };
 
     return (
-        <Container id={"logo"} onClick={onClickHandler}>
-            <img id={"logo-img"} src={"./logo192.png"} alt={"logo_img"} />
+        <Container className={"logo"} onClick={onClickHandler}>
+            <img className={"logo-img"} src={"./logo192.png"} alt={"logo_img"} />
             <h1 className={"test"}>Croix Rouge</h1>
         </Container>
     );

@@ -1,0 +1,71 @@
+.header-statement-div {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 15vh;
+    margin: 5vh 0;
+}
+
+.header-statement-div p {
+    font-weight: bold;
+    font-size: 3.5vh;
+}
+
+.header-statement-div .selected {
+    color: var(--primary-red);
+}
+
+.item-cart-container {
+    padding: 4vh 0;
+
+    border-top: solid rgba(0,0,0,0.25) 1px;
+
+    display: flex ;
+    flex-direction: row;
+    justify-content: stretch;
+}
+
+.item-cart-image-container {
+    display: flex ;
+}
+
+.item-cart-description-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 20px;
+}
+
+.item-cart-description-container-1 {
+    display : flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.item-cart-description-container-2 {
+    display : flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.cart-ticket {
+    border: solid rgba(0, 0, 0, 0.25) 1px;
+    border-radius: 10px;
+    margin-bottom: 5vh;
+    padding: 20px;
+}
+
+.cart-ticket-total {
+    font-weight: bold;
+    font-size: 3.5vh;
+}
+
+
+.cart-trash-button {
+    display: none !important;
+}
+
+.item-cart-container:hover .cart-trash-button {
+    display: block !important;
+}

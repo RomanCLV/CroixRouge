@@ -3,7 +3,7 @@ import "../styles/Login.css";
 import {
     Button,
     Container,
-    Form,
+    Form, Row,
 } from "reactstrap";
 import {login} from "../data/data";
 import {useDispatch} from "react-redux";
@@ -71,8 +71,9 @@ const Login = () => {
     }
 
     return (
-        <Container>
-            <Form>
+        <Container className={"login-container"}>
+            <h2>Connexion</h2>
+            <Form className={"margin-top-10vh"}>
                 {
                     errorMessage && <p className={"errorElement"}>{errorMessage}</p>
                 }
@@ -118,13 +119,16 @@ const Login = () => {
                     Se connecter
                 </Button>
             </Form>
-            <Link to={ROUTES.passwordReset}>
-                Mot de passe oublié
-            </Link>
-            {' '}
-            <Link to={ROUTES.signup}>
-                Je n'ai pas de compte
-            </Link>
+            <Row className={"margin-top-20px"}>
+                <Link to={ROUTES.passwordReset}>
+                    Mot de passe oublié
+                </Link>
+            </Row>
+            <Row className={"margin-top-20px"}>
+                <Link to={ROUTES.signup}>
+                    Je n'ai pas de compte
+                </Link>
+            </Row>
         </Container>
     );
 }

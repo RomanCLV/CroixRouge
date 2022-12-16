@@ -34,7 +34,7 @@ export const productsSlice = createSlice({
 export const selectProducts = (state) => state.products.value;
 
 export const hasProducts = (state) => {
-    return !selectProducts(state).isEmpty();
+    return selectProducts(state).length !== 0;
 };
 
 export const {

@@ -3,7 +3,7 @@ import "../styles/PasswordReset.css";
 import {
     Button,
     Container,
-    Form
+    Form, Row
 } from "reactstrap";
 import {Link} from "react-router-dom";
 import {ROUTES} from "../router/routes";
@@ -38,7 +38,7 @@ const PasswordReset = () => {
     const validateEmail = (email) => {
         return email.match(
             /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        );
+        ) !== null;
     };
 
     const onEmailChanged = (value) => {
@@ -60,14 +60,15 @@ const PasswordReset = () => {
     }
 
     return (
-        <Container>
+        <Container className={"login-container"}>
+            <h2>Mot de passe oublié</h2>
             {
                 emailSent ?
                     <>
                         <p>Si un compte est associé à l'email désigné, vous recevrez un mail d'ici quelques instants.</p>
                     </>
                     :
-                    <Form>
+                    <Form className={"margin-top-10vh"}>
                         {
                             errorMessage && <p className={"errorElement"}>{errorMessage}</p>
                         }
@@ -100,15 +101,20 @@ const PasswordReset = () => {
                     </Form>
             }
             {
-                !connected && <>
+                !connected &&
+                <div>
+                    <Row className={"margin-top-20px"}>
                         <Link to={ROUTES.login}>
                             Se connecter
                         </Link>
-                        {' '}
+                    </Row>
+                    <Row className={"margin-top-20px"}>
+
                         <Link to={ROUTES.signup}>
-                        S'inscrire
+                            S'inscrire
                         </Link>
-                </>
+                    </Row>
+                </div>
             }
         </Container>
     );

@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import "../styles/Account.css";
 import {
-    Button,
+    Button, Card,
     Col,
     Container, Modal, ModalBody, ModalFooter, ModalHeader, Row
 } from "reactstrap";
@@ -22,7 +22,7 @@ const Account = () => {
     const toggle = () => setModal(!modal);
 
     return (
-        <Container>
+        <Container className={"margin-top-10vh"}>
             <Modal isOpen={modal} toggle={toggle}>
                 <ModalHeader toggle={toggle}>Déconnexion</ModalHeader>
                 <ModalBody>
@@ -39,15 +39,21 @@ const Account = () => {
                 </ModalFooter>
             </Modal>
             <Row>
-                <Col>
-                    <h2>Informations du compte</h2>
+                <h2>Informations du compte</h2>
+            </Row>
+            <Row className={"mainContentView"}>
+                <Col xs={3}>
+                    <Card className={"border-0"}>
+                        <img src={user.avatar} alt={"avatar"} />
+                    </Card>
+                </Col>
+                <Col xs={{
+                    size: 8,
+                    offset: 1
+                }}>
                     <p>Nom d'utilisateur : {user.username}</p>
                     <p>Email : {user.email}</p>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Button onClick={toggle} color={"danger"}>
+                    <Button onClick={toggle} color={"danger"} className={"margin-top-10vh"}>
                         Se déconnecter
                     </Button>
                 </Col>

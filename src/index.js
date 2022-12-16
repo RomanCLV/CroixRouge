@@ -13,7 +13,6 @@ import { ROUTES } from "./router/routes";
 import RequireAuth from "./router/requires/RequireAuth";
 import RequireCity from "./router/requires/RequireCity";
 import RequireNotAuth from "./router/requires/RequireNotAuth";
-import RequireHasProduct from "./router/requires/RequireHasProducts";
 
 import App from "./App";
 import Main from "./views/Main";
@@ -23,6 +22,7 @@ import Search from "./views/Search";
 import Product from "./views/Product";
 import Cart from "./views/Cart";
 import Payment from "./views/Payment";
+import PaymentDone from "./views/PaymentDone";
 import Login from "./views/Login";
 import SignUp from "./views/Signup";
 import Account from "./views/Account";
@@ -37,6 +37,7 @@ import { productLoader } from "./router/loaders/productLoader";
 
 import './styles/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import RequireHasProducts from "./router/requires/RequireHasProducts";
 
 // useful links:
 // Repo Git    : https://github.com/Estia-1a/sgv_etu_2022-theambersunflower
@@ -44,6 +45,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // fontawesome : https://fontawesome.com/v5/docs/web/use-with/react
 // reactrouter : https://reactrouter.com/en/main/start/tutorial
 // react-redux : https://react-redux.js.org/tutorials/quick-start
+// map         : https://www.npmjs.com/package/google-map-react
+// map         : https://github.com/giorgiabosello/google-maps-react-markers
 
 generateData();
 
@@ -70,6 +73,7 @@ const router = createBrowserRouter([
             {
                 path: ROUTES.search,
                 element: <RequireCity><Search /></RequireCity>,
+                loader: searchLoader,
             },
             {
                 path: ROUTES.search + "/:search",
@@ -87,7 +91,11 @@ const router = createBrowserRouter([
             },
             {
                 path: ROUTES.payment,
-                element: <RequireHasProduct><Payment /></RequireHasProduct>
+                element: <RequireAuth><RequireHasProducts><Payment /></RequireHasProducts></RequireAuth>
+            },
+            {
+                path: ROUTES.paymentDone,
+                element: <RequireAuth><PaymentDone /></RequireAuth>
             },
             {
                 path: ROUTES.login,

@@ -1,0 +1,12 @@
+.login-container {
+
+    max-width: 50vw !important;
+    margin: 10vh auto;
+    padding: 10vh !important;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+
+    box-shadow: rgba(0, 0, 0, 0.30) 0 1px 4px;
+    border-radius: 10px;
+}

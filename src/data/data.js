@@ -53,96 +53,118 @@ const data = {
         CityModel({
             name: "Bayonne",
             address: "58 All. Marines, 64100 Bayonne",
+            lat: 43.4405376,
+            lng: -1.5859712,
             image: "https://t2.gstatic.com/licensed-image?q=tbn:ANd9GcScXy1LZ5BUC0ObCTsMJtfTeWl75Crjoq_fqVjj8eeZL6zzSfoy7GpK2YHTfGFm3eSc"
         }),
         CityModel({
             name: "Biarritz",
             address: "16 Av. d'Etienne Villa Banuelos, 64200 Biarritz",
+            lat: 43.4878009,
+            lng: -1.5447587,
             image: "https://www.biarritz-pays-basque.com/wp-content/uploads/2019/04/Biarritz_Town_4.png"
         }),
         CityModel({
             name: "Paris",
             address: "9 Rue Laplace, 75005 Paris",
+            lat: 48.8471968,
+            lng: 2.3453181,
             image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/La_Tour_Eiffel_vue_de_la_Tour_Saint-Jacques%2C_Paris_ao%C3%BBt_2014_%282%29.jpg/1200px-La_Tour_Eiffel_vue_de_la_Tour_Saint-Jacques%2C_Paris_ao%C3%BBt_2014_%282%29.jpg"
         }),
         CityModel({
             name: "Saint-Jean-de-Luz",
             address: "Pavillon Henry Dunant, All. Perkain, 64500 Saint-Jean-de-Luz",
+            lat: 43.3829,
+            lng:-1.676,
             image: "https://www.saint-jean-de-luz.com/wp-content/uploads/2021/04/sjdlz-tvmf-24-780x0.jpg"
         }),
         CityModel({
             name: "Bordeaux",
             address: "50 Rue Ferrere, 33000 Bordeaux",
+            lat: 44.841225,
+            lng: -0.5800364,
             image: "https://t1.gstatic.com/licensed-image?q=tbn:ANd9GcQYBPdeeQ34uOStqa9VX_5TSfr3634gXIUyVuZh2m6RmzQIqqt3TGWey8rYC1_ECno7"
         }),
         CityModel({
             name: "Marseille",
             address: "64 Rue Clovis Hugues, 13003 Marseille",
-            image: "https://www.okvoyage.com/wp-content/uploads/2020/03/marseille-france.jpg"
+            lat: 43.2961743,
+            lng: 5.3699525,
+            image: "https://geo.img.pmdstatic.net/fit/https.3A.2F.2Fi.2Epmdstatic.2Enet.2Fgeo.2F2022.2F09.2F02.2F5bfb6118-5e3b-4b15-b8a0-c232faaece83.2Ejpeg/1200x630/cr/wqkgTW9uc2lldXIgRnJhbmNrIC8gNTAwcHggLyBHRU8%3D/visiter-marseille-et-ses-alentours-sans-voiture-nos-itineraires-accessibles-a-pied-a-velo-ou-en-bateau.jpg"
         }),
         CityModel({
             name: "Lyon",
             address: "28 Rue Montgolfier, 69006 Lyon",
+            lat: 45.7578137,
+            lng: 4.8320114,
             image: "https://images.ctfassets.net/bth3mlrehms2/3FT2t7eUwluY8vEHRcQcBt/737ba261438c62dcc2bfc873d93690ed/France_Lyon_Quais_de_Sao__ne.jpg?w=2119&h=1414&fl=progressive&q=50&fm=jpg"
         }),
         CityModel({
             name: "La Rochelle",
             address: "Ilot Joffre, Rue Franc Lapeyre, 17000 La Rochelle",
+            lat: 46.1591126,
+            lng: -1.1520434,
             image: "https://media.routard.com/image/44/6/la-rochelle.1554446.jpg"
         }),
         CityModel({
             name: "Rennes",
             address: "4 Rue du Bois Perrin, 35700 Rennes",
+            lat: 48.1113387,
+            lng: -1.6800198,
             image: "https://noscurieuxvoyageurs.com/wp-content/uploads/2020/09/DSF2847.jpg"
         }),
         CityModel({
             name: "Brest",
             address: "460 Rue Jurien de la Gravière, 29200 Brest",
+            lat: 48.3905283,
+            lng: -4.4860088,
             image: "https://www.bretagne.com/sites/default/files/post/Chateau%20Brest_2.jpg"
         }),
         CityModel({
             name: "Le Havre",
             address: "115 Av. René Coty, 76600 Le Havre",
+            lat: 49.4938975,
+            lng: 0.1079732,
             image: "https://en.normandie-tourisme.fr/wp-content/uploads/sites/3/2020/04/le-havre-promenade-de-nuit-herve-sentucq.jpg"
         }),
         CityModel({
             name: "Lille",
             address: "10-12 Pl. Guy de Dampierre, 59000 Lille",
+            lat: 50.6365654,
+            lng: 3.0635282,
             image: "https://upload.wikimedia.org/wikipedia/commons/f/f8/Lille_vue_gd_place.JPG"
         }),
         CityModel({
             name: "Strasbourg",
             address: "30 Rue Schweighaeuser, 67000 Strasbourg",
+            lat: 48.584614,
+            lng: 7.7507127,
             image: "https://upload.wikimedia.org/wikipedia/commons/0/0e/Strasbourg_vue_a%C3%A9rienne_vers_la_cath%C3%A9drale_septembre_2015.jpg"
         }),
         CityModel({
             name: "Clermont-Ferrand",
             address: "21 Rue Jean Richepin, 63000 Clermont-Ferrand",
+            lat: 45.7774551,
+            lng: 3.0819427,
             image: "https://uil.unesco.org/sites/default/files/clermont-ferrand_france_angelus_yodason_flickr.jpg"
         }),
         CityModel({
             name: "Nantes",
             address: "2 Bis Pl. Catinat, 44100 Nantes",
+            lat: 47.2186371,
+            lng: -1.5541362,
             image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/33/f7/3a/nantes.jpg?w=700&h=500&s=1"
+        }),
+        CityModel({
+            name: "Toulouse",
+            address: "11 Rue Temponières, 31000 Toulouse",
+            lat: 43.6015518,
+            lng: 1.4430977,
+            image: "https://www.toulouse-tourisme.com/sites/www.toulouse-tourisme.com/files/styles/incontournable_hp/public/thumbnails/image/incontournables_toulouse.jpg?itok=ev-M4trx"
         })
     ],
     defaultProducts: [
         // region TShirt
-        ProductModel(generateTShirt(
-            "Haut chic",
-            GENDER.FEMALE,
-            5,
-            "En coton. Détail en velours sur le col.\n" +
-            "Un design très original.\n" +
-            "Tricots élastiques adaptables.",
-            SIZE.L,
-            11.99,
-            [
-                "https://images1.vinted.net/t/03_02320_PGXy6vuqdqbLjswxswHzWu7L/f800/1670072056.jpeg?s=ee5aad64c2156eacdbe753cdff473f95bc0a3640",
-                "https://images1.vinted.net/t/03_01601_ve4vQFp9uebTozhRMwdRKtPQ/f800/1670072056.jpeg?s=8d7821c31b559cf7aa05747c26f00751f21cd97a",
-                "https://images1.vinted.net/t/02_00de3_qbXxF1z1xvU2sBAL8UY8a83p/f800/1670072056.jpeg?s=f8428a3aeac709164aac2c00ddc97e125dbd06c2"
-            ]
-        )),
         ProductModel(generateTShirt(
             "Jersey",
             GENDER.FEMALE,
@@ -153,6 +175,21 @@ const data = {
             [
                 "https://images.vinted.net/t/03_00fd7_unZybxyzDvjSikvWycmhgQca/f800/1670071947.jpeg?s=955a1a8ab7cac438b74f1ee986ffa591729d5a97",
                 "https://images.vinted.net/t/03_0222f_Puxx6NJDoUcnxZtdjTvgE1vw/f800/1670071947.jpeg?s=e514ae49edf3158b9ec038beeacd8eeb609f8ca7"
+            ]
+        )),
+        ProductModel(generateTShirt(
+            "Tee Shirt Naf Naf",
+            GENDER.FEMALE,
+            5,
+            "Tee Shirt d’été très léger \n" +
+            "Naf Naf \n" +
+            "Taille S",
+            SIZE.S,
+            5,
+            [
+                "https://images1.vinted.net/t/02_0106a_ttTWW6coRkfJav1mjLEcf7JN/f800/1657961637.jpeg?s=6e28cf648379fbabc6456beea0ee945c2b64d6da",
+                "https://images1.vinted.net/t/03_01fbd_BMd2BVGCshjAuJw2hGvwLdiB/f800/1657961637.jpeg?s=87bdb0e01fe054c93bdd4e6af601b2d10ee23b09",
+                "https://images1.vinted.net/t/02_016d0_7aSiuE8f66N7CjAAjeUNPZS9/f800/1657961637.jpeg?s=60507ed4fcbc45ab24cb27e79bb46737d6aef24c"
             ]
         )),
         ProductModel(generateTShirt(
@@ -343,7 +380,7 @@ const data = {
             "Jean noir Wragger",
             GENDER.MALE,
             3,
-            "État vintage. Coupe baggy / stretch.",
+            "État vintage. Coupe EXTRAAAAA GELAR / stretch.",
             SIZE.M,
             30,
             [
@@ -420,12 +457,12 @@ const data = {
             "Blazer Gerry Weber, couleur rose",
             GENDER.FEMALE,
             5,
-            "Blazer Gerry Weber, Neuf sans étiquette, modèle coupe cintrée, tissu en coton stretch et fermeture boutonnée, coupe et finition excellentes, couleur rose, Taille XXL.\n" +
+            "Porté par Pierre PORTET\n" +
             "Epaules : 40cm\n" +
             "Poitrine : 50cm\n" +
             "Longueur totale : 61cm",
             SIZE.XXL,
-            16,
+            10000.99,
             [
                 "https://images1.vinted.net/t/01_0059c_otHTzNpDCztr59sqsBPXSgqw/f800/1669887831.jpeg?s=a08332fee4dd306e7e4fadbf9b83a5689075e9da",
                 "https://images1.vinted.net/t/03_00cd5_zNu9T31QyzuMGsY91tzZVc6m/f800/1669887831.jpeg?s=0c917e32dc65d40cca514b75c91321b94f198972",
@@ -575,7 +612,7 @@ const data = {
 // region generate functions
 
 function getRandomInt(min, max) {
-    return  parseInt(Math.random() * (max - min) + min);
+    return parseInt(Math.random() * (max - min) + min);
 }
 
 function generateDate() {
@@ -641,14 +678,23 @@ function generateCoat(name, gender, vestingState, description, size, price, imag
 export function generateData() {
     const defaultProducts = getDefaultProducts();
     getCities().forEach(city => {
+        const ids = [];
         const count = getRandomInt(2 * defaultProducts.length, 4 * defaultProducts.length + 1);
         for (let i = 0; i < count; i++) {
             const product = ProductModel({
+                ...defaultProducts[i % defaultProducts.length /*getRandomInt(0, defaultProducts.length)*/],
                 cityId: city.id,
-                ...defaultProducts[i % defaultProducts.length /*getRandomInt(0, defaultProducts.length)*/]
             });
             data.products.push(product);
-            city.products.push(product.id);
+            ids.push(product.id);
+        }
+        // shuffle products
+        const shuffled = ids
+            .map(value => ({ value, sort: Math.random() }))
+            .sort((a, b) => a.sort - b.sort)
+            .map(({ value }) => value);
+        for (const id of shuffled) {
+            city.products.push(id);
         }
     });
 }
@@ -745,35 +791,53 @@ export function getProductById(id) {
     return getProducts().find(product => product.id === id)
 }
 
-export function search(query) {
-    let products = getProductsByCityId(query.cityId);
+export function searchProducts(cityId, query) {
+    let products = getProductsByCityId(cityId);
     if (query.text) {
         const t = query.text.toLowerCase();
-        products = products.filter(p => p.name.toLowerCase().contains(t) || p.description.toLowerCase().contains(t));
+        products = products.filter(id =>
+            getProductById(id).name.toLowerCase().includes(t) ||
+            getProductById(id).description.toLowerCase().includes(t));
     }
-    if (query.category) {
-        products = products.filter(p => query.category.contains(p.category));
+    if (query.categories && query.categories.length > 0) {
+        products = products.filter(id => query.categories.includes(getProductById(id).category));
     }
-    if (query.size) {
-        products = products.filter(p => query.size.contains(p.size));
+    if (query.sizes && query.sizes.length > 0) {
+        products = products.filter(id => query.sizes.includes(getProductById(id).size));
     }
-    if (query.gender) {
-        products = products.filter(p => query.gender.contains(p.gender));
+    if (query.genders && query.genders.length > 0) {
+        products = products.filter(id => query.genders.includes(getProductById(id).gender));
     }
-    if (query.vestingState) {
-        products = products.filter(p => p.vestingState >= query.vestingState);
+    if (query.vestingState && query.vestingState > 1) {
+        products = products.filter(id => getProductById(id).vestingState >= query.vestingState);
     }
-    if (query.minimumPrice) {
-        products = products.filter(p => p.price >= query.minimumPrice);
+    if (query.minimumPrice && query.minimumPrice !== 0) {
+        products = products.filter(id => getProductById(id).price >= query.minimumPrice);
     }
-    if (query.maximumPrice) {
-        products = products.filter(p => p.price <= query.minimumPrice);
+    if (query.maximumPrice && query.maximumPrice !== 10000) {
+        products = products.filter(id => getProductById(id).price <= query.maximumPrice);
     }
     return products;
 }
 
 export function pay(productsIdList) {
-    // TODO: remove articles
+    if (productsIdList.length === 0) {
+        return { error: "Aucun produit à payer." };
+    }
+    // data.products = data.products.filter(product => !productsIdList.includes(product.id));
+    const cityId = getProductById(productsIdList[0]).cityId;
+    const city = getCityById(cityId);
+    const newProducts = [];
+    while (city.products.length > 0) {
+        const id = city.products.shift();
+        if (!productsIdList.includes(id)) {
+            newProducts.push(id);
+        }
+    }
+    for (const id of newProducts) {
+        city.products.push(id);
+    }
+    return { success: true };
 }
 
 // endregion

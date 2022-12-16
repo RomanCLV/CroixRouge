@@ -1,13 +1,19 @@
 import { v4 } from "uuid";
 
 const CityModel = props => {
-    return {
+    const model = {
         id: v4(),
         name: props.name || "",
         address: props.address || "",
+        lat: props.lat || 0,
+        lng: props.lng || 0,
         image: props.image || "",
-        products: []
     };
+    Object.defineProperty(model, 'products', {
+        value: [],
+        writable: true
+    });
+    return model;
 }
 
 export default CityModel;

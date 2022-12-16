@@ -1,5 +1,5 @@
 export const CATEGORIES = {
-    TSHIRT: "Hauts & T-Shirt",
+    TSHIRT: "Hauts",
     SWEAT: "Sweat",
     PANTS: "Pantalon",
     JACKET: "Veste",
@@ -13,7 +13,7 @@ export const SIZE = {
     L: "L",
     XL: "XL",
     XXL: "XXL",
-    XXXL: "> XXL"
+    XXXL: ">XXL"
 };
 
 export const GENDER = {

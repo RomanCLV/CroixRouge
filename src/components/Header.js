@@ -37,13 +37,13 @@ const Header = () => {
     }
 
     return (
-        <div id={"Header"}>
+        <div className={"Header"}>
             <Container className={"headerDiv1"}>
                 <div>
                     <Logo />
                 </div>
 
-                <div id={"header-icons-div"}>
+                <div className={"header-icons-div"}>
                     {
                         city && <p>{city.name}</p>
                     }
@@ -72,10 +72,12 @@ const Header = () => {
                         onClick={onCartButtonClick}
                     />
                     {
-                        products.length > 0 && <Badge
+                        products.length > 0 &&
+                        <Badge
                             className={"badge"}
-                            color={"primary"}
-                            pill>
+                            color={"primary-red"}
+                            pill
+                        >
                             {products.length}
                         </Badge>
                     }

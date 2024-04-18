@@ -3,7 +3,7 @@ import ProductModel from "../models/productModel";
 
 import { CATEGORIES, SIZE, GENDER } from "./dataType";
 import AccountModel, {getWithoutPassword} from "../models/accountModel";
-// test
+
 const data = {
     users: [
         AccountModel({

@@ -1,10 +1,8 @@
-// cart.entity.ts
-
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { User } from './user.entity';
 import { Product } from './product.entity';
 
-@Entity()
+@Entity("carts")
 export class Cart {
     @PrimaryGeneratedColumn()
     @ManyToOne(() => User)

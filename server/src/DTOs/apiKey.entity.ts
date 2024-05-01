@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity()
+@Entity("api_keys")
 export class ApiKey {
     @PrimaryGeneratedColumn()
     id: number;

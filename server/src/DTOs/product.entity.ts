@@ -3,7 +3,7 @@ import { City } from './city.entity';
 import { Size } from './size.entity';
 import { Gender } from './gender.entity';
 
-@Entity()
+@Entity("products")
 export class Product {
     @PrimaryGeneratedColumn()
     id: number;

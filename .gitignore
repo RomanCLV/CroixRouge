@@ -1,1 +1,4 @@
 bdd/
+node_modules/
+.idea/
+.git/

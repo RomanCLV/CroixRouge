@@ -1,8 +1,9 @@
-import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { Product } from './product.entity';
 
 @Entity()
 export class ProductImage {
+    @PrimaryGeneratedColumn()
     @ManyToOne(() => Product)
     @JoinColumn({ name: 'product_id' })
     product: Product;

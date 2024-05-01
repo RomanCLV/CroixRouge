@@ -1,11 +1,12 @@
 // cart.entity.ts
 
-import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { User } from './user.entity';
 import { Product } from './product.entity';
 
 @Entity()
 export class Cart {
+    @PrimaryGeneratedColumn()
     @ManyToOne(() => User)
     @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
     user: User;

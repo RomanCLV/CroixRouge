@@ -20,9 +20,6 @@ export class CategoriesService {
             if (error instanceof QueryFailedError) {
                 throw new NotFoundException("Impossible de trouver les catégories.");
             } 
-            else if (error instanceof AggregateError) {
-                throw new NotFoundException("Impossible de communiquer avec la base de données.");
-            }
             else {
                 throw error;
             }
@@ -37,9 +34,6 @@ export class CategoriesService {
             if (error instanceof QueryFailedError) {
                 throw new NotFoundException("Impossible de trouver la catégorie d'index: " + id);
             } 
-            else if (error instanceof AggregateError) {
-                throw new NotFoundException("Impossible de communiquer avec la base de données.");
-            }
             else {
                 throw error;
             }

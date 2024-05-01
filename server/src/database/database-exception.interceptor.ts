@@ -11,10 +11,20 @@ export class DatabaseExceptionInterceptor implements ExceptionFilter {
     
     catch(exception: Error, host: ArgumentsHost) {
         const response = host.switchToHttp().getResponse();
-        const statusCode = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
+        let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
+        let message = exception.message;
+
+        if (exception instanceof HttpException) {
+            statusCode = exception.getStatus();
+        } 
+        else if (exception instanceof AggregateError) {
+            // statusCode = HttpStatus.NOT_FOUND; 
+            message = "Impossible de communiquer avec la base de données.";
+        }
+
         response.status(statusCode).json({
             statusCode,
-            message: exception.message,
+            message,
             error: exception.constructor.name,
         });        
     }

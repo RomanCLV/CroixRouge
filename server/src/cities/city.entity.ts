@@ -17,7 +17,7 @@ export class City {
     @Column({ type: 'decimal', precision: 11, scale: 8 })
     lng: number;
 
-    @Column({ length: 256, nullable: true })
+    @Column({ length: 256 })
     imagePath: string;
 
     @Column({ type: 'datetime' })

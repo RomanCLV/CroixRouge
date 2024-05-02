@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { City } from './city.entity';
-import { Size } from './size.entity';
-import { Gender } from './gender.entity';
+import { City } from '../cities/city.entity';
+import { Size } from '../sizes/size.entity';
+import { Gender } from '../genders/gender.entity';
 
 @Entity("products")
 export class Product {

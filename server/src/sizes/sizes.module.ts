@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { SizesController } from './sizes.controller';
 import { SizesService } from './sizes.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Size } from 'src/DTOs/size.entity';
+import { Size } from './size.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Size])],

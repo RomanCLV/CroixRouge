@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryFailedError, Repository } from 'typeorm';
-import { Gender } from 'src/DTOs/gender.entity';
+import { Gender } from './gender.entity';
 
 @Injectable()
 export class GendersService {

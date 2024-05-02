@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
-import { ApiKey } from './apiKey.entity';
+import { ApiKey } from '../apiKeys/apiKey.entity';
 
 @Entity("users")
 export class User {
@@ -22,6 +22,6 @@ export class User {
     @Column({ type: 'datetime' })
     creationDate: Date;
 
-    @Column({ length: 256, nullable: true })
+    @Column({ length: 256 })
     imagePath: string;
 }

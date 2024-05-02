@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryFailedError, Repository } from 'typeorm';
-import { Size } from 'src/DTOs/size.entity';
+import { Size } from './size.entity';
 
 @Injectable()
 export class SizesService {

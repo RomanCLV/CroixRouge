@@ -1,7 +1,7 @@
 import { Controller, Get, Param, UseFilters } from '@nestjs/common';
-import { Category } from 'src/DTOs/category.entity';
-import { CategoriesService } from './categories.service';
 import { DatabaseExceptionInterceptor } from 'src/database/database-exception.interceptor';
+import { CategoriesService } from './categories.service';
+import { Category } from './category.entity';
 
 @Controller('categories')
 export class CategoriesController {

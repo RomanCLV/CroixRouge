@@ -12,16 +12,17 @@ import { SizesModule } from './sizes/sizes.module';
 import { GendersModule } from './genders/genders.module';
 import { CitiesModule } from './cities/cities.module';
 
-import { User } from './DTOs/user.entity';
-import { ApiKey } from './DTOs/apiKey.entity';
-import { Cart } from './DTOs/cart.entity';
-import { Category } from './DTOs/category.entity';
-import { Size } from './DTOs/size.entity';
-import { Gender } from './DTOs/gender.entity';
-import { City } from './DTOs/city.entity';
-import { Product } from './DTOs/product.entity';
-import { ProductImage } from './DTOs/productImage.entity';
-
+import { User } from './users/user.entity';
+import { ApiKey } from './apiKeys/apiKey.entity';
+import { Cart } from './carts/cart.entity';
+import { Category } from './categories/category.entity';
+import { Size } from './sizes/size.entity';
+import { Gender } from './genders/gender.entity';
+import { City } from './cities/city.entity';
+import { Product } from './products/product.entity';
+import { ProductImage } from './products/productImage.entity';
+import { CityAdmin } from './cityAdmins/cityAdmin.entity';
+import { SuperAdmin } from './superAdmins/superAdmin.entity';
 
 @Module({
   imports: [
@@ -33,7 +34,7 @@ import { ProductImage } from './DTOs/productImage.entity';
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [ApiKey, Category, Size, Gender, User, City, Product, ProductImage, Cart],
+      entities: [ApiKey, Category, Size, Gender, User, City, Product, ProductImage, Cart, CityAdmin, SuperAdmin],
       synchronize: false, //Boolean(process.env.DEBUG),
     }),
     UsersModule,

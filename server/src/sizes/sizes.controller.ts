@@ -1,7 +1,7 @@
 import { Controller, Get, Param, UseFilters } from '@nestjs/common';
-import { Size } from 'src/DTOs/size.entity';
-import { SizesService } from './sizes.service';
 import { DatabaseExceptionInterceptor } from 'src/database/database-exception.interceptor';
+import { SizesService } from './sizes.service';
+import { Size } from './size.entity';
 
 @Controller('sizes')
 export class SizesController {

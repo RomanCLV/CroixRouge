@@ -1,10 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { User } from './user.entity';
-import { Product } from './product.entity';
+import { User } from '../users/user.entity';
+import { Product } from '../products/product.entity';
 
 @Entity("carts")
 export class Cart {
-    @PrimaryGeneratedColumn()
+
     @ManyToOne(() => User)
     @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
     user: User;

@@ -3,7 +3,7 @@ import { Product } from './product.entity';
 
 @Entity("product_images")
 export class ProductImage {
-    @PrimaryGeneratedColumn()
+   
     @ManyToOne(() => Product)
     @JoinColumn({ name: 'product_id' })
     product: Product;

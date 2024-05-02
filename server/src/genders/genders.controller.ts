@@ -1,7 +1,7 @@
 import { Controller, Get, Param, UseFilters } from '@nestjs/common';
-import { Gender } from 'src/DTOs/gender.entity';
-import { GendersService } from './genders.service';
 import { DatabaseExceptionInterceptor } from 'src/database/database-exception.interceptor';
+import { GendersService } from './genders.service';
+import { Gender } from './gender.entity';
 
 @Controller('genders')
 export class GendersController {

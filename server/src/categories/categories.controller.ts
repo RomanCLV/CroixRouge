@@ -15,7 +15,7 @@ export class CategoriesController {
 
     @Get(":id")
     @UseFilters(DatabaseExceptionInterceptor)
-    findOne(@Param("id", ParseIntPipe) id: number): Promise<Category | null> {
+    findOne(@Param("id", ParseIntPipe) id: number): Promise<Category> {
         return this.categoriesService.findOne(id);
     }
 }

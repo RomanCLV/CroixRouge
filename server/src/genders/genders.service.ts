@@ -9,33 +9,20 @@ export class GendersService {
         @InjectRepository(Gender)
         private gendersRepository: Repository<Gender>,
       ) {}
-
+    
     async findAll(): Promise<Gender[]> {
-        try {
-            return await this.gendersRepository.find();
+        const genders = await this.gendersRepository.find();
+        if (!genders) {
+            throw new NotFoundException(`genders not found.`)
         }
-        catch (error) 
-        {
-            if (error instanceof QueryFailedError) {
-                throw new NotFoundException("Impossible de trouver les genres.");
-            } 
-            else {
-                throw error;
-            }
-        }
+        return genders;
     }
     
-    async findOne(id: number): Promise<Gender | null> {
-        try {
-            return this.gendersRepository.findOneBy({ id });
-        } 
-        catch (error) {
-            if (error instanceof QueryFailedError) {
-                throw new NotFoundException("Impossible de trouver le genre d'index: " + id);
-            } 
-            else {
-                throw error;
-            }
+    async findOne(id: number): Promise<Gender> {
+        const gender = await this.gendersRepository.findOneBy({ id });
+        if (!gender) {
+            throw new NotFoundException(`gender ${id} not found.`)
         }
+        return gender;
     }
 }

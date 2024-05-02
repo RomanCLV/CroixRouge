@@ -1,4 +1,4 @@
-import { Controller, Get, Param, UseFilters } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, UseFilters } from '@nestjs/common';
 import { DatabaseExceptionInterceptor } from 'src/database/database-exception.interceptor';
 import { GendersService } from './genders.service';
 import { Gender } from './gender.entity';
@@ -15,7 +15,7 @@ export class GendersController {
 
     @Get(":id")
     @UseFilters(DatabaseExceptionInterceptor)
-    findOne(@Param("id") id: string): Promise<Gender | null> {
+    findOne(@Param("id", ParseIntPipe) id: number): Promise<Gender> {
         return this.gendersService.findOne(+id);
     }
 }

@@ -19,13 +19,13 @@ export class DatabaseExceptionInterceptor implements ExceptionFilter {
         } 
         else if (exception instanceof AggregateError) {
             // statusCode = HttpStatus.NOT_FOUND; 
-            message = "Impossible de communiquer avec la base de données.";
+            message = "Can not communicate with the database.";
         }
 
         response.status(statusCode).json({
             statusCode,
             message,
-            error: exception.constructor.name,
+            error: exception.constructor.name
         });        
     }
 }

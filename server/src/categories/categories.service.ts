@@ -12,31 +12,18 @@ export class CategoriesService {
     
 
     async findAll(): Promise<Category[]> {
-        try {
-            return await this.categoriesRepository.find();
+        const categories = await this.categoriesRepository.find();
+        if (!categories) {
+            throw new NotFoundException(`categories not found.`)
         }
-        catch (error) 
-        {
-            if (error instanceof QueryFailedError) {
-                throw new NotFoundException("Impossible de trouver les catégories.");
-            } 
-            else {
-                throw error;
-            }
-        }
+        return categories;
     }
     
-    async findOne(id: number): Promise<Category | null> {
-        try {
-            return this.categoriesRepository.findOneBy({ id });
-        } 
-        catch (error) {
-            if (error instanceof QueryFailedError) {
-                throw new NotFoundException("Impossible de trouver la catégorie d'index: " + id);
-            } 
-            else {
-                throw error;
-            }
+    async findOne(id: number): Promise<Category> {
+        const category = await this.categoriesRepository.findOneBy({ id });
+        if (!category) {
+            throw new NotFoundException(`category ${id} not found.`)
         }
+        return category;
     }
 }

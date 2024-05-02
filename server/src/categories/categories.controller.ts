@@ -1,4 +1,4 @@
-import { Controller, Get, Param, UseFilters } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, UseFilters } from '@nestjs/common';
 import { DatabaseExceptionInterceptor } from 'src/database/database-exception.interceptor';
 import { CategoriesService } from './categories.service';
 import { Category } from './category.entity';
@@ -15,7 +15,7 @@ export class CategoriesController {
 
     @Get(":id")
     @UseFilters(DatabaseExceptionInterceptor)
-    findOne(@Param("id") id: string): Promise<Category | null> {
-        return this.categoriesService.findOne(+id);
+    findOne(@Param("id", ParseIntPipe) id: number): Promise<Category | null> {
+        return this.categoriesService.findOne(id);
     }
 }

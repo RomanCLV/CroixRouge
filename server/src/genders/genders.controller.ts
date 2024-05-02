@@ -16,6 +16,6 @@ export class GendersController {
     @Get(":id")
     @UseFilters(DatabaseExceptionInterceptor)
     findOne(@Param("id", ParseIntPipe) id: number): Promise<Gender> {
-        return this.gendersService.findOne(+id);
+        return this.gendersService.findOne(id);
     }
 }

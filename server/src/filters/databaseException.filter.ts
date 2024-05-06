@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
   
 @Catch(Error)
-export class DatabaseExceptionInterceptor implements ExceptionFilter {
+export class DatabaseException implements ExceptionFilter {
     
     catch(exception: Error, host: ArgumentsHost) {
         const response = host.switchToHttp().getResponse();

@@ -1,5 +1,5 @@
 import { Controller, Get, Param, ParseIntPipe, UseFilters } from '@nestjs/common';
-import { DatabaseExceptionInterceptor } from 'src/database/database-exception.interceptor';
+import { DatabaseException } from 'src/filters/databaseException.filter';
 import { SizesService } from './sizes.service';
 import { Size } from './size.entity';
 
@@ -8,13 +8,13 @@ export class SizesController {
     constructor(private readonly sizesService: SizesService) {}
 
     @Get()
-    @UseFilters(DatabaseExceptionInterceptor)
+    @UseFilters(DatabaseException)
     findAll(): Promise<Size[]> {
         return this.sizesService.findAll();
     }
 
     @Get(":id")
-    @UseFilters(DatabaseExceptionInterceptor)
+    @UseFilters(DatabaseException)
     findOne(@Param("id", ParseIntPipe) id: number): Promise<Size> {
         return this.sizesService.findOne(id);
     }

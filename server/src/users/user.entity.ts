@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
-import { ApiKey } from '../apiKeys/apiKey.entity';
 
 @Entity("users")
 export class User {
@@ -14,10 +13,6 @@ export class User {
 
     @Column({ length: 64 })
     password: string;
-
-    @OneToOne(() => ApiKey)
-    @JoinColumn({ name: 'api_key_id' })
-    apiKey: ApiKey;
 
     @Column({ type: 'datetime' })
     creationDate: Date;

@@ -13,7 +13,6 @@ import { GendersModule } from './genders/genders.module';
 import { CitiesModule } from './cities/cities.module';
 
 import { User } from './users/user.entity';
-import { ApiKey } from './apiKeys/apiKey.entity';
 import { Cart } from './carts/cart.entity';
 import { Category } from './categories/category.entity';
 import { Size } from './sizes/size.entity';
@@ -35,7 +34,7 @@ import { JsonHeaderMiddleware } from './middlewares/json-header.middleware';
             username: process.env.DATABASE_USER,
             password: process.env.DATABASE_PASSWORD,
             database: process.env.DATABASE_NAME,
-            entities: [ApiKey, Category, Size, Gender, User, City, Product, ProductImage, Cart, CityAdmin, SuperAdmin],
+            entities: [Category, Size, Gender, User, City, Product, ProductImage, Cart, CityAdmin, SuperAdmin],
             synchronize: false, //Boolean(process.env.DEBUG),
         }),
         UsersModule,

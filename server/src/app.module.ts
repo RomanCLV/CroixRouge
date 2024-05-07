@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -23,28 +23,34 @@ import { Product } from './products/product.entity';
 import { ProductImage } from './products/productImage.entity';
 import { CityAdmin } from './cityAdmins/cityAdmin.entity';
 import { SuperAdmin } from './superAdmins/superAdmin.entity';
+import { JsonHeaderMiddleware } from './middlewares/json-header.middleware';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({ isGlobal: true, envFilePath: ".env.development.local" }),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.DATABASE_HOST,
-      port: Number(process.env.DATABASE_PORT),
-      username: process.env.DATABASE_USER,
-      password: process.env.DATABASE_PASSWORD,
-      database: process.env.DATABASE_NAME,
-      entities: [ApiKey, Category, Size, Gender, User, City, Product, ProductImage, Cart, CityAdmin, SuperAdmin],
-      synchronize: false, //Boolean(process.env.DEBUG),
-    }),
-    UsersModule,
-    CitiesModule,
-    CategoriesModule,
-    SizesModule,
-    GendersModule,
-    ProductsModule,
-  ],
-  controllers: [AppController],
-  providers: [AppService],
+    imports: [
+        ConfigModule.forRoot({ isGlobal: true, envFilePath: ".env.development.local" }),
+        TypeOrmModule.forRoot({
+            type: 'mysql',
+            host: process.env.DATABASE_HOST,
+            port: Number(process.env.DATABASE_PORT),
+            username: process.env.DATABASE_USER,
+            password: process.env.DATABASE_PASSWORD,
+            database: process.env.DATABASE_NAME,
+            entities: [ApiKey, Category, Size, Gender, User, City, Product, ProductImage, Cart, CityAdmin, SuperAdmin],
+            synchronize: false, //Boolean(process.env.DEBUG),
+        }),
+        UsersModule,
+        CitiesModule,
+        CategoriesModule,
+        SizesModule,
+        GendersModule,
+        ProductsModule,
+    ],
+    controllers: [AppController],
+    providers: [AppService],
 })
-export class AppModule {}
+
+export class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(JsonHeaderMiddleware).forRoutes('*');
+    }
+}

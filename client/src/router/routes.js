@@ -1,3 +1,4 @@
+
 export const ROUTES = {
     root: "/",
     cities: "/cities",
@@ -10,5 +11,6 @@ export const ROUTES = {
     signup: "/signup",
     passwordReset: "/password-reset",
     account: "/account",
-    paymentDone : "/payment-done"
+    paymentDone: "/payment-done",
+    addProduct: "/add-product"
 };

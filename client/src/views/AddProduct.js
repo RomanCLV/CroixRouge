@@ -4,9 +4,10 @@ import { useState, useEffect } from 'react';
 // import CarouselView from './Carousel';
 
 function AddProduct() {
+
+    //Boutton Catégorie
     const [categories, setCategories] = useState([]);
     const [categoriesDropdownOpen, setCategoriesDropdownOpen] = useState(false);
-
     const toggleCategories = () => setCategoriesDropdownOpen((prevState) => !prevState);
 
     useEffect(() => {
@@ -22,6 +23,44 @@ function AddProduct() {
         };
         fetchData();
     }, [setCategories]);
+
+    //Boutton Genre
+    const [genders, setGenders] = useState([]);
+    const [gendersDropdownOpen, setGendersDropdownOpen] = useState(false);
+    const toggleGenders = () => setGendersDropdownOpen((prevState) => !prevState);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await fetch("http://localhost:3000/genders")
+                .then(res => res.json())
+                .then(data => {
+                    setGenders(data.genders);
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        };
+        fetchData();
+    }, [setGenders]);
+
+    //Boutton Taille
+    const [sizes, setSizes] = useState([]);
+    const [sizesDropdownOpen, setSizesDropdownOpen] = useState(false);
+    const toggleSizes = () => setSizesDropdownOpen((prevState) => !prevState);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await fetch("http://localhost:3000/sizes")
+                .then(res => res.json())
+                .then(data => {
+                    setSizes(data.sizes);
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        };
+        fetchData();
+    }, [setSizes]);
 
     return (
         <Container>
@@ -114,28 +153,22 @@ function AddProduct() {
                         </Col>
                         <Col style={{ background: "yellow" }} >
                             <FormGroup>
-                                <Label for="genres">
+                                <Label for="genders">
                                     Genre :
                                 </Label>
                                 <InputGroup>
-                                    <UncontrolledDropdown group>
-                                        <DropdownToggle
-                                            caret
-                                            color="primary"
-                                        >
-                                            Genres</DropdownToggle>
+                                    <Dropdown
+                                        isOpen={gendersDropdownOpen}
+                                        toggle={toggleGenders}
+                                        disabled={genders.length === 0}
+                                    >
+                                        <DropdownToggle caret color="primary">Genres</DropdownToggle>
                                         <DropdownMenu>
-                                            <DropdownItem>
-                                                Foo Action
-                                            </DropdownItem>
-                                            <DropdownItem>
-                                                Bar Action
-                                            </DropdownItem>
-                                            <DropdownItem>
-                                                Quo Action
-                                            </DropdownItem>
+                                            {
+                                                genders.map((gender, id) => <DropdownItem key={id}>{gender}</DropdownItem>)
+                                            }
                                         </DropdownMenu>
-                                    </UncontrolledDropdown>
+                                    </Dropdown>
                                 </InputGroup>
                             </FormGroup>
                         </Col>
@@ -145,24 +178,18 @@ function AddProduct() {
                                     Taille :
                                 </Label>
                                 <InputGroup>
-                                    <UncontrolledDropdown group>
-                                        <DropdownToggle
-                                            caret
-                                            color="primary"
-                                        >
-                                            Tailles</DropdownToggle>
+                                    <Dropdown
+                                        isOpen={sizesDropdownOpen}
+                                        toggle={toggleSizes}
+                                        disabled={sizes.length === 0}
+                                    >
+                                        <DropdownToggle caret color="primary">Tailles</DropdownToggle>
                                         <DropdownMenu>
-                                            <DropdownItem>
-                                                Foo Action
-                                            </DropdownItem>
-                                            <DropdownItem>
-                                                Bar Action
-                                            </DropdownItem>
-                                            <DropdownItem>
-                                                Quo Action
-                                            </DropdownItem>
+                                            {
+                                                sizes.map((size, id) => <DropdownItem key={id}>{size}</DropdownItem>)
+                                            }
                                         </DropdownMenu>
-                                    </UncontrolledDropdown>
+                                    </Dropdown>
                                 </InputGroup>
                             </FormGroup>
                         </Col>

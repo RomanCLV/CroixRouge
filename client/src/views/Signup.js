@@ -83,9 +83,8 @@ const Signup = () => {
         // }
 
         const result = await signup(username, email, password);
-        console.log("result:", result)
         if (result.error) {
-            setErrorMessage(result.error);
+            setErrorMessage(result.error.message);
         }
         else {
             navigate(ROUTES.login);

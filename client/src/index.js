@@ -38,6 +38,7 @@ import { productLoader } from "./router/loaders/productLoader";
 import './styles/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RequireHasProducts from "./router/requires/RequireHasProducts";
+import AddProduct from './views/AddProduct';
 
 // useful links:
 // Repo Git    : https://github.com/Estia-1a/sgv_etu_2022-theambersunflower
@@ -112,6 +113,10 @@ const router = createBrowserRouter([
             {
                 path: ROUTES.account,
                 element: <RequireAuth><Account /></RequireAuth>
+            },
+            {
+                path: ROUTES.addProduct,
+                element: <AddProduct />
             }
         ]
     }

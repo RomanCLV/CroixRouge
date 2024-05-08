@@ -16,6 +16,14 @@ export class CategoriesController {
         return this.categoriesService.findAll();
     }
 
+    @Get("category/:category")
+    @UseFilters(DatabaseException)
+    @UseInterceptors(CategoryInterceptor)
+    find(@Param("category") category: string): Promise<Category> {
+        return this.categoriesService.findByCategory(category);
+    }
+
+
     @Get(":id")
     @UseFilters(DatabaseException)
     @UseInterceptors(CategoryInterceptor)

@@ -10,9 +10,7 @@ import {ROUTES} from "../router/routes";
 // import {getUserByEmail, getUserByUsername, signIn} from "../data/data";
 import signup from "../services/signupService";
 
-
 const Signup = () => {
-
     const navigate = useNavigate();
 
     const [username, setUsername] = useState("");

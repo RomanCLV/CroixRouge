@@ -3,6 +3,7 @@ import { CreateUserDto } from './DTOs/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { QueryFailedError, Repository } from 'typeorm';
+import bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
@@ -20,11 +21,18 @@ export class UsersService {
            throw new HttpException("Email already used", HttpStatus.BAD_REQUEST);
         }
         else {
+            user.password = await this.cryptePassword(user.password);
             const newUser = this.usersRepository.create(user);
             if (!newUser) {
                 throw new HttpException("User not created", HttpStatus.INTERNAL_SERVER_ERROR);
             }
             return await this.usersRepository.save(newUser);
         }
+    }
+
+    private async cryptePassword(password: string) {
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        return hashedPassword;
     }
 }

@@ -34,10 +34,10 @@ import { citiesLoader } from "./router/loaders/citiesLoader";
 import { selectedCityLoader } from "./router/loaders/selectedCityLoader";
 import { searchLoader } from "./router/loaders/searchLoader";
 import { productLoader } from "./router/loaders/productLoader";
+import RequireHasProducts from "./router/requires/RequireHasProducts";
 
 import './styles/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import RequireHasProducts from "./router/requires/RequireHasProducts";
 
 // useful links:
 // Repo Git    : https://github.com/Estia-1a/sgv_etu_2022-theambersunflower

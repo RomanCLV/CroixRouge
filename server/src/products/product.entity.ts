@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
 import { City } from '../cities/city.entity';
 import { Size } from '../sizes/size.entity';
 import { Gender } from '../genders/gender.entity';
@@ -32,6 +32,6 @@ export class Product {
     @JoinColumn({ name: 'gender_id' })
     gender: Gender;
 
-    @Column({ type: 'datetime' })
+    @CreateDateColumn()
     creationDate: Date;
 }

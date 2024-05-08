@@ -1,11 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
 @Entity("cities")
 export class City {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ length: 64 })
+    @Column({ length: 64, unique: true })
     name: string;
 
     @Column({ length: 128 })
@@ -20,6 +20,6 @@ export class City {
     @Column({ length: 256 })
     imagePath: string;
 
-    @Column({ type: 'datetime' })
+    @CreateDateColumn()
     creationDate: Date;
 }

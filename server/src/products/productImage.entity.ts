@@ -16,5 +16,5 @@ export class ProductImage {
     product: Product;
 
     @Column({ length: 256 })
-    imagePath: string;
+    image_path: string;
 }

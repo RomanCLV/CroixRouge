@@ -15,8 +15,8 @@ export class User {
     password: string;
 
     @CreateDateColumn()
-    creationDate: Date;
+    creation_date: Date;
 
     @Column({ length: 256 })
-    imagePath: string;
+    image_path: string;
 }

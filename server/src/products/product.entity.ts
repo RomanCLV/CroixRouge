@@ -33,5 +33,5 @@ export class Product {
     gender: Gender;
 
     @CreateDateColumn()
-    creationDate: Date;
+    creation_date: Date;
 }

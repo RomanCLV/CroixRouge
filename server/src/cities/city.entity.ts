@@ -18,8 +18,8 @@ export class City {
     lng: number;
 
     @Column({ length: 256 })
-    imagePath: string;
+    image_path: string;
 
     @CreateDateColumn()
-    creationDate: Date;
+    creation_date: Date;
 }

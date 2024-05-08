@@ -7,7 +7,9 @@ import {
 import InputManager from "../components/InputManager";
 import {Link, useNavigate} from "react-router-dom";
 import {ROUTES} from "../router/routes";
-import {getUserByEmail, getUserByUsername, signIn} from "../data/data";
+// import {getUserByEmail, getUserByUsername, signIn} from "../data/data";
+import signup from "../services/signupService";
+
 
 const Signup = () => {
 
@@ -25,9 +27,9 @@ const Signup = () => {
         const valid = valueNotEmpty(username) &&
             valueNotEmpty(email) &&
             valueNotEmpty(password) &&
-            validateEmail(email) &&
-            isUsernameFree(username) &&
-            isEmailFree(email);
+            validateEmail(email); //&&
+            // isUsernameFree(username) &&
+            // isEmailFree(email);
         if (valid !== isFormValid) {
             setIsFormValid(valid);
         }
@@ -41,13 +43,13 @@ const Signup = () => {
         ) !== null;
     };
 
-    const isUsernameFree = (username) => {
-        return getUserByUsername(username) == null;
-    }
+    // const isUsernameFree = (username) => {
+    //     return getUserByUsername(username) == null;
+    // }
 
-    const isEmailFree = (email) => {
-        return getUserByEmail(email) == null;
-    }
+    // const isEmailFree = (email) => {
+    //     return getUserByEmail(email) == null;
+    // }
 
     const onEmailChanged = (value) => {
         setEmail(value);
@@ -61,7 +63,7 @@ const Signup = () => {
         setPassword(value);
     }
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
         const valid = valueNotEmpty(username) &&
             valueNotEmpty(email) &&
             valueNotEmpty(password);
@@ -73,24 +75,22 @@ const Signup = () => {
             setErrorMessage("Veuillez saisir un email valide.");
             return;
         }
-        if (!isUsernameFree(username)) {
-            setErrorMessage("Ce nom d'utilsateur est déjà utilisé.");
-            return;
-        }
-        if (!isEmailFree(email)) {
-            setErrorMessage("Cette adresse email est déjà utilisée.");
-            return;
-        }
-        const result = signIn({
-            username: username,
-            email: email,
-            password: password
-        });
-        if (result.success) {
-            navigate(ROUTES.login);
+        // if (!isUsernameFree(username)) {
+        //     setErrorMessage("Ce nom d'utilsateur est déjà utilisé.");
+        //     return;
+        // }
+        // if (!isEmailFree(email)) {
+        //     setErrorMessage("Cette adresse email est déjà utilisée.");
+        //     return;
+        // }
+
+        const result = await signup(username, email, password);
+        console.log("result:", result)
+        if (result.error) {
+            setErrorMessage(result.error);
         }
         else {
-            setErrorMessage(result.error);
+            navigate(ROUTES.login);
         }
     }
 
@@ -111,7 +111,7 @@ const Signup = () => {
                     value={username}
                     validators={[
                         valueNotEmpty,
-                        isUsernameFree
+                        //isUsernameFree
                     ]}
                     feedbackMessages={[
                         "Champ obligatoire.",
@@ -131,7 +131,7 @@ const Signup = () => {
                     validators={[
                         valueNotEmpty,
                         validateEmail,
-                        isEmailFree
+                        //isEmailFree
                     ]}
                     feedbackMessages={[
                         "Champ obligatoire.",

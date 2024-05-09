@@ -1,9 +1,64 @@
-import { Container, Row, Col, FormGroup, Label, Input, InputGroup, InputGroupText, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button, Dropdown } from 'reactstrap';
+import { Container, Row, Col, FormGroup, Label, Input, InputGroup, InputGroupText, InputGroupAddon, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button, Dropdown } from 'reactstrap';
 import StarRating from '../components/StarRating';
 import { useState, useEffect } from 'react';
 // import CarouselView from './Carousel';
 
+import InputManager from "../components/InputManager";
+import { Link, useNavigate } from "react-router-dom";
+import { ROUTES } from "../router/routes";
+import product from "../services/addProductService";
+
 function AddProduct() {
+
+    const navigate = useNavigate();
+    const [title, setTitle] = useState("");
+    const [price, setPrice] = useState("");
+    const [description, setDescription] = useState("");
+
+    const [isFormValid, setIsFormValid] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+
+    useEffect(() => {
+
+        const valid = valueNotEmpty(title) &&
+            valueNotEmpty(price) &&
+            valueNotEmpty(description);
+        if (valid !== isFormValid) {
+            setIsFormValid(valid);
+        }
+    }, [title, price, description, isFormValid]);
+
+    const valueNotEmpty = (value) => value.length !== 0;
+
+    const onTitleChanged = (value) => {
+        setTitle(value);
+    }
+
+    const onPriceChanged = (value) => {
+        setPrice(value);
+    }
+
+    const onDescriptionChanged = (value) => {
+        setDescription(value);
+    }
+
+    const onSubmit = async () => {
+        const valid = valueNotEmpty(title) &&
+            valueNotEmpty(price) &&
+            valueNotEmpty(description);
+        if (!valid) {
+            setErrorMessage("Veuillez saisir tous les champs obligatoires.");
+            return;
+        }
+
+        const result = await product(title, price, description);
+        if (result.error) {
+            setErrorMessage(result.error.message);
+        }
+        else {
+            navigate(ROUTES.addProduct);
+        }
+    }
 
     //Boutton Catégorie
     const [categories, setCategories] = useState([]);
@@ -83,32 +138,53 @@ function AddProduct() {
                 <Col md={6} >
                     <Row>
                         <Col md={6} style={{ background: "green" }} >
+                            <p>Titre :</p>
                             <FormGroup>
-                                <Label for="title">
-                                    Titre :
-                                </Label>
-                                <Input
-                                    id="title"
-                                    name="title"
-                                    placeholder="Titre de l'annonce"
-                                    type="title"
+                                {
+                                    errorMessage && <p className={"errorElement"}>{errorMessage}</p>
+                                }
+                                <InputManager
+                                    id={"inputTitle"}
+                                    name={"title"}
+                                    label={"Nom de l'article"}
+                                    placeholder={"Nom de l'article"}
+                                    type={null}
+                                    required={true}
+                                    value={title}
+                                    validators={[
+                                        valueNotEmpty,
+                                    ]}
+                                    feedbackMessages={[
+                                        "Champ obligatoire.",
+                                        "Titre déjà utilisé."
+                                    ]}
+                                    onChange={onTitleChanged}
                                 />
                             </FormGroup>
                         </Col>
-                        <Col md={6} style={{ background: "purple" }} >
+                        <Col md={6} style={{ background: "green" }} >
+                            <p>Prix :</p>
                             <FormGroup>
-                                <Label for="price">
-                                    Prix :
-                                </Label>
-                                <InputGroup>
-                                    <Input
-                                        id="price"
-                                        name="price"
-                                        placeholder="Prix de l'annonce"
-                                        type="price"
-                                    />
-                                    <InputGroupText>€</InputGroupText>
-                                </InputGroup>
+                                {
+                                    errorMessage && <p className={"errorElement"}>{errorMessage}</p>
+                                }
+                                <InputManager
+                                    id={"inputPrice"}
+                                    name={"price"}
+                                    label={"Prix de l'article"}
+                                    placeholder={"Prix de l'article"}
+                                    type={null}
+                                    required={true}
+                                    value={price}
+                                    validators={[
+                                        valueNotEmpty,
+                                    ]}
+                                    feedbackMessages={[
+                                        "Champ obligatoire.",
+                                        "Prix déjà utilisé."
+                                    ]}
+                                    onChange={onPriceChanged}
+                                />
                             </FormGroup>
                         </Col>
                     </Row>
@@ -197,7 +273,7 @@ function AddProduct() {
                             <Label for="stars">
                                 Etat :
                             </Label>
-                            <StarRating rating={5} />
+                            <StarRating rating={3} />
                         </Col>
                     </Row>
                     <Row>
@@ -206,11 +282,21 @@ function AddProduct() {
                                 <Label for="description">
                                     Description :
                                 </Label>
-                                <Input
-                                    id="description"
-                                    name="description"
+                                <InputManager
+                                    id={"inputDescription"}
+                                    name={"description"}
+                                    label={"Description de l'article"}
                                     placeholder="Description de l'annonce"
                                     type="textarea"
+                                    required={true}
+                                    value={description}
+                                    validators={[
+                                        valueNotEmpty,
+                                    ]}
+                                    feedbackMessages={[
+                                        "Champ obligatoire.",
+                                    ]}
+                                    onChange={onDescriptionChanged}
                                 />
                             </FormGroup>
                         </Col>
@@ -218,7 +304,9 @@ function AddProduct() {
                     <Row>
                         <Col style={{ background: "#DD7777" }} >
                             <Button
-                                color="primary"
+                                color={"primary"}
+                                onClick={onSubmit}
+                                disabled={!isFormValid}
                             >
                                 Soumettre l'article
                             </Button>

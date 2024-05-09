@@ -58,59 +58,55 @@ function AddProduct() {
     //Boutton Catégorie
     const [categories, setCategories] = useState([]);
     const [categoriesDropdownOpen, setCategoriesDropdownOpen] = useState(false);
+    // Fonction pour basculer l'état du menu déroulant
     const toggleCategories = () => setCategoriesDropdownOpen((prevState) => !prevState);
-
+    // Récupération des catégories
     useEffect(() => {
         const fetchData = async () => {
-            await fetch("http://localhost:3000/categories")
-                .then(res => res.json())
-                .then(data => {
-                    setCategories(data.categories);
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+            try {
+                const response = await fetch("http://localhost:3000/categories");
+                const data = await response.json();
+                setCategories(data.categories);
+            } catch (error) {
+                console.log(error);
+            }
         };
         fetchData();
-    }, [setCategories]);
+    }, []);
 
     //Boutton Genre
     const [genders, setGenders] = useState([]);
     const [gendersDropdownOpen, setGendersDropdownOpen] = useState(false);
     const toggleGenders = () => setGendersDropdownOpen((prevState) => !prevState);
-
     useEffect(() => {
         const fetchData = async () => {
-            await fetch("http://localhost:3000/genders")
-                .then(res => res.json())
-                .then(data => {
-                    setGenders(data.genders);
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+            try {
+                const response = await fetch("http://localhost:3000/genders");
+                const data = await response.json();
+                setGenders(data.genders);
+            } catch (error) {
+                console.log(error);
+            }
         };
         fetchData();
-    }, [setGenders]);
+    }, []);
 
     //Boutton Taille
     const [sizes, setSizes] = useState([]);
     const [sizesDropdownOpen, setSizesDropdownOpen] = useState(false);
     const toggleSizes = () => setSizesDropdownOpen((prevState) => !prevState);
-
     useEffect(() => {
         const fetchData = async () => {
-            await fetch("http://localhost:3000/sizes")
-                .then(res => res.json())
-                .then(data => {
-                    setSizes(data.sizes);
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+            try {
+                const response = await fetch("http://localhost:3000/sizes");
+                const data = await response.json();
+                setSizes(data.sizes);
+            } catch (error) {
+                console.log(error);
+            }
         };
         fetchData();
-    }, [setSizes]);
+    }, []);
 
     return (
         <Container>
@@ -188,80 +184,37 @@ function AddProduct() {
                         md="2"
                         sm="2"
                     >
-                        <Col style={{ background: "#DD7777" }} >
+                        <Col style={{ background: "#DD7777" }}>
                             <FormGroup>
-                                <Label for="categories">
-                                    Catégorie :
-                                </Label>
-                                <InputGroup>
-                                    <Dropdown
-                                        isOpen={categoriesDropdownOpen}
-                                        toggle={toggleCategories}
-                                        disabled={categories.length === 0}
-                                    >
-                                        <DropdownToggle caret color="primary">Catégories</DropdownToggle>
-                                        <DropdownMenu>
-                                            {
-                                                categories.map((category, id) => <DropdownItem key={id}>{category}</DropdownItem>)
-                                            }
-                                        </DropdownMenu>
-                                    </Dropdown>
-                                    {/* <Dropdown>
-                                        <DropdownToggle
-                                            caret
-                                            color="primary"
-                                        >
-                                            Catégories
-                                        </DropdownToggle>
-                                        <DropdownMenu>
-                                            {
-                                                categories.map((category, id) => <DropdownItem key={id}>{category}</DropdownItem>)
-                                            }
-                                        </DropdownMenu>
-                                    </Dropdown> */}
-                                </InputGroup>
+                                <Label for="categories">Catégorie :</Label>
+                                <Input type="select" name="selectCategory" id="selectCategory" isOpen={categoriesDropdownOpen} toggle={toggleCategories} disabled={categories.length === 0}>
+                                    <option value="">Sélection</option>
+                                    {categories.map((category, id) => (
+                                        <option key={id} value={category}>{category}</option>
+                                    ))}
+                                </Input>
                             </FormGroup>
                         </Col>
                         <Col style={{ background: "yellow" }} >
                             <FormGroup>
-                                <Label for="genders">
-                                    Genre :
-                                </Label>
-                                <InputGroup>
-                                    <Dropdown
-                                        isOpen={gendersDropdownOpen}
-                                        toggle={toggleGenders}
-                                        disabled={genders.length === 0}
-                                    >
-                                        <DropdownToggle caret color="primary">Genres</DropdownToggle>
-                                        <DropdownMenu>
-                                            {
-                                                genders.map((gender, id) => <DropdownItem key={id}>{gender}</DropdownItem>)
-                                            }
-                                        </DropdownMenu>
-                                    </Dropdown>
-                                </InputGroup>
+                                <Label for="genders">Genre :</Label>
+                                <Input type="select" name="selectGender" id="selectGender" isOpen={gendersDropdownOpen} toggle={toggleGenders} disabled={genders.length === 0}>
+                                    <option value="">Sélection</option>
+                                    {genders.map((gender, id) => (
+                                        <option key={id} value={gender}>{gender}</option>
+                                    ))}
+                                </Input>
                             </FormGroup>
                         </Col>
-                        <Col style={{ background: "#24BDDF" }} >
+                        <Col style={{ background: "#24BDDF" }}>
                             <FormGroup>
-                                <Label for="sizes">
-                                    Taille :
-                                </Label>
-                                <InputGroup>
-                                    <Dropdown
-                                        isOpen={sizesDropdownOpen}
-                                        toggle={toggleSizes}
-                                        disabled={sizes.length === 0}
-                                    >
-                                        <DropdownToggle caret color="primary">Tailles</DropdownToggle>
-                                        <DropdownMenu>
-                                            {
-                                                sizes.map((size, id) => <DropdownItem key={id}>{size}</DropdownItem>)
-                                            }
-                                        </DropdownMenu>
-                                    </Dropdown>
-                                </InputGroup>
+                                <Label for="sizes">Taille :</Label>
+                                <Input type="select" name="selectSize" id="selectSize" isOpen={sizesDropdownOpen} toggle={toggleSizes} disabled={sizes.length === 0}>
+                                    <option value="">Sélection</option>
+                                    {sizes.map((size, id) => (
+                                        <option key={id} value={size}>{size}</option>
+                                    ))}
+                                </Input>
                             </FormGroup>
                         </Col>
                         <Col style={{ background: "white" }} >

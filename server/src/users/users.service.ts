@@ -2,7 +2,8 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './DTOs/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { QueryFailedError, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
+const bcrypt = require("bcrypt")
 
 @Injectable()
 export class UsersService {
@@ -18,8 +19,9 @@ export class UsersService {
     async create(user: CreateUserDto): Promise<User> {
         if (await this.findByEmail(user.email)) {
            throw new HttpException("Email already used", HttpStatus.BAD_REQUEST);
-        }
+        } 
         else {
+            user.password = bcrypt.hashSync(user.password, 10);
             const newUser = this.usersRepository.create(user);
             if (!newUser) {
                 throw new HttpException("User not created", HttpStatus.INTERNAL_SERVER_ERROR);

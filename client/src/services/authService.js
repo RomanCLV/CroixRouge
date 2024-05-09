@@ -1,9 +1,5 @@
-import { cryptePassword } from "./cryptePasswordService";
-
 export default auth = async (username, password) => {
-    const API_URL = process.env.API_URL;
-    const url = `${API_URL}/auth`;
-    const hashedPassword = await cryptePassword(password);
+    const url = `${process.env.REACT_APP_API_URL}/auth`;
 
     return await fetch(url, {
         method: 'POST',
@@ -12,7 +8,7 @@ export default auth = async (username, password) => {
         },
         body: JSON.stringify({
             username: username,
-            password: hashedPassword
+            password: password
         })
     })
     .then(res => res.json())

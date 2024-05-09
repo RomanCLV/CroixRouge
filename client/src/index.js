@@ -34,10 +34,10 @@ import { citiesLoader } from "./router/loaders/citiesLoader";
 import { selectedCityLoader } from "./router/loaders/selectedCityLoader";
 import { searchLoader } from "./router/loaders/searchLoader";
 import { productLoader } from "./router/loaders/productLoader";
+import RequireHasProducts from "./router/requires/RequireHasProducts";
 
 import './styles/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import RequireHasProducts from "./router/requires/RequireHasProducts";
 import AddProduct from './views/AddProduct';
 
 // useful links:

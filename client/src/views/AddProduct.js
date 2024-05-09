@@ -9,56 +9,51 @@ import { ROUTES } from "../router/routes";
 import product from "../services/addProductService";
 
 function AddProduct() {
-
     const navigate = useNavigate();
     const [title, setTitle] = useState("");
     const [price, setPrice] = useState("");
     const [description, setDescription] = useState("");
-
     const [isFormValid, setIsFormValid] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
-
-        const valid = valueNotEmpty(title) &&
-            valueNotEmpty(price) &&
-            valueNotEmpty(description);
-        if (valid !== isFormValid) {
-            setIsFormValid(valid);
-        }
-    }, [title, price, description, isFormValid]);
+        const valid = valueNotEmpty(title) && valueNotEmpty(price) && valueNotEmpty(description);
+        setIsFormValid(valid);
+    }, [title, price, description]);
 
     const valueNotEmpty = (value) => value.length !== 0;
 
-    const onTitleChanged = (value) => {
-        setTitle(value);
-    }
+    const onTitleChanged = (value) => setTitle(value);
+    const onPriceChanged = (value) => setPrice(value);
+    const onDescriptionChanged = (value) => setDescription(value);
 
-    const onPriceChanged = (value) => {
-        setPrice(value);
-    }
+    const city = { id: 1 };
+    const size = { id: 1 };
+    const gender = { id: 1 };
+    const category = { id: 1 };
+    const state = 5;
 
-    const onDescriptionChanged = (value) => {
-        setDescription(value);
-    }
+    const createProductData = () => {
+        const numeric = parseFloat(price, state);
+        return { title, price: numeric, description, city, size, gender, category, state: numeric };
+    };
 
     const onSubmit = async () => {
-        const valid = valueNotEmpty(title) &&
-            valueNotEmpty(price) &&
-            valueNotEmpty(description);
-        if (!valid) {
+        const productData = createProductData();
+        if (!isFormValid) {
             setErrorMessage("Veuillez saisir tous les champs obligatoires.");
             return;
         }
 
-        const result = await product(title, price, description);
+        console.log("Données du produit à envoyer :", productData);
+
+        const result = await product(productData);
         if (result.error) {
             setErrorMessage(result.error.message);
-        }
-        else {
+        } else {
             navigate(ROUTES.addProduct);
         }
-    }
+    };
 
     //Boutton Catégorie
     const [categories, setCategories] = useState([]);

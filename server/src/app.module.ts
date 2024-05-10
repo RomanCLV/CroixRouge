@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 
 import { ProductsModule } from './products/products.module';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
 import { SizesModule } from './sizes/sizes.module';
 import { GendersModule } from './genders/genders.module';
@@ -26,7 +27,7 @@ import { JsonHeaderMiddleware } from './middlewares/json-header.middleware';
 
 @Module({
     imports: [
-        ConfigModule.forRoot({ isGlobal: true, envFilePath: ".env.development.local" }),
+        ConfigModule.forRoot({ envFilePath: ".env.development.local" }),
         TypeOrmModule.forRoot({
             type: 'mysql',
             host: process.env.DATABASE_HOST,
@@ -35,8 +36,9 @@ import { JsonHeaderMiddleware } from './middlewares/json-header.middleware';
             password: process.env.DATABASE_PASSWORD,
             database: process.env.DATABASE_NAME,
             entities: [Category, Size, Gender, User, City, Product, ProductImage, Cart, CityAdmin, SuperAdmin],
-            synchronize: false, //Boolean(process.env.DEBUG),
+            synchronize: false,
         }),
+        AuthModule,
         UsersModule,
         CitiesModule,
         CategoriesModule,

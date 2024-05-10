@@ -12,14 +12,19 @@ function AddProduct() {
     const navigate = useNavigate();
     const [title, setTitle] = useState("");
     const [price, setPrice] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("");
+    const [selectedGender, setSelectedGender] = useState("");
+    const [selectedSize, setSelectedSize] = useState("");
+    const [selectedRating, setSelectedRating] = useState(3);
     const [description, setDescription] = useState("");
     const [isFormValid, setIsFormValid] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
+
     useEffect(() => {
-        const valid = valueNotEmpty(title) && valueNotEmpty(price) && valueNotEmpty(description);
+        const valid = valueNotEmpty(title) && valueNotEmpty(price) && selectedCategory && selectedGender && selectedSize && valueNotEmpty(description);
         setIsFormValid(valid);
-    }, [title, price, description]);
+    }, [title, price, selectedCategory, selectedGender, selectedSize, description]);
 
     const valueNotEmpty = (value) => value.length !== 0;
 
@@ -28,14 +33,14 @@ function AddProduct() {
     const onDescriptionChanged = (value) => setDescription(value);
 
     const city = { id: 1 };
-    const size = { id: 1 };
-    const gender = { id: 1 };
-    const category = { id: 1 };
-    const state = 5;
 
     const createProductData = () => {
-        const numeric = parseFloat(price, state);
-        return { title, price: numeric, description, city, size, gender, category, state: numeric };
+        const numericPrice = parseFloat(price);
+        const numericCategory = parseInt(selectedCategory);
+        const numericGender = parseInt(selectedGender);
+        const numericSize = parseInt(selectedSize);
+        const numericState = parseInt(selectedRating);
+        return { title, price: numericPrice, description, city, size: { id: numericSize }, gender: { id: numericGender }, category: { id: numericCategory }, state: numericState }; // Utilisation de la catégorie sélectionnée
     };
 
     const onSubmit = async () => {
@@ -108,6 +113,10 @@ function AddProduct() {
         fetchData();
     }, []);
 
+    const handleRatingChanged = (newRating) => {
+        setSelectedRating(newRating);
+    };
+
     return (
         <Container>
             <Row>
@@ -131,9 +140,6 @@ function AddProduct() {
                         <Col md={6} style={{ background: "green" }} >
                             <p>Titre :</p>
                             <FormGroup>
-                                {
-                                    errorMessage && <p className={"errorElement"}>{errorMessage}</p>
-                                }
                                 <InputManager
                                     id={"inputTitle"}
                                     name={"title"}
@@ -150,15 +156,16 @@ function AddProduct() {
                                         "Titre déjà utilisé."
                                     ]}
                                     onChange={onTitleChanged}
+
                                 />
+                                {
+                                    errorMessage && <p className={"errorElement"}>{errorMessage}</p>
+                                }
                             </FormGroup>
                         </Col>
                         <Col md={6} style={{ background: "green" }} >
                             <p>Prix :</p>
                             <FormGroup>
-                                {
-                                    errorMessage && <p className={"errorElement"}>{errorMessage}</p>
-                                }
                                 <InputManager
                                     id={"inputPrice"}
                                     name={"price"}
@@ -187,10 +194,10 @@ function AddProduct() {
                         <Col style={{ background: "#DD7777" }}>
                             <FormGroup>
                                 <Label for="categories">Catégorie :</Label>
-                                <Input type="select" name="selectCategory" id="selectCategory" isOpen={categoriesDropdownOpen} toggle={toggleCategories} disabled={categories.length === 0}>
+                                <Input type="select" name="selectCategory" id="selectCategory" value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} disabled={categories.length === 0}>
                                     <option value="">Sélection</option>
                                     {categories.map((category, id) => (
-                                        <option key={id} value={category}>{category}</option>
+                                        <option key={id} value={id + 1}>{category}</option>
                                     ))}
                                 </Input>
                             </FormGroup>
@@ -198,10 +205,10 @@ function AddProduct() {
                         <Col style={{ background: "yellow" }} >
                             <FormGroup>
                                 <Label for="genders">Genre :</Label>
-                                <Input type="select" name="selectGender" id="selectGender" isOpen={gendersDropdownOpen} toggle={toggleGenders} disabled={genders.length === 0}>
+                                <Input type="select" name="selectGender" id="selectGender" value={selectedGender} onChange={(e) => setSelectedGender(e.target.value)} disabled={genders.length === 0}>
                                     <option value="">Sélection</option>
                                     {genders.map((gender, id) => (
-                                        <option key={id} value={gender}>{gender}</option>
+                                        <option key={id} value={id + 1}>{gender}</option>
                                     ))}
                                 </Input>
                             </FormGroup>
@@ -209,19 +216,19 @@ function AddProduct() {
                         <Col style={{ background: "#24BDDF" }}>
                             <FormGroup>
                                 <Label for="sizes">Taille :</Label>
-                                <Input type="select" name="selectSize" id="selectSize" isOpen={sizesDropdownOpen} toggle={toggleSizes} disabled={sizes.length === 0}>
+                                <Input type="select" name="selectSize" id="selectSize" value={selectedSize} onChange={(e) => setSelectedSize(e.target.value)} disabled={sizes.length === 0}>
                                     <option value="">Sélection</option>
                                     {sizes.map((size, id) => (
-                                        <option key={id} value={size}>{size}</option>
+                                        <option key={id} value={id + 1}>{size}</option>
                                     ))}
                                 </Input>
                             </FormGroup>
                         </Col>
-                        <Col style={{ background: "white" }} >
+                        <Col style={{ background: "white" }}>
                             <Label for="stars">
-                                Etat :
+                                État :
                             </Label>
-                            <StarRating rating={3} />
+                            <StarRating rating={selectedRating} onRatingChanged={handleRatingChanged} />
                         </Col>
                     </Row>
                     <Row>

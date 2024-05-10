@@ -2,12 +2,12 @@ import { Body, Controller, Post, UseFilters, UseInterceptors, UsePipes } from '@
 import { CreateUserDto, createUserSchema } from './DTOs/create-user.dto';
 import { CanCreateUserDto, canCreateUserSchema } from './DTOs/can-create-user.dto';
 import { UsersService } from './users.service';
-import { User } from './user.entity';
 import { DatabaseException } from 'src/filters/databaseException.filter';
-import { UserInterceptor } from './interceptors/user.interceptor';
 import { CreateUserPipe } from './pipes/create-user.pipe';
 import { CanCreateUserPipe } from './pipes/can-create-user.pipe';
 import { BooleanInterceptor } from 'src/interceptors/boolean.interceptor';
+import { UserJWTAssociation } from 'src/auth/interfaces/user-jwt-association.interface';
+import { UserJWTInterceptor } from 'src/auth/interceptors/user-jwt.interceptor';
 
 @Controller('users')
 export class UsersController {
@@ -17,8 +17,8 @@ export class UsersController {
     @Post("register")
     @UseFilters(DatabaseException)
     @UsePipes(new CreateUserPipe(createUserSchema))
-    @UseInterceptors(UserInterceptor)
-    register(@Body() user: CreateUserDto): Promise<User> {
+    @UseInterceptors(UserJWTInterceptor)
+    register(@Body() user: CreateUserDto): Promise<UserJWTAssociation> {
         return this.usersService.register(user);
     }
 

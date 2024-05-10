@@ -26,7 +26,6 @@ const Signup = () => {
             valueNotEmpty(email) &&
             valueNotEmpty(password) &&
             validateEmail(email);
-            //isEmailFree(email);
         if (valid !== isFormValid) {
             setIsFormValid(valid);
         }
@@ -41,9 +40,7 @@ const Signup = () => {
     };
 
     const isEmailFree = async (email) => {
-        console.log("isEmailFree")
         const result = await canRegister(email);
-        console.log("cr:", result)
         if (result) {
             if (result.error) {
                 setErrorMessage(result.error.message);

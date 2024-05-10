@@ -1,15 +1,19 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './DTOs/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from "bcrypt"
+import { AuthService } from 'src/auth/auth.service';
+import { UserJWTAssociation } from 'src/auth/interfaces/user-jwt-association.interface';
 
 @Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(User)
         private readonly usersRepository: Repository<User>,
+        @Inject(AuthService)
+        private readonly authService: AuthService,
     ) {}
 
     private validateEmail(email: string) {
@@ -22,7 +26,7 @@ export class UsersService {
         return await this.usersRepository.findOne({ where: { email: email } })
     }
 
-    async register(user: CreateUserDto): Promise<User> {
+    async register(user: CreateUserDto): Promise<UserJWTAssociation> {
         if (await this.canRegister(user.email)) {
             const hashedPassword = bcrypt.hashSync(user.password, 10);
             const newUser = this.usersRepository.create({
@@ -33,7 +37,17 @@ export class UsersService {
             if (!newUser) {
                 throw new HttpException("User not created.", HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            return await this.usersRepository.save(newUser);
+            const result = await this.usersRepository.save(newUser);
+            if (result) {
+                const userJWT: UserJWTAssociation = {
+                    user: result,
+                    jwt: this.authService.userToJWT(result)
+                };
+                return userJWT;
+            }
+            else {
+                throw new HttpException("User not saved.", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
         else {
             throw new HttpException("Email already used.", HttpStatus.NOT_ACCEPTABLE);

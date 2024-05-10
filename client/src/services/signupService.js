@@ -13,7 +13,6 @@ export const canRegister = async (email) => {
     })
     .then(res => res.json())
     .then(result => {
-        console.log("cr-c:", result);
         return result;
     })
     .catch((error) => ({ error: error.message }));

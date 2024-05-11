@@ -5,7 +5,6 @@ import {
     Container,
     Form, Row,
 } from "reactstrap";
-import { useCookies } from 'react-cookie';
 //import {login} from "../data/data";
 import {auth, status} from "../services/authService"
 import {useDispatch} from "react-redux";
@@ -24,8 +23,6 @@ const Login = () => {
 
     const [isFormValid, setIsFormValid] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    // eslint-disable-next-line
-    const [cookies, setCookie] = useCookies(['jwt']);
 
     const successAuth = useCallback((user) => {
         dispatch(setUser(user));
@@ -40,10 +37,11 @@ const Login = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        console.log("Login cookies:", cookies.jwt);
-        if (cookies.jwt) {
+        const currentJWT = localStorage.getItem('jwt');
+        console.log("local jwt:", currentJWT);
+        if (currentJWT) {
             const fetchStatus = async () => {
-                const result = await status(cookies.jwt);
+                const result = await status(currentJWT);
                 console.log("status result:", result);
                 if (!result.error) {
                     successAuth(result);
@@ -58,7 +56,7 @@ const Login = () => {
             setIsFormValid(isValid);
         }
 
-    }, [username, password, isFormValid, cookies.jwt, successAuth]);
+    }, [username, password, isFormValid, successAuth]);
 
     const valueNotEmpty = (value) => value.length !== 0;
 

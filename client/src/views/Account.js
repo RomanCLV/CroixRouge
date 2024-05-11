@@ -5,7 +5,6 @@ import {
     Col,
     Container, Modal, ModalBody, ModalFooter, ModalHeader, Row
 } from "reactstrap";
-import { useCookies } from "react-cookie";
 import {useDispatch, useSelector} from "react-redux";
 import {logout, selectUser} from "../store/slices/userSlice";
 
@@ -15,11 +14,9 @@ const Account = () => {
     const dispatch = useDispatch();
 
     const [modal, setModal] = useState(false);
-    // eslint-disable-next-line
-    const [cookies, setCookies, removeCookies] = useCookies("jwt");
 
     const onLogoutClick = () => {
-        removeCookies("jwt");
+        localStorage.removeItem("jwt");
         dispatch(logout());
     };
 

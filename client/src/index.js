@@ -6,7 +6,6 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
-import { CookiesProvider } from 'react-cookie';
 
 import store from "./store/store";
 import { ROUTES } from "./router/routes";
@@ -127,9 +126,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <Provider store={store}>
-            <CookiesProvider defaultSetOptions={{ path: '/' }}>
-                <RouterProvider router={router} />
-            </CookiesProvider>
+            <RouterProvider router={router} />
         </Provider>
     </React.StrictMode>
 );

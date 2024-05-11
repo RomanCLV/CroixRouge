@@ -35,8 +35,6 @@ export const status = async (jwt) => {
     })
     .then(res => res.json())
     .then(user => {
-        console.log("auth:")
-        console.log(user)
         if (!user) {
             throw new Error("Identifiants incorrects.");
         }

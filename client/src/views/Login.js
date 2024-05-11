@@ -38,7 +38,6 @@ const Login = () => {
 
     useEffect(() => {
         const currentJWT = localStorage.getItem('jwt');
-        console.log("local jwt:", currentJWT);
         if (currentJWT) {
             const fetchStatus = async () => {
                 const result = await status(currentJWT);

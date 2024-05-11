@@ -1,18 +1,50 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import {
     Toast, ToastBody, ToastHeader
 } from "reactstrap";
+import {useSelector, useDispatch} from "react-redux";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import './styles/App.css';
-import {useSelector} from "react-redux";
+import {status} from "./services/authService"
 import {selectToast} from "./store/slices/toastSlice";
+import {isConnected, setUser} from "./store/slices/userSlice";
+import {clearToast, setToast} from "./store/slices/toastSlice";
 
 function App() {
-
+    console.log("app loaded")
+    const dispatch = useDispatch();
     const toast = useSelector(selectToast);
+    const userIsConnected = useSelector(isConnected);
+
+    const successAuth = useCallback((user) => {
+        dispatch(setUser(user));
+        dispatch(setToast({
+            type: "success",
+            title: "Connexion réussie",
+            message: "Heureux de vous revoir " + user.username + " !"
+        }));
+        setTimeout(() => {
+            dispatch(clearToast());
+        }, 3000);
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (!userIsConnected) {
+            const currentJWT = localStorage.getItem('jwt');
+            if (currentJWT) {
+                const fetchStatus = async () => {
+                    const result = await status(currentJWT);
+                    if (!result.error) {
+                        successAuth(result);
+                    }
+                };
+                fetchStatus();
+            }
+        }
+    }, [userIsConnected, successAuth]);
 
     return (
         <div>

@@ -5,7 +5,6 @@ import {
     Container,
     Form, Row,
 } from "reactstrap";
-//import {login} from "../data/data";
 import {auth, status} from "../services/authService"
 import {useDispatch} from "react-redux";
 import {setUser} from "../store/slices/userSlice";
@@ -41,7 +40,6 @@ const Login = () => {
         if (currentJWT) {
             const fetchStatus = async () => {
                 const result = await status(currentJWT);
-                console.log("status result:", result);
                 if (!result.error) {
                     successAuth(result);
                 }

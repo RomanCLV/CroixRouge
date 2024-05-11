@@ -4,10 +4,10 @@ import {
     Button,
     Container, Form, Row
 } from "reactstrap";
+import { useCookies } from 'react-cookie';
 import InputManager from "../components/InputManager";
 import {Link, useNavigate} from "react-router-dom";
 import {ROUTES} from "../router/routes";
-// import {getUserByEmail, getUserByUsername, signIn} from "../data/data";
 import {signup, canRegister} from "../services/signupService";
 
 const Signup = () => {
@@ -19,6 +19,9 @@ const Signup = () => {
 
     const [isFormValid, setIsFormValid] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+
+    // eslint-disable-next-line
+    const [cookies, setCookie] = useCookies(['jwt']);
 
     useEffect(() => {
 
@@ -94,6 +97,8 @@ const Signup = () => {
             setErrorMessage(result.error.message);
         }
         else {
+            console.log("res:", result);
+            setCookie("jwt", result.jwt);
             navigate(ROUTES.login);
         }
     }

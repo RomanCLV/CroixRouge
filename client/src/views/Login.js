@@ -1,12 +1,13 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useCallback} from "react";
 import "../styles/Login.css";
 import {
     Button,
     Container,
     Form, Row,
 } from "reactstrap";
-import {login} from "../data/data";
-// import {auth} from "../services/authService"
+import { useCookies } from 'react-cookie';
+//import {login} from "../data/data";
+import {auth, status} from "../services/authService"
 import {useDispatch} from "react-redux";
 import {setUser} from "../store/slices/userSlice";
 import {Link} from "react-router-dom";
@@ -23,18 +24,49 @@ const Login = () => {
 
     const [isFormValid, setIsFormValid] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+    // eslint-disable-next-line
+    const [cookies, setCookie] = useCookies(['jwt']);
+
+    const successAuth = useCallback((user) => {
+        dispatch(setUser(user));
+        dispatch(setToast({
+            type: "success",
+            title: "Connexion réussie",
+            message: "Heureux de vous revoir " + user.username + " !"
+        }));
+        setTimeout(() => {
+            dispatch(clearToast());
+        }, 3000);
+    }, [dispatch]);
 
     useEffect(() => {
-
+        console.log("Login cookies:", cookies.jwt);
+        if (cookies.jwt) {
+            const fetchStatus = async () => {
+                const result = await status(cookies.jwt);
+                console.log("status result:", result);
+                if (!result.error) {
+                    successAuth(result);
+                }
+            };
+            fetchStatus();
+        }
+        
         const isValid = valueNotEmpty(username) &&
             valueNotEmpty(password);
         if (isValid !== isFormValid) {
             setIsFormValid(isValid);
         }
 
-    }, [username, password, isFormValid]);
+    }, [username, password, isFormValid, cookies.jwt, successAuth]);
 
     const valueNotEmpty = (value) => value.length !== 0;
+
+    const validateEmail = (email) => {
+        return email.match(
+            /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        ) !== null;
+    };
 
     const onUsernameChanged = (value) => {
         setUsername(value);
@@ -50,24 +82,14 @@ const Login = () => {
             return;
         }
 
-        const user = login({
-            username: username,
-            password: password
-        });
+        const user = auth(username, password);
+        
         if (user.error) {
             setErrorMessage(user.error);
             setPassword("");
         }
         else {
-            dispatch(setUser(user));
-            dispatch(setToast({
-                type: "success",
-                title: "Connexion réussie",
-                message: "Heureux de vous revoir " + user.username + " !"
-            }));
-            setTimeout(() => {
-                dispatch(clearToast());
-            }, 3000);
+            successAuth(user);
         }
     }
 
@@ -81,16 +103,18 @@ const Login = () => {
                 <InputManager
                     id={"inputUsername"}
                     name={"username"}
-                    label={"Email ou nom d'utilisateur"}
-                    placeholder={"Email ou nom d'utilisateur"}
+                    label={"Email"}
+                    placeholder={"Email"}
                     type={null}
                     required={true}
                     value={username}
                     validators={[
-                        valueNotEmpty
+                        valueNotEmpty,
+                        validateEmail
                     ]}
                     feedbackMessages={[
                         "Champ obligatoire.",
+                        "Veuillez saisir un email valide.",
                     ]}
                     onChange={onUsernameChanged}
                 />

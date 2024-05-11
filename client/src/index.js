@@ -6,6 +6,7 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
+import { CookiesProvider } from 'react-cookie';
 
 import store from "./store/store";
 import { ROUTES } from "./router/routes";
@@ -28,6 +29,7 @@ import SignUp from "./views/Signup";
 import Account from "./views/Account";
 import PasswordReset from "./views/PasswordReset";
 import ErrorPage from "./views/ErrorPage";
+import AddProduct from './views/AddProduct';
 
 import { generateData } from "./data/data";
 import { citiesLoader } from "./router/loaders/citiesLoader";
@@ -38,7 +40,6 @@ import RequireHasProducts from "./router/requires/RequireHasProducts";
 
 import './styles/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import AddProduct from './views/AddProduct';
 
 // useful links:
 // Repo Git    : https://github.com/Estia-1a/sgv_etu_2022-theambersunflower
@@ -126,7 +127,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <Provider store={store}>
-            <RouterProvider router={router} />
+            <CookiesProvider defaultSetOptions={{ path: '/' }}>
+                <RouterProvider router={router} />
+            </CookiesProvider>
         </Provider>
     </React.StrictMode>
 );

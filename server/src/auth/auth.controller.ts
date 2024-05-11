@@ -1,22 +1,30 @@
-import { Body, Controller, Post, UseFilters, UseInterceptors, UsePipes } from '@nestjs/common';
-import { LoginPipe } from './pipes/LoginPipe.pipe';
-import { LoginDto, loginSchema } from './DTOs/login.dto';
+import { Controller, Get, Post, Req, UseFilters, UseGuards, UseInterceptors, UsePipes } from '@nestjs/common';
+import { LoginPipe } from './pipes/login.pipe';
+import { loginSchema } from './DTOs/login.dto';
 import { DatabaseException } from 'src/filters/databaseException.filter';
-import { UserInterceptor } from 'src/users/interceptors/user.interceptor';
 import { AuthService } from './auth.service';
-import { User } from 'src/users/user.entity';
-import { UserJWTAssociation } from './interfaces/user-jwt-association.interface';
-import { UserJWTInterceptor } from './interceptors/user-jwt.interceptor';
+import { LocalGuard } from './guards/local.guard';
+import { JwtGuard } from './guards/jwt.guard';
+import { Request } from 'express';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
 
 @Controller('auth')
 export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
     @Post("login")
+    @UseGuards(LocalGuard)
     @UsePipes(new LoginPipe(loginSchema))
     @UseFilters(DatabaseException)
-    @UseInterceptors(UserJWTInterceptor)
-    async login(@Body() user: LoginDto): Promise<UserJWTAssociation> {
-        return await this.authService.login(user);
+    @UseInterceptors(JwtInterceptor)
+    login(@Req() req: Request) {
+        return req.user;
+    }
+
+    @Get("status")
+    @UseGuards(JwtGuard)
+    @UseFilters(DatabaseException)
+    status(@Req() req: Request) {
+        return req.user;
     }
 }

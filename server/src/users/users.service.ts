@@ -5,7 +5,6 @@ import { User } from './user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from "bcrypt"
 import { AuthService } from 'src/auth/auth.service';
-import { UserJWTAssociation } from 'src/auth/interfaces/user-jwt-association.interface';
 
 @Injectable()
 export class UsersService {
@@ -26,7 +25,7 @@ export class UsersService {
         return await this.usersRepository.findOne({ where: { email: email } })
     }
 
-    async register(user: CreateUserDto): Promise<UserJWTAssociation> {
+    async register(user: CreateUserDto): Promise<string> {
         if (await this.canRegister(user.email)) {
             const hashedPassword = bcrypt.hashSync(user.password, 10);
             const newUser = this.usersRepository.create({
@@ -39,11 +38,7 @@ export class UsersService {
             }
             const result = await this.usersRepository.save(newUser);
             if (result) {
-                const userJWT: UserJWTAssociation = {
-                    user: result,
-                    jwt: this.authService.userToJWT(result)
-                };
-                return userJWT;
+                return this.authService.userToJWT(result);
             }
             else {
                 throw new HttpException("User not saved.", HttpStatus.INTERNAL_SERVER_ERROR);

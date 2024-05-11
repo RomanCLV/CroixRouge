@@ -5,7 +5,6 @@ import { Repository } from 'typeorm';
 import { LoginDto } from './DTOs/login.dto';
 import { User } from 'src/users/user.entity';
 import * as bcrypt from "bcrypt";
-import { UserJWTAssociation } from './interfaces/user-jwt-association.interface';
 
 @Injectable()
 export class AuthService {
@@ -15,15 +14,11 @@ export class AuthService {
         private readonly jwtService: JwtService
     ) {}
 
-    async login(loginData: LoginDto): Promise<UserJWTAssociation> {
-        const user = await this.usersRepository.findOne({where: { email: loginData.email }});
+    async login(loginData: LoginDto): Promise<string> {
+        const user = await this.usersRepository.findOne({where: { email: loginData.username }});
         if (user) {
             if (bcrypt.compareSync(loginData.password, user.password)) {
-                const userJWT: UserJWTAssociation = {
-                    user: user,
-                    jwt: this.userToJWT(user)
-                }
-                return userJWT;
+                return this.userToJWT(user);
             }
             else {
                 throw new HttpException("Invalid credentials.", HttpStatus.UNAUTHORIZED);
@@ -37,9 +32,9 @@ export class AuthService {
     userToJWT(user: User): string {
         const payload = {
             username: user.username,
-            email: user.email
+            email: user.email,
+            imagePath: user.image_path
         };
         return this.jwtService.sign(payload);
     }
-
 }

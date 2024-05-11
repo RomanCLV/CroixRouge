@@ -12,6 +12,7 @@ export class UserInterceptor implements NestInterceptor<User> {
                 user: {
                     username: data.username,
                     email: data.email,
+                    imagePath: data.image_path,
                     creationDate: data.creation_date
                 }
             }))

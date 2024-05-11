@@ -10,7 +10,10 @@ export class UsersInterceptor implements NestInterceptor<User[]> {
         return next.handle().pipe(
             map((data: User[]) => ({ 
                 users: data.map(user => ({
-                    username: user.username
+                    username: user.username,
+                    email: user.email,
+                    imagePath: user.image_path,
+                    creationDate: user.creation_date
                 }))  
             }))
         );

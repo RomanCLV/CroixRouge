@@ -2,15 +2,15 @@ import { PipeTransform, ArgumentMetadata, BadRequestException } from '@nestjs/co
 import { ZodSchema  } from 'zod';
 
 export class CreateUserPipe implements PipeTransform {
-  constructor(private schema: ZodSchema) {}
+    constructor(private schema: ZodSchema) {}
 
-  transform(value: unknown, metadata: ArgumentMetadata) {
-    try {
-      const parsedValue = this.schema.parse(value);
-      return parsedValue;
-    } 
-    catch (error) {
-      throw new BadRequestException('Invalid data');
+    transform(value: unknown, metadata: ArgumentMetadata) {
+        try {
+            const parsedValue = this.schema.parse(value);
+            return parsedValue;
+        } 
+        catch (error) {
+            throw new BadRequestException('Invalid data');
+        }
     }
-  }
 }

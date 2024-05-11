@@ -17,6 +17,6 @@ export class User {
     @CreateDateColumn()
     creation_date: Date;
 
-    @Column({ length: 256 })
+    @Column({ length: 256, default: "" })
     image_path: string;
 }

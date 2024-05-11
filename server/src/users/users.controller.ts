@@ -6,19 +6,17 @@ import { DatabaseException } from 'src/filters/databaseException.filter';
 import { CreateUserPipe } from './pipes/create-user.pipe';
 import { CanCreateUserPipe } from './pipes/can-create-user.pipe';
 import { BooleanInterceptor } from 'src/interceptors/boolean.interceptor';
-import { UserJWTAssociation } from 'src/auth/interfaces/user-jwt-association.interface';
-import { UserJWTInterceptor } from 'src/auth/interceptors/user-jwt.interceptor';
+import { JwtInterceptor } from 'src/auth/interceptors/jwt.interceptor';
 
 @Controller('users')
 export class UsersController {
-
     constructor(private readonly usersService: UsersService) {}
 
     @Post("register")
     @UseFilters(DatabaseException)
     @UsePipes(new CreateUserPipe(createUserSchema))
-    @UseInterceptors(UserJWTInterceptor)
-    register(@Body() user: CreateUserDto): Promise<UserJWTAssociation> {
+    @UseInterceptors(JwtInterceptor)
+    register(@Body() user: CreateUserDto): Promise<string> {
         return this.usersService.register(user);
     }
 

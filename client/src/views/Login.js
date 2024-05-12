@@ -85,6 +85,7 @@ const Login = () => {
             setPassword("");
         }
         else {
+            localStorage.setItem("jwt", result.jwt);
             const user = await status(result.jwt);
             successAuth(user);
         }

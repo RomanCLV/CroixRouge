@@ -22,6 +22,9 @@ const Account = () => {
 
     const toggle = () => setModal(!modal);
 
+    const defaultImagePath = process.env.PUBLIC_URL + "/assets/images/default.png";
+    console.log(defaultImagePath)
+
     return (
         <Container className={"margin-top-10vh"}>
             <Modal isOpen={modal} toggle={toggle}>
@@ -45,7 +48,7 @@ const Account = () => {
             <Row className={"mainContentView"}>
                 <Col xs={3}>
                     <Card className={"border-0"}>
-                        <img src={user.avatar} alt={"avatar"} />
+                        <img src={(user.imagePath ? user.imagePath : defaultImagePath)} alt={"avatar"} />
                     </Card>
                 </Col>
                 <Col xs={{

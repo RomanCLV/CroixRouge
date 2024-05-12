@@ -23,7 +23,7 @@ const Cities = () => {
             <div className={"redFilledRectangle"}>
                 <Container>
                     <Row>
-                        <Col xs={{size: 4, offset: 4}}>
+                        <Col md={{size: 4, offset: 4}} xs={{size: 8, offset: 2}}>
                             <Input
                                 type="search"
                                 id="search"

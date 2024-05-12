@@ -10,9 +10,17 @@ export class CitiesService {
         private readonly citiesRepository: Repository<City>
     ) {}
 
-    async findAll(limit?: number): Promise<City[]> {
-        return limit != null ?
-            await this.citiesRepository.find({ take: limit }) :
-            await this.citiesRepository.find();
+    async findAll(limit?: number, name?: string): Promise<City[]> {
+        let queryBuilder = this.citiesRepository.createQueryBuilder('city');
+
+        if (name) {
+            queryBuilder = queryBuilder.where("city.name LIKE :name", { name: `%${name}%` });
+        }
+
+        if (limit != null && limit > 0) {
+            queryBuilder = queryBuilder.take(limit);
+        }
+
+        return await queryBuilder.getMany();
     }
 }

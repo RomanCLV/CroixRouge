@@ -15,7 +15,7 @@ export class CitiesController {
     @UseInterceptors(CitiesInterceptor)
     @UsePipes(new CitiesPipe(citiesSchema))
     findAll(@Body() body: CitiesDto): Promise<City[]> {
-        const cities = this.citiesService.findAll(body.limit);
+        const cities = this.citiesService.findAll(body.limit, body.name);
         if (!cities) {
             throw new NotFoundException(`cities not found.`)
         }

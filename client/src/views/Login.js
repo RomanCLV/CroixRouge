@@ -39,9 +39,12 @@ const Login = () => {
     useEffect(() => {
         const currentJWT = localStorage.getItem('jwt');
         if (currentJWT && !hasTryAutoAuth) {
+            console.log("currentJWT")
+            console.log(currentJWT)
             const fetchStatus = async () => {
                 const user = await status(currentJWT);
                 if (!user.error) {
+                    console.log("useEffect call successAuth")
                     successAuth(user);
                 }
             };
@@ -79,9 +82,8 @@ const Login = () => {
         }
 
         const result = await auth(username, password);
-        
         if (result.error) {
-            setErrorMessage(result.error);
+            setErrorMessage(result.error.message);
             setPassword("");
         }
         else {

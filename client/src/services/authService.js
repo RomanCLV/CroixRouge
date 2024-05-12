@@ -13,12 +13,16 @@ export const auth = async (username, password) => {
     })
     .then(res => res.json())
     .then(user => {
+        console.log("auth:")
+        console.log(user)
         if (!user || user.error) {
             throw new Error("Identifiants incorrects.");
         }
-        return user;
+        else {
+            return user;
+        }
     })
-    .catch((error) => ({ error: error.message }));
+    .catch(error => ({ error: error }));
 }
 
 export const status = async (jwt) => {
@@ -33,10 +37,12 @@ export const status = async (jwt) => {
     })
     .then(res => res.json())
     .then(user => {
-        if (!user) {
-            throw new Error("Identifiants incorrects.");
+        if (!user || user.error) {
+            throw new Error("Session expirée.");
         }
-        return user;
+        else {
+            return user;
+        }
     })
-    .catch((error) => ({ error: error.message }));
+    .catch((error) => ({ error: error }));
 }

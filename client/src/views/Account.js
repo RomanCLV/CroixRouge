@@ -23,7 +23,6 @@ const Account = () => {
     const toggle = () => setModal(!modal);
 
     const defaultImagePath = process.env.PUBLIC_URL + "/assets/images/default.png";
-    console.log(defaultImagePath)
 
     return (
         <Container className={"margin-top-10vh"}>

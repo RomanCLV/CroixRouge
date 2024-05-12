@@ -2,6 +2,7 @@ import React from "react";
 import {Card, CardBody, CardImg, CardSubtitle, CardTitle} from "reactstrap";
 import {ROUTES} from "../router/routes";
 import {useNavigate} from "react-router-dom";
+//import '../styles/CityCard.css'
 
 const CityCard = (props) => {
 
@@ -21,9 +22,10 @@ const CityCard = (props) => {
         >
             <CardImg
                 alt={"img_" + city.name}
-                src={city.image}
+                src={city.imagePath}
                 top
                 width="100%"
+                style={{"max-height": '200px'}}
             />
             <CardBody>
                 <CardTitle tag="h5">

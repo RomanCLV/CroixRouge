@@ -31,7 +31,7 @@ import ErrorPage from "./views/ErrorPage";
 import AddProduct from './views/AddProduct';
 
 import { generateData } from "./data/data";
-import { citiesLoader } from "./router/loaders/citiesLoader";
+//import { citiesLoader } from "./router/loaders/citiesLoader";
 import { selectedCityLoader } from "./router/loaders/selectedCityLoader";
 import { searchLoader } from "./router/loaders/searchLoader";
 import { productLoader } from "./router/loaders/productLoader";
@@ -64,7 +64,7 @@ const router = createBrowserRouter([
             {
                 path: ROUTES.cities,
                 element: <Cities />,
-                loader: citiesLoader
+                //loader: citiesLoader
             },
             {
                 path: ROUTES.city + "/:id",

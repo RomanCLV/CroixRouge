@@ -10,17 +10,18 @@ export class CitiesService {
         private readonly citiesRepository: Repository<City>
     ) {}
 
-    async findAll(limit?: number, name?: string): Promise<City[]> {
+    async findCities(limit?: number, name?: string): Promise<City[]> {
         let queryBuilder = this.citiesRepository.createQueryBuilder('city');
-
         if (name) {
             queryBuilder = queryBuilder.where("city.name LIKE :name", { name: `%${name}%` });
         }
-
         if (limit != null && limit > 0) {
             queryBuilder = queryBuilder.take(limit);
         }
-
         return await queryBuilder.getMany();
+    }
+
+    async findCoordinates() {
+        return await this.citiesRepository.find();
     }
 }

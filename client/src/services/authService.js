@@ -13,8 +13,6 @@ export const auth = async (username, password) => {
     })
     .then(res => res.json())
     .then(user => {
-        console.log("auth:")
-        console.log(user)
         if (!user || user.error) {
             throw new Error("Identifiants incorrects.");
         }

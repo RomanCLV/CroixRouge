@@ -8,8 +8,8 @@ export class CategoryInterceptor implements NestInterceptor<Category> {
 
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
         return next.handle().pipe(
-            map((data: Category) => ({ 
-                category: data.category 
+            map((category: Category) => ({ 
+                category: category.category 
             }))
         );
     }

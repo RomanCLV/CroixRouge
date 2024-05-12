@@ -8,8 +8,8 @@ export class UsersInterceptor implements NestInterceptor<User[]> {
 
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
         return next.handle().pipe(
-            map((data: User[]) => ({ 
-                users: data.map(user => ({
+            map((users: User[]) => ({ 
+                users: users.map(user => ({
                     username: user.username,
                     email: user.email,
                     imagePath: user.image_path,

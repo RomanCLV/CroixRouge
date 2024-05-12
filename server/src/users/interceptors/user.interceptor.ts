@@ -8,12 +8,12 @@ export class UserInterceptor implements NestInterceptor<User> {
 
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
         return next.handle().pipe(
-            map((data: User) => ({ 
+            map((user: User) => ({ 
                 user: {
-                    username: data.username,
-                    email: data.email,
-                    imagePath: data.image_path,
-                    creationDate: data.creation_date
+                    username: user.username,
+                    email: user.email,
+                    imagePath: user.image_path,
+                    creationDate: user.creation_date
                 }
             }))
         );

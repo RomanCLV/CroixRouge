@@ -12,7 +12,32 @@ import Header from "../components/Header";
 
 const ErrorPage = () => {
     const error = useRouteError();
+    let statusCode = "";
+    let statusText = "";
+    let errorMessage = "unknow";
+    if (error) {
+        if (error.message) {
+            errorMessage = error.message;
+        }
+        else if (error.error && error.error.message) {
+            errorMessage = error.error.message;
+        }
 
+        if (error.statusText) {
+            statusText = error.statusText;
+        }
+        else if (error.error && error.error.statusText) {
+            statusText = error.error.statusText;
+        }
+
+        if (error.statusCode) {
+            statusCode = error.statusCode;
+        }
+        else if (error.error && error.error.statusCode) {
+            statusCode = error.error.statusCode;
+        }
+
+    }
     return (
         <div>
             <Header />
@@ -25,9 +50,11 @@ const ErrorPage = () => {
                     <p>Sorry, an unexpected error has occurred.</p>
                     <Alert color="danger">
                         <p>
-                            <i>{error.statusText}</i>
+                            <i>Status code: {statusCode}</i>
                             <br />
-                            <i>{error.error.message}</i>
+                            <i>Status text: {statusText}</i>
+                            <br />
+                            <i>Message: {errorMessage}</i>
                         </p>
                     </Alert>
                 </Row>

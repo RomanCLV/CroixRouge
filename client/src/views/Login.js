@@ -20,6 +20,7 @@ const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
+    const [hasTryAutoAuth, setHasTryAutoAuth] = useState(false);
     const [isFormValid, setIsFormValid] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -37,23 +38,23 @@ const Login = () => {
 
     useEffect(() => {
         const currentJWT = localStorage.getItem('jwt');
-        if (currentJWT) {
+        if (currentJWT && !hasTryAutoAuth) {
             const fetchStatus = async () => {
-                const result = await status(currentJWT);
-                if (!result.error) {
-                    successAuth(result);
+                const user = await status(currentJWT);
+                if (!user.error) {
+                    successAuth(user);
                 }
             };
             fetchStatus();
+            setHasTryAutoAuth(true);
         }
         
-        const isValid = valueNotEmpty(username) &&
-            valueNotEmpty(password);
+        const isValid = valueNotEmpty(username) && validateEmail(username) && valueNotEmpty(password);
         if (isValid !== isFormValid) {
             setIsFormValid(isValid);
         }
 
-    }, [username, password, isFormValid, successAuth]);
+    }, [username, password, isFormValid, hasTryAutoAuth, successAuth]);
 
     const valueNotEmpty = (value) => value.length !== 0;
 
@@ -71,19 +72,20 @@ const Login = () => {
         setPassword(value);
     }
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
         if (!isFormValid) {
             setErrorMessage("Veuillez saisir tous les champs obligatoires.");
             return;
         }
 
-        const user = auth(username, password);
+        const result = await auth(username, password);
         
-        if (user.error) {
-            setErrorMessage(user.error);
+        if (result.error) {
+            setErrorMessage(result.error);
             setPassword("");
         }
         else {
+            const user = await status(result.jwt);
             successAuth(user);
         }
     }

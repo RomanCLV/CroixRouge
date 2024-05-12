@@ -14,7 +14,6 @@ import {isConnected, setUser} from "./store/slices/userSlice";
 import {clearToast, setToast} from "./store/slices/toastSlice";
 
 function App() {
-    console.log("app loaded")
     const dispatch = useDispatch();
     const toast = useSelector(selectToast);
     const userIsConnected = useSelector(isConnected);

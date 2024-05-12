@@ -1,12 +1,17 @@
-import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { isConnected } from "../../store/slices/userSlice";
 import { ROUTES } from "../routes";
+import { status } from "../../services/authService";
 
-const RequireAuth = ( { children } ) => {
+const RequireAuth = async ( { children } ) => {
 
-    const connected = useSelector(isConnected);
-    if (!connected) {
+    const currentJWT = localStorage.getItem('jwt');
+    if (currentJWT) {
+        const result = await status(currentJWT);
+        if (result.error) {
+            return <Navigate to={ROUTES.login} />
+        }
+    }
+    else {
         return <Navigate to={ROUTES.login} />
     }
     return children;

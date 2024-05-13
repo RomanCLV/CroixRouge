@@ -11,8 +11,6 @@ import { UpdateImagePipe } from './pipes/update-image.pipe';
 import { UpdateImageDto, updateImageSchema } from './DTOs/update-image.dto';
 import { Request } from 'express';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
-import { IsAdminPipe } from './pipes/is-admin.pipe';
-import { IsAdminDto, isAdminSchema } from './DTOs/is-admin.tdo';
 
 @Controller('users')
 export class UsersController {
@@ -46,12 +44,13 @@ export class UsersController {
     @UseFilters(DatabaseException)
     @UseGuards(JwtGuard)
     @UseInterceptors(BooleanInterceptor)
-    async isSuperAdmin(@Req() req: Request, @Body() body: IsAdminDto) {
+    async isSuperAdmin(@Req() req: Request) {
         return await this.usersService.isSuperAdmin(req.user);
     }
 
     @Patch("image")
     @UseFilters(DatabaseException)
+    @UseGuards(JwtGuard)
     @UsePipes(new UpdateImagePipe(updateImageSchema))
     @UseInterceptors(BooleanInterceptor)
     async updateImage(@Req() req: Request, @Body() body: UpdateImageDto): Promise<string> {

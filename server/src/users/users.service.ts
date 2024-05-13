@@ -69,8 +69,9 @@ export class UsersService {
     async updateImagePath(user: any, imagePath: string): Promise<string> {
         const fullUser = await this.findByEmail(user.email);
         if (fullUser) {
-            console.log(fullUser);
-            return "";
+            fullUser.image_path = imagePath;
+            await this.usersRepository.save(fullUser);
+            return fullUser.image_path;
         }
         else {
             throw new NotFoundException("User " + user.email + " not found.");
@@ -101,6 +102,5 @@ export class UsersService {
         else {
             throw new NotFoundException("user" + user.email + " not found");
         }
-
     }
 }

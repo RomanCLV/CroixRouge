@@ -6,8 +6,10 @@ import {
     Container, Modal, ModalBody, ModalFooter, ModalHeader, Row
 } from "reactstrap";
 import {useDispatch, useSelector} from "react-redux";
-import {logout, selectUser} from "../store/slices/userSlice";
+import {logout, selectUser, setUser} from "../store/slices/userSlice";
 import ImagesSelector from "../components/ImagesSelector";
+import { updateImage } from "../services/usersService";
+import { status } from "../services/authService";
 
 const Account = () => {
 
@@ -28,18 +30,25 @@ const Account = () => {
     const defaultImagePath = process.env.PUBLIC_URL + "/assets/images/default.png";
 
     const urlsChanged = (urls) => {
-        const url = urls.length === 0 ? "" : urls[0];
-        console.log("updated:", url)
-        setNewUrl(url)
+        setNewUrl(urls.length === 0 ? "" : urls[0])
     }
 
-    const onValidate = () => {
-        console.log("validate")
-        setUpdatePicture(false);
+    const onValidate = async () => {
+        const result = await updateImage(localStorage.getItem("jwt"), newUrl);
+        if (result.error) {
+            dispatch(logout());
+        }
+        else {
+            const result2 = await status(localStorage.getItem("jwt"));
+            if (!result2.error) {
+                localStorage.setItem("jwt", result2.jwt);
+                dispatch(setUser(result2.user));
+            }
+            setUpdatePicture(false);
+        }
     }
 
     const onCancel = () => {
-        console.log("cancel")
         setUpdatePicture(false);
     }
 

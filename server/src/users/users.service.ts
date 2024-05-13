@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './DTOs/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
@@ -55,5 +55,16 @@ export class UsersService {
             throw new HttpException("Invalid email.", HttpStatus.NOT_ACCEPTABLE);
         }
         return await this.findByEmail(email) === null;
+    }
+
+    async updateImagePath(user: any, imagePath: string): Promise<string> {
+        const fullUser = await this.findByEmail(user.email);
+        if (fullUser) {
+            console.log(fullUser);
+            return "";
+        }
+        else {
+            throw new NotFoundException("User " + user.email + " not found.");
+        }
     }
 }

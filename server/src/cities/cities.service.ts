@@ -8,7 +8,7 @@ export class CitiesService {
     constructor(
         @InjectRepository(City)
         private readonly citiesRepository: Repository<City>
-    ) {}
+    ) { }
 
     async findCities(limit?: number, name?: string): Promise<City[]> {
         let queryBuilder = this.citiesRepository.createQueryBuilder('city');
@@ -21,7 +21,11 @@ export class CitiesService {
         return await queryBuilder.getMany();
     }
 
-    async findCoordinates() {
+    async findCoordinates(): Promise<City[]> {
         return await this.citiesRepository.find();
+    }
+
+    async findCityByName(name: string): Promise<City> {
+        return await this.citiesRepository.findOne({ where: { name: name } })
     }
 }

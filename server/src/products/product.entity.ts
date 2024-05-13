@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDa
 import { City } from '../cities/city.entity';
 import { Size } from '../sizes/size.entity';
 import { Gender } from '../genders/gender.entity';
+import { Category } from '../categories/category.entity';
 
 @Entity("products")
 export class Product {
@@ -31,6 +32,10 @@ export class Product {
     @ManyToOne(() => Gender)
     @JoinColumn({ name: 'gender_id' })
     gender: Gender;
+
+    @ManyToOne(() => Category)
+    @JoinColumn({ name: 'category_id' })
+    category: Category;
 
     @CreateDateColumn()
     creation_date: Date;

@@ -5,6 +5,7 @@ export const createUserSchema = z
         username: z.string(),
         email: z.string(),
         password: z.string(),
+        imagePath: z.string().default("")
     })
     .required();
 

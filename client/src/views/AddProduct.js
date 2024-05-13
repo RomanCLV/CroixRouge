@@ -1,4 +1,4 @@
-import { Container, Row, Col, FormGroup, Label, Input, InputGroup, InputGroupText, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button, Dropdown } from 'reactstrap';
+import { Container, Row, Col, FormGroup, Label, Input, InputGroup, InputGroupText, DropdownToggle, DropdownMenu, DropdownItem, Button, Dropdown } from 'reactstrap';
 import StarRating from '../components/StarRating';
 import { useState, useEffect } from 'react';
 // import CarouselView from './Carousel';

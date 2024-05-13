@@ -31,7 +31,8 @@ export class UsersService {
             const newUser = this.usersRepository.create({
                 username: user.username,
                 email: user.email,
-                password: hashedPassword
+                password: hashedPassword,
+                image_path: user.imagePath
             });
             if (!newUser) {
                 throw new HttpException("User not created.", HttpStatus.INTERNAL_SERVER_ERROR);

@@ -1,32 +1,41 @@
-import { Container, Row, Col, FormGroup, Label, Input, InputGroup, InputGroupText, InputGroupAddon, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button, Dropdown } from 'reactstrap';
-import StarRating from '../components/StarRating';
+import { Container, Row, Col, FormGroup, Label, Input, Button } from 'reactstrap';
+import StarRatings from 'react-star-ratings';
+
 import { useState, useEffect } from 'react';
-// import CarouselView from './Carousel';
+import { useSelector } from "react-redux";
 
 import InputManager from "../components/InputManager";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../router/routes";
 import product from "../services/addProductService";
+import { selectCity } from '../store/slices/citySlice';
 
 function AddProduct() {
     const navigate = useNavigate();
+    const city = useSelector(selectCity);
+
+    const [sizes, setSizes] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [genders, setGenders] = useState([]);
+
     const [title, setTitle] = useState("");
+    const [url, setUrl] = useState("");
     const [price, setPrice] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedGender, setSelectedGender] = useState("");
     const [selectedSize, setSelectedSize] = useState("");
-    const [selectedRating, setSelectedRating] = useState(3);
+    const [rate, setRate] = useState(3);
     const [description, setDescription] = useState("");
+
     const [isFormValid, setIsFormValid] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
-
     useEffect(() => {
         const valid = valueNotEmpty(title) && valueNotEmpty(price) && selectedCategory && selectedGender && selectedSize && valueNotEmpty(description);
-        if (valid != isFormValid) {
+        if (valid !== isFormValid) {
             setIsFormValid(valid);
         }
-    }, [title, price, selectedCategory, selectedGender, selectedSize, description]);
+    }, [title, price, selectedCategory, selectedGender, selectedSize, description, isFormValid]);
 
     const valueNotEmpty = (value) => value.length !== 0;
 
@@ -34,15 +43,20 @@ function AddProduct() {
     const onPriceChanged = (value) => setPrice(value);
     const onDescriptionChanged = (value) => setDescription(value);
 
-    const city = { id: 1 };
-
     const createProductData = () => {
-        const numericPrice = parseFloat(price);
-        const numericCategory = parseInt(selectedCategory);
-        const numericGender = parseInt(selectedGender);
-        const numericSize = parseInt(selectedSize);
-        const numericState = parseInt(selectedRating);
-        return { title, price: numericPrice, description, city, size: { id: numericSize }, gender: { id: numericGender }, category: { id: numericCategory }, state: numericState }; // Utilisation de la catégorie sélectionnée
+        return {
+            title: title,
+            price: price,
+            description: description,
+            city: "Paris",
+            size: selectedSize,
+            gender: selectedGender,
+            category: selectedCategory,
+            state: rate,
+            images: [
+                url
+            ]
+        };
     };
 
     const onSubmit = async () => {
@@ -62,12 +76,6 @@ function AddProduct() {
         }
     };
 
-    //Boutton Catégorie
-    const [categories, setCategories] = useState([]);
-    const [categoriesDropdownOpen, setCategoriesDropdownOpen] = useState(false);
-    // Fonction pour basculer l'état du menu déroulant
-    const toggleCategories = () => setCategoriesDropdownOpen((prevState) => !prevState);
-    // Récupération des catégories
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -81,10 +89,6 @@ function AddProduct() {
         fetchData();
     }, []);
 
-    //Boutton Genre
-    const [genders, setGenders] = useState([]);
-    const [gendersDropdownOpen, setGendersDropdownOpen] = useState(false);
-    const toggleGenders = () => setGendersDropdownOpen((prevState) => !prevState);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -98,10 +102,6 @@ function AddProduct() {
         fetchData();
     }, []);
 
-    //Boutton Taille
-    const [sizes, setSizes] = useState([]);
-    const [sizesDropdownOpen, setSizesDropdownOpen] = useState(false);
-    const toggleSizes = () => setSizesDropdownOpen((prevState) => !prevState);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -115,77 +115,83 @@ function AddProduct() {
         fetchData();
     }, []);
 
-    const handleRatingChanged = (newRating) => {
-        setSelectedRating(newRating);
-    };
-
     return (
-        <Container>
+        <Container className={"margin-top-10vh margin-bottom-10vh"}>
+            <Row >
+                <h2>Ajout d'un produit à {city}</h2>
+            </Row>
             <Row>
-                <Col md={6} style={{ background: "red" }}>
+                {
+                    errorMessage && <p className={"errorElement"}>{errorMessage}</p>
+                }
+            </Row>
+            <Row className={"margin-top-10vh"}>
+                <Col md={6}>
                     <Row>
-                        {/* <CarouselView /> */}
-                    </Row>
-                    <Row>
-                        <Col style={{ background: "green" }} >
-                            <Button
-                                color="primary"
-                            >
-                                Ajouter une image
-                            </Button>
+                        <Col md={6}>
+                            <p>Image :</p>
+                            <FormGroup>
+                                <InputManager
+                                    id={"inputProductImagePath"}
+                                    name={"productImagePath"}
+                                    label={"Lien URL de l'image"}
+                                    placeholder={"Lien URL de l'image"}
+                                    type={null}
+                                    required={true}
+                                    value={url}
+                                    validators={[
+                                        valueNotEmpty,
+                                    ]}
+                                    feedbackMessages={[
+                                        "Champ obligatoire."
+                                    ]}
+                                    onChange={setUrl}
+
+                                />
+                            </FormGroup>
                         </Col>
                     </Row>
-
                 </Col>
-                <Col md={6} >
+                <Col md={6}>
                     <Row>
-                        <Col md={6} style={{ background: "green" }} >
+                        <Col md={6}>
                             <p>Titre :</p>
-                            <FormGroup>
-                                <InputManager
-                                    id={"inputTitle"}
-                                    name={"title"}
-                                    label={"Nom de l'article"}
-                                    placeholder={"Nom de l'article"}
-                                    type={null}
-                                    required={true}
-                                    value={title}
-                                    validators={[
-                                        valueNotEmpty,
-                                    ]}
-                                    feedbackMessages={[
-                                        "Champ obligatoire.",
-                                        "Titre déjà utilisé."
-                                    ]}
-                                    onChange={onTitleChanged}
+                            <InputManager
+                                id={"inputTitle"}
+                                name={"title"}
+                                label={"Nom de l'article"}
+                                placeholder={"Nom de l'article"}
+                                type={null}
+                                required={true}
+                                value={title}
+                                validators={[
+                                    valueNotEmpty,
+                                ]}
+                                feedbackMessages={[
+                                    "Champ obligatoire."
+                                ]}
+                                onChange={onTitleChanged}
 
-                                />
-                                {
-                                    errorMessage && <p className={"errorElement"}>{errorMessage}</p>
-                                }
-                            </FormGroup>
+                            />
                         </Col>
-                        <Col md={6} style={{ background: "green" }} >
+                        <Col md={6}>
                             <p>Prix :</p>
-                            <FormGroup>
-                                <InputManager
-                                    id={"inputPrice"}
-                                    name={"price"}
-                                    label={"Prix de l'article"}
-                                    placeholder={"Prix de l'article"}
-                                    type={null}
-                                    required={true}
-                                    value={price}
-                                    validators={[
-                                        valueNotEmpty,
-                                    ]}
-                                    feedbackMessages={[
-                                        "Champ obligatoire.",
-                                        "Prix déjà utilisé."
-                                    ]}
-                                    onChange={onPriceChanged}
-                                />
-                            </FormGroup>
+                            <InputManager
+                                id={"inputPrice"}
+                                name={"price"}
+                                label={"Prix de l'article"}
+                                placeholder={"Prix de l'article"}
+                                type={"number"}
+                                required={true}
+                                value={price}
+                                validators={[
+                                    valueNotEmpty,
+                                ]}
+                                feedbackMessages={[
+                                    "Champ obligatoire."
+                                ]}
+                                onChange={onPriceChanged}
+                            />
                         </Col>
                     </Row>
                     <Row
@@ -193,51 +199,56 @@ function AddProduct() {
                         md="2"
                         sm="2"
                     >
-                        <Col style={{ background: "#DD7777" }}>
+                        <Col>
                             <FormGroup>
                                 <Label for="categories">Catégorie :</Label>
                                 <Input type="select" name="selectCategory" id="selectCategory" value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} disabled={categories.length === 0}>
                                     <option value={null}>Sélection</option>
                                     {categories.map((category, id) => (
-                                        <option key={id} value={id + 1}>{category}</option>
+                                        <option key={id} value={category}>{category}</option>
                                     ))}
                                 </Input>
                             </FormGroup>
                         </Col>
-                        <Col style={{ background: "yellow" }} >
+                        <Col>
                             <FormGroup>
                                 <Label for="genders">Genre :</Label>
                                 <Input type="select" name="selectGender" id="selectGender" value={selectedGender} onChange={(e) => setSelectedGender(e.target.value)} disabled={genders.length === 0}>
-                                    <option value="">Sélection</option>
+                                    <option value={null}>Sélection</option>
                                     {genders.map((gender, id) => (
-                                        <option key={id} value={id + 1}>{gender}</option>
+                                        <option key={id} value={gender}>{gender}</option>
                                     ))}
                                 </Input>
                             </FormGroup>
                         </Col>
-                        <Col style={{ background: "#24BDDF" }}>
+                        <Col>
                             <FormGroup>
                                 <Label for="sizes">Taille :</Label>
                                 <Input type="select" name="selectSize" id="selectSize" value={selectedSize} onChange={(e) => setSelectedSize(e.target.value)} disabled={sizes.length === 0}>
-                                    <option value="">Sélection</option>
+                                    <option value={null}>Sélection</option>
                                     {sizes.map((size, id) => (
-                                        <option key={id} value={id + 1}>{size}</option>
+                                        <option key={id} value={size}>{size}</option>
                                     ))}
                                 </Input>
                             </FormGroup>
                         </Col>
-                        <Col style={{ background: "white" }}>
+                        <Col>
                             <Label for="stars">
                                 État :
                             </Label>
-                            <StarRating
-                                rating={selectedRating}
-                                onRatingChanged={handleRatingChanged}
+                            <StarRatings
+                                rating={rate}
+                                starRatedColor="gold"
+                                starHoverColor="gold"
+                                changeRating={setRate} // Utilise handleStarClick pour mettre à jour la valeur
+                                numberOfStars={5}
+                                starDimension="25px"
+                                starSpacing="1px"
                             />
                         </Col>
                     </Row>
                     <Row>
-                        <Col style={{ background: "#EEBEE3" }}>
+                        <Col>
                             <FormGroup>
                                 <Label for="description">
                                     Description :
@@ -262,7 +273,7 @@ function AddProduct() {
                         </Col>
                     </Row>
                     <Row>
-                        <Col style={{ background: "#DD7777" }} >
+                        <Col>
                             <Button
                                 color={"primary"}
                                 onClick={onSubmit}

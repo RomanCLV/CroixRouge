@@ -12,5 +12,6 @@ export const ROUTES = {
     passwordReset: "/password-reset",
     account: "/account",
     paymentDone: "/payment-done",
-    addProduct: "/add-product"
+    addProduct: "/add-product",
+    addCity: "/add-city",
 };

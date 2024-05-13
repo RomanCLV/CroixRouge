@@ -39,6 +39,7 @@ import RequireHasProducts from "./router/requires/RequireHasProducts";
 
 import './styles/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import AddCity from './views/AddCity';
 
 // useful links:
 // Repo Git    : https://github.com/Estia-1a/sgv_etu_2022-theambersunflower
@@ -117,6 +118,10 @@ const router = createBrowserRouter([
             {
                 path: ROUTES.addProduct,
                 element: <AddProduct />
+            },
+            {
+                path: ROUTES.addCity,
+                element: <AddCity />
             }
         ]
     }

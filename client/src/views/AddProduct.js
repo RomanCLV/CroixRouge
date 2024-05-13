@@ -23,7 +23,9 @@ function AddProduct() {
 
     useEffect(() => {
         const valid = valueNotEmpty(title) && valueNotEmpty(price) && selectedCategory && selectedGender && selectedSize && valueNotEmpty(description);
-        setIsFormValid(valid);
+        if (valid != isFormValid) {
+            setIsFormValid(valid);
+        }
     }, [title, price, selectedCategory, selectedGender, selectedSize, description]);
 
     const valueNotEmpty = (value) => value.length !== 0;
@@ -195,7 +197,7 @@ function AddProduct() {
                             <FormGroup>
                                 <Label for="categories">Catégorie :</Label>
                                 <Input type="select" name="selectCategory" id="selectCategory" value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} disabled={categories.length === 0}>
-                                    <option value="">Sélection</option>
+                                    <option value={null}>Sélection</option>
                                     {categories.map((category, id) => (
                                         <option key={id} value={id + 1}>{category}</option>
                                     ))}
@@ -228,7 +230,10 @@ function AddProduct() {
                             <Label for="stars">
                                 État :
                             </Label>
-                            <StarRating rating={selectedRating} onRatingChanged={handleRatingChanged} />
+                            <StarRating
+                                rating={selectedRating}
+                                onRatingChanged={handleRatingChanged}
+                            />
                         </Col>
                     </Row>
                     <Row>

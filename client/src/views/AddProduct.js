@@ -18,7 +18,7 @@ function AddProduct() {
     const [genders, setGenders] = useState([]);
 
     const [title, setTitle] = useState("");
-    const [url, setUrl] = useState("");
+    const [url, setUrl] = useState("https://www.google.com/url?sa=i&url=https%3A%2F%2Fgarcon-francais.fr%2Ffr%2Fslip-bleu-marine-homme-made-in-france&psig=AOvVaw3Lxm7RW45w7ZtjaW376Oov&ust=1715685825057000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCJD09fLBioYDFQAAAAAdAAAAABAE");
     const [price, setPrice] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedGender, setSelectedGender] = useState("");
@@ -78,7 +78,7 @@ function AddProduct() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:3000/categories");
+                const response = await fetch("http://localhost:8000/categories");
                 const data = await response.json();
                 setCategories(data.categories);
             } catch (error) {
@@ -91,7 +91,7 @@ function AddProduct() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:3000/genders");
+                const response = await fetch("http://localhost:8000/genders");
                 const data = await response.json();
                 setGenders(data.genders);
             } catch (error) {
@@ -104,7 +104,7 @@ function AddProduct() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:3000/sizes");
+                const response = await fetch("http://localhost:8000/sizes");
                 const data = await response.json();
                 setSizes(data.sizes);
             } catch (error) {
@@ -127,7 +127,7 @@ function AddProduct() {
             <Row className={"margin-top-10vh"}>
                 <Col md={6}>
                     <Row>
-                        <Col md={6}>
+                        <Col md={9}>
                             <p>Image :</p>
                             <FormGroup>
                                 <InputManager
@@ -278,7 +278,7 @@ function AddProduct() {
                                 onClick={onSubmit}
                                 disabled={!isFormValid}
                             >
-                                Soumettre l'article
+                                Ajouter l'article
                             </Button>
                         </Col>
                     </Row>

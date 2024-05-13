@@ -17,7 +17,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     JwtModule.register({
       secret: process.env.JWT_SECRET_KEY,
       signOptions: {
-        expiresIn: "1h"
+        expiresIn: "24h"
       }
     })
   ],
@@ -25,4 +25,4 @@ import { JwtStrategy } from './strategies/jwt.strategy';
   providers: [AuthService, LocalStrategy, JwtStrategy],
   exports: [AuthService]
 })
-export class AuthModule {}
+export class AuthModule { }

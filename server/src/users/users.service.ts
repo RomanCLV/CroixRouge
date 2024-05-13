@@ -1,10 +1,13 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './DTOs/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from "bcrypt"
 import { AuthService } from 'src/auth/auth.service';
+import { CitiesService } from 'src/cities/cities.service';
+import { City } from 'src/cities/city.entity';
+import { CityAdminsService } from 'src/city-admins/city-admins.service';
 
 @Injectable()
 export class UsersService {
@@ -13,7 +16,11 @@ export class UsersService {
         private readonly usersRepository: Repository<User>,
         @Inject(AuthService)
         private readonly authService: AuthService,
-    ) {}
+        @Inject(CitiesService)
+        private readonly citiesService: CitiesService,
+        @Inject(CityAdminsService)
+        private readonly cityAdminsService: CityAdminsService
+    ) { }
 
     private validateEmail(email: string) {
         return email.match(
@@ -55,5 +62,23 @@ export class UsersService {
             throw new HttpException("Invalid email.", HttpStatus.NOT_ACCEPTABLE);
         }
         return await this.findByEmail(email) === null;
+    }
+
+    async isAdmin(user: any, city: string) {
+        const fullUser = await this.findByEmail(user.email);
+        if (fullUser) {
+            const fullCity = await this.citiesService.findCityByName(city);
+            if (fullCity) {
+                const userId = fullUser.id;
+                const cityId = fullCity.id;
+                return await this.cityAdminsService.find(userId, cityId);
+            }
+            else {
+                throw new NotFoundException("city not found");
+            }
+        }
+        else {
+            throw new NotFoundException("user not found");
+        }
     }
 }

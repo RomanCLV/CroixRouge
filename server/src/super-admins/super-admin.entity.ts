@@ -1,7 +1,7 @@
 import { Entity, PrimaryColumn, OneToOne, JoinColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../users/user.entity';
 
-@Entity()
+@Entity("super_admins")
 export class SuperAdmin {
     
     @PrimaryGeneratedColumn()

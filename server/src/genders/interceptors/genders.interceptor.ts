@@ -8,8 +8,8 @@ export class GendersInterceptor implements NestInterceptor<Gender[]> {
 
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
         return next.handle().pipe(
-            map((data: Gender[]) => ({ 
-                genders: data.map(category => category.gender)  
+            map((genders: Gender[]) => ({ 
+                genders: genders.map((gender: Gender) => gender.gender)  
             }))
         );
     }

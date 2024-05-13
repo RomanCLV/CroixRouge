@@ -7,7 +7,7 @@ import { Size } from './size.entity';
 export class SizesService {
     constructor(
         @InjectRepository(Size)
-        private sizesRepository: Repository<Size>,
+        private readonly sizesRepository: Repository<Size>,
       ) {}
 
     async findAll(): Promise<Size[]> {

@@ -1,12 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useCallback} from "react";
 import "../styles/Login.css";
 import {
     Button,
     Container,
     Form, Row,
 } from "reactstrap";
-import {login} from "../data/data";
-// import {auth} from "../services/authService"
+import {auth, status} from "../services/authService"
 import {useDispatch} from "react-redux";
 import {setUser} from "../store/slices/userSlice";
 import {Link} from "react-router-dom";
@@ -21,20 +20,49 @@ const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
+    const [hasTryAutoAuth, setHasTryAutoAuth] = useState(false);
     const [isFormValid, setIsFormValid] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
-    useEffect(() => {
+    const successAuth = useCallback((user) => {
+        dispatch(setUser(user));
+        dispatch(setToast({
+            type: "success",
+            title: "Connexion réussie",
+            message: "Heureux de vous revoir " + user.username + " !"
+        }));
+        setTimeout(() => {
+            dispatch(clearToast());
+        }, 3000);
+    }, [dispatch]);
 
-        const isValid = valueNotEmpty(username) &&
-            valueNotEmpty(password);
+    useEffect(() => {
+        const currentJWT = localStorage.getItem('jwt');
+        if (currentJWT && !hasTryAutoAuth) {
+            const fetchStatus = async () => {
+                const user = await status(currentJWT);
+                if (!user.error) {
+                    successAuth(user);
+                }
+            };
+            fetchStatus();
+            setHasTryAutoAuth(true);
+        }
+        
+        const isValid = valueNotEmpty(username) && validateEmail(username) && valueNotEmpty(password);
         if (isValid !== isFormValid) {
             setIsFormValid(isValid);
         }
 
-    }, [username, password, isFormValid]);
+    }, [username, password, isFormValid, hasTryAutoAuth, successAuth]);
 
     const valueNotEmpty = (value) => value.length !== 0;
+
+    const validateEmail = (email) => {
+        return email.match(
+            /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        ) !== null;
+    };
 
     const onUsernameChanged = (value) => {
         setUsername(value);
@@ -44,30 +72,21 @@ const Login = () => {
         setPassword(value);
     }
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
         if (!isFormValid) {
             setErrorMessage("Veuillez saisir tous les champs obligatoires.");
             return;
         }
 
-        const user = login({
-            username: username,
-            password: password
-        });
-        if (user.error) {
-            setErrorMessage(user.error);
+        const result = await auth(username, password);
+        if (result.error) {
+            setErrorMessage(result.error.message);
             setPassword("");
         }
         else {
-            dispatch(setUser(user));
-            dispatch(setToast({
-                type: "success",
-                title: "Connexion réussie",
-                message: "Heureux de vous revoir " + user.username + " !"
-            }));
-            setTimeout(() => {
-                dispatch(clearToast());
-            }, 3000);
+            localStorage.setItem("jwt", result.jwt);
+            const user = await status(result.jwt);
+            successAuth(user);
         }
     }
 
@@ -81,16 +100,18 @@ const Login = () => {
                 <InputManager
                     id={"inputUsername"}
                     name={"username"}
-                    label={"Email ou nom d'utilisateur"}
-                    placeholder={"Email ou nom d'utilisateur"}
+                    label={"Email"}
+                    placeholder={"Email"}
                     type={null}
                     required={true}
                     value={username}
                     validators={[
-                        valueNotEmpty
+                        valueNotEmpty,
+                        validateEmail
                     ]}
                     feedbackMessages={[
                         "Champ obligatoire.",
+                        "Veuillez saisir un email valide.",
                     ]}
                     onChange={onUsernameChanged}
                 />

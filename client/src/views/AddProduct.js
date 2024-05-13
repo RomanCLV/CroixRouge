@@ -1,6 +1,5 @@
 import { Container, Row, Col, FormGroup, Label, Input, Button } from 'reactstrap';
 import StarRatings from 'react-star-ratings';
-
 import { useState, useEffect } from 'react';
 import { useSelector } from "react-redux";
 

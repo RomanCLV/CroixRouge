@@ -28,9 +28,10 @@ import SignUp from "./views/Signup";
 import Account from "./views/Account";
 import PasswordReset from "./views/PasswordReset";
 import ErrorPage from "./views/ErrorPage";
+import AddProduct from './views/AddProduct';
 
 import { generateData } from "./data/data";
-import { citiesLoader } from "./router/loaders/citiesLoader";
+//import { citiesLoader } from "./router/loaders/citiesLoader";
 import { selectedCityLoader } from "./router/loaders/selectedCityLoader";
 import { searchLoader } from "./router/loaders/searchLoader";
 import { productLoader } from "./router/loaders/productLoader";
@@ -38,7 +39,6 @@ import RequireHasProducts from "./router/requires/RequireHasProducts";
 
 import './styles/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import AddProduct from './views/AddProduct';
 
 // useful links:
 // Repo Git    : https://github.com/Estia-1a/sgv_etu_2022-theambersunflower
@@ -64,7 +64,7 @@ const router = createBrowserRouter([
             {
                 path: ROUTES.cities,
                 element: <Cities />,
-                loader: citiesLoader
+                //loader: citiesLoader
             },
             {
                 path: ROUTES.city + "/:id",

@@ -7,8 +7,7 @@ import {
 import InputManager from "../components/InputManager";
 import {Link, useNavigate} from "react-router-dom";
 import {ROUTES} from "../router/routes";
-// import {getUserByEmail, getUserByUsername, signIn} from "../data/data";
-import signup from "../services/signupService";
+import {signup, canRegister} from "../services/signupService";
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -25,9 +24,7 @@ const Signup = () => {
         const valid = valueNotEmpty(username) &&
             valueNotEmpty(email) &&
             valueNotEmpty(password) &&
-            validateEmail(email); //&&
-            // isUsernameFree(username) &&
-            // isEmailFree(email);
+            validateEmail(email);
         if (valid !== isFormValid) {
             setIsFormValid(valid);
         }
@@ -41,15 +38,28 @@ const Signup = () => {
         ) !== null;
     };
 
-    // const isUsernameFree = (username) => {
-    //     return getUserByUsername(username) == null;
-    // }
+    const isEmailFree = async (email) => {
+        const result = await canRegister(email);
+        if (result) {
+            if (result.error) {
+                setErrorMessage(result.error.message);
+            }
+            else {
+                return result ? result.value : true;
+            }
+        }
+        return false;
+    }
 
-    // const isEmailFree = (email) => {
-    //     return getUserByEmail(email) == null;
-    // }
-
-    const onEmailChanged = (value) => {
+    const onEmailChanged = async (value) => {
+        if (validateEmail(value)) {
+            if (await isEmailFree(value)) {
+                setErrorMessage("");
+            }
+            else {
+                setErrorMessage("Email déjà utilisé.");
+            }
+        }
         setEmail(value);
     }
 
@@ -73,20 +83,17 @@ const Signup = () => {
             setErrorMessage("Veuillez saisir un email valide.");
             return;
         }
-        // if (!isUsernameFree(username)) {
-        //     setErrorMessage("Ce nom d'utilsateur est déjà utilisé.");
-        //     return;
-        // }
-        // if (!isEmailFree(email)) {
-        //     setErrorMessage("Cette adresse email est déjà utilisée.");
-        //     return;
-        // }
+        if (!await isEmailFree(email)) {
+            setErrorMessage("Cette adresse email est déjà utilisée.");
+            return;
+        }
 
         const result = await signup(username, email, password);
         if (result.error) {
             setErrorMessage(result.error.message);
         }
         else {
+            localStorage.setItem('jwt', result.jwt);
             navigate(ROUTES.login);
         }
     }
@@ -107,12 +114,10 @@ const Signup = () => {
                     required={true}
                     value={username}
                     validators={[
-                        valueNotEmpty,
-                        //isUsernameFree
+                        valueNotEmpty
                     ]}
                     feedbackMessages={[
-                        "Champ obligatoire.",
-                        "Nom déjà utilisé."
+                        "Champ obligatoire."
                     ]}
                     onChange={onUsernameChanged}
                 />
@@ -127,13 +132,11 @@ const Signup = () => {
                     value={email}
                     validators={[
                         valueNotEmpty,
-                        validateEmail,
-                        //isEmailFree
+                        validateEmail
                     ]}
                     feedbackMessages={[
                         "Champ obligatoire.",
                         "Veuillez saisir un email valide.",
-                        "Email déjà utilisé."
                     ]}
                     onChange={onEmailChanged}
                 />

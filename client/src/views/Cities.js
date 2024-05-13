@@ -1,6 +1,5 @@
 import "../styles/Cities.css";
-import React, {useState} from "react";
-import {useLoaderData} from "react-router-dom";
+import React, {useEffect, useState} from "react";
 import {
     Col,
     Container, Input,
@@ -8,14 +7,39 @@ import {
 } from "reactstrap";
 import CitiesMap from "../components/CitiesMap";
 import CityCard from "../components/CityCard";
+import { getCities, getCitiesCoordinates } from "../services/citiesService";
 
 const Cities = () => {
-    const cities = useLoaderData();
-    const [citiesToDisplay, setCitiesToDisplay] = useState(cities);
+    const CITIES_LIMIT = 8;
+    const [hasFetch, setHasFetch] = useState(false);
+    const [cities, setCities] = useState([]);
+    const [citiesCoordinates, setCitiesCoordinates] = useState([]);
 
-    const onInputChanged = (value) => {
-        const newCities = cities.filter(city => city.name.toLowerCase().includes(value));
-        setCitiesToDisplay(newCities);
+    const fetchCities = async (name=null) => {
+            const data = await getCities(CITIES_LIMIT, name);
+        if (data.cities) {
+            setCities(data.cities);
+        }
+    }
+
+    const fetchCitiesCoordinates = async () => {
+            const data = await getCitiesCoordinates();
+        if (data.coordinates) {
+            setCitiesCoordinates(data.coordinates);
+        }
+    }
+
+    useEffect(() => {
+        if (!hasFetch) {
+            setHasFetch(true);
+            fetchCitiesCoordinates();
+            fetchCities();
+        }
+
+    }, [hasFetch])
+
+    const onInputChanged = async (value) => {
+        await fetchCities(value);
     }
 
     return (
@@ -23,7 +47,7 @@ const Cities = () => {
             <div className={"redFilledRectangle"}>
                 <Container>
                     <Row>
-                        <Col xs={{size: 4, offset: 4}}>
+                        <Col md={{size: 4, offset: 4}} xs={{size: 8, offset: 2}}>
                             <Input
                                 type="search"
                                 id="search"
@@ -37,15 +61,15 @@ const Cities = () => {
             <Container className={"margin-top-10vh"}>
                 <h2>Sélectionnez votre magasin</h2>
                 {
-                    citiesToDisplay.length === 0 ?
+                    cities.length === 0 ?
                         <p>Aucune ville.</p>
                         :
                         <Row className={"margin-top-10vh margin-bottom-10vh"}>
                             {
-                                citiesToDisplay.map((city, index) =>
+                                cities.map((city, index) =>
                                     index < 8 ?
-                                        <Col key={city.id} lg={3} md={4} sm={6}>
-                                            <CityCard city={city} />
+                                        <Col key={index} lg={3} md={4} sm={6}>
+                                            <CityCard key={index} city={city} />
                                         </Col>
                                         :
                                         null
@@ -53,7 +77,7 @@ const Cities = () => {
                             }
                         </Row>
                 }
-                <CitiesMap cities={cities} />
+                <CitiesMap cities={citiesCoordinates} />
             </Container>
         </div>
     );

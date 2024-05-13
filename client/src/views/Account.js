@@ -16,10 +16,13 @@ const Account = () => {
     const [modal, setModal] = useState(false);
 
     const onLogoutClick = () => {
+        localStorage.removeItem("jwt");
         dispatch(logout());
     };
 
     const toggle = () => setModal(!modal);
+
+    const defaultImagePath = process.env.PUBLIC_URL + "/assets/images/default.png";
 
     return (
         <Container className={"margin-top-10vh"}>
@@ -44,7 +47,7 @@ const Account = () => {
             <Row className={"mainContentView"}>
                 <Col xs={3}>
                     <Card className={"border-0"}>
-                        <img src={user.avatar} alt={"avatar"} />
+                        <img src={(user.imagePath ? user.imagePath : defaultImagePath)} alt={"avatar"} />
                     </Card>
                 </Col>
                 <Col xs={{

@@ -5,6 +5,6 @@ export class Gender {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ length: 16 })
+    @Column({ length: 16, unique: true })
     gender: string;
 }

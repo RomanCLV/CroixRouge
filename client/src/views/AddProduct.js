@@ -78,7 +78,7 @@ function AddProduct() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:8000/categories");
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/categories`);
                 const data = await response.json();
                 setCategories(data.categories);
             } catch (error) {
@@ -91,7 +91,7 @@ function AddProduct() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:8000/genders");
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/genders`);
                 const data = await response.json();
                 setGenders(data.genders);
             } catch (error) {
@@ -104,7 +104,7 @@ function AddProduct() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:8000/sizes");
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/sizes`);
                 const data = await response.json();
                 setSizes(data.sizes);
             } catch (error) {

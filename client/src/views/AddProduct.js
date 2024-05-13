@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../router/routes";
 import product from "../services/addProductService";
 import { selectCity } from '../store/slices/citySlice';
+import ImagesSelector from '../components/ImagesSelector';
 
 function AddProduct() {
     const navigate = useNavigate();
@@ -114,6 +115,10 @@ function AddProduct() {
         fetchData();
     }, []);
 
+    const imageChanged = (urls) => {
+        setUrl(urls.length === 0 ? "" : urls[0]);
+    }
+
     return (
         <Container className={"margin-top-10vh margin-bottom-10vh"}>
             <Row >
@@ -127,28 +132,7 @@ function AddProduct() {
             <Row className={"margin-top-10vh"}>
                 <Col md={6}>
                     <Row>
-                        <Col md={9}>
-                            <p>Image :</p>
-                            <FormGroup>
-                                <InputManager
-                                    id={"inputProductImagePath"}
-                                    name={"productImagePath"}
-                                    label={"Lien URL de l'image"}
-                                    placeholder={"Lien URL de l'image"}
-                                    type={null}
-                                    required={true}
-                                    value={url}
-                                    validators={[
-                                        valueNotEmpty,
-                                    ]}
-                                    feedbackMessages={[
-                                        "Champ obligatoire."
-                                    ]}
-                                    onChange={setUrl}
-
-                                />
-                            </FormGroup>
-                        </Col>
+                        <ImagesSelector onUrlsChanged={imageChanged} />
                     </Row>
                 </Col>
                 <Col md={6}>

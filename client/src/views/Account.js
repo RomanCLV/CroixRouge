@@ -7,6 +7,7 @@ import {
 } from "reactstrap";
 import {useDispatch, useSelector} from "react-redux";
 import {logout, selectUser} from "../store/slices/userSlice";
+import ImagesSelector from "../components/ImagesSelector";
 
 const Account = () => {
 
@@ -14,6 +15,8 @@ const Account = () => {
     const dispatch = useDispatch();
 
     const [modal, setModal] = useState(false);
+    const [updatePicture, setUpdatePicture] = useState(false);
+    const [newUrl, setNewUrl] = useState("");
 
     const onLogoutClick = () => {
         localStorage.removeItem("jwt");
@@ -23,6 +26,22 @@ const Account = () => {
     const toggle = () => setModal(!modal);
 
     const defaultImagePath = process.env.PUBLIC_URL + "/assets/images/default.png";
+
+    const urlsChanged = (urls) => {
+        const url = urls.length === 0 ? "" : urls[0];
+        console.log("updated:", url)
+        setNewUrl(url)
+    }
+
+    const onValidate = () => {
+        console.log("validate")
+        setUpdatePicture(false);
+    }
+
+    const onCancel = () => {
+        console.log("cancel")
+        setUpdatePicture(false);
+    }
 
     return (
         <Container className={"margin-top-10vh"}>
@@ -44,14 +63,48 @@ const Account = () => {
             <Row>
                 <h2>Informations du compte</h2>
             </Row>
-            <Row className={"mainContentView"}>
-                <Col xs={3}>
-                    <Card className={"border-0"}>
-                        <img src={(user.imagePath ? user.imagePath : defaultImagePath)} alt={"avatar"} />
-                    </Card>
+            <Row className={"mainContentView margin-top-10vh"}>
+                <Col xs={updatePicture ? 5 : 3}>
+                    <Row>
+                    {
+                        updatePicture ?
+                        <ImagesSelector multiSelection={false} onUrlsChanged={urlsChanged} /> :
+                        <Card className={"border-0"}>
+                            <img src={(user.imagePath ? user.imagePath : defaultImagePath)} alt={"avatar"} />
+                        </Card>
+                    }
+                    </Row>
+                    <Row>
+                        <div className="margin-top-10vh" />
+                    </Row>
+                    <Row>
+                        {
+                            updatePicture ?
+                            <Row>
+                                <Col>
+                                    <Button 
+                                        onClick={onValidate}
+                                        disabled={newUrl.length === 0} 
+                                        color="primary">
+                                        Valider
+                                    </Button>
+                                </Col>
+                                <Col>
+                                    <Button 
+                                        onClick={onCancel}>
+                                        Annuler
+                                    </Button>
+                                </Col>
+                            </Row>
+                            :  
+                            <Button onClick={() => setUpdatePicture(true)}>
+                                Edit
+                            </Button>
+                        }
+                    </Row>
                 </Col>
                 <Col xs={{
-                    size: 8,
+                    size: updatePicture ? 6 : 8,
                     offset: 1
                 }}>
                     <p>Nom d'utilisateur : {user.username}</p>

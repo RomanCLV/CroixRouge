@@ -1,4 +1,4 @@
-import { Body, Controller, Get, NotFoundException, Post, UseFilters, UseInterceptors, UsePipes } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, Post, UseFilters, UseInterceptors, UsePipes } from '@nestjs/common';
 import { CitiesService } from './cities.service';
 import { DatabaseException } from 'src/filters/databaseException.filter';
 import { City } from './city.entity';
@@ -6,6 +6,9 @@ import { CitiesInterceptor } from './interceptors/cities.interceptor';
 import { CitiesPipe } from './pipes/cities.pipe';
 import { CitiesDto, citiesSchema } from './DTOs/cities.dto';
 import { CitiesCoordinatesInterceptor } from './interceptors/coordinates.interceptor';
+import { CityInterceptor } from './interceptors/city.interceptor';
+import { GetCityDto, getCitySchema } from './DTOs/get-city.dto';
+import { GetCityPipe } from './pipes/get-city.pipe';
 
 @Controller('cities')
 export class CitiesController {
@@ -33,4 +36,13 @@ export class CitiesController {
         }
         return cities;
     }
+
+    @Get("city/:city")
+    @UseFilters(DatabaseException)
+    @UseInterceptors(CityInterceptor)
+    @UsePipes(new GetCityPipe(getCitySchema))
+    async findCityByName(@Param("city") city: GetCityDto): Promise<City> {
+        return await this.citiesService.findCityByName(city.city);
+    }
+
 }

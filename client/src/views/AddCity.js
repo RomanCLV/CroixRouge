@@ -1,6 +1,7 @@
 import React, { useState , useEffect} from 'react';
-import { Button, Form, FormGroup, Input, InputGroup, Label, Alert, Container, Row, Col } from 'reactstrap'; // Import des composants depuis reactstrap
+import { Button, Container, Row, Col } from 'reactstrap'; // Import des composants depuis reactstrap
 import InputManager from '../components/InputManager';
+import ImagesSelector from '../components/ImagesSelector';
 
 function AddCity() {
 
@@ -8,18 +9,19 @@ function AddCity() {
     const [address, setAddress] = useState("");
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
+    const [url, setUrl] = useState("");
     const [isFormValid, setIsFormValid] = useState(false);
 
     const valueNotEmpty = (value) => value.length !== 0;
 
     useEffect(() => {
         
-        const isValid = valueNotEmpty(name) && valueNotEmpty(address);
+        const isValid = valueNotEmpty(name) && valueNotEmpty(address) && valueNotEmpty(url);
         if (isValid !== isFormValid) {
             setIsFormValid(isValid);
         }
 
-    }, [name, address, isFormValid, setIsFormValid]);
+    }, [name, address, url, isFormValid, setIsFormValid]);
 
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -51,14 +53,15 @@ function AddCity() {
         }
     }
 
-    
+    const imageChanged = (urls) => {
+        setUrl(urls.length === 0 ? "" : urls[0]);
+    }
 
     return (
         <Container className={"margin-top-10vh"}>
             <Row>
                 <Col md={6}>
-                    <h2>Image</h2>
-                    <Row></Row>
+                    <ImagesSelector onUrlsChanged={imageChanged} />
                 </Col>
                 <Col md={6}>
                     <Row>

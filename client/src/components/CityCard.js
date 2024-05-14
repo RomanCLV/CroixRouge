@@ -2,16 +2,21 @@ import React from "react";
 import {Card, CardBody, CardImg, CardSubtitle, CardTitle} from "reactstrap";
 import {ROUTES} from "../router/routes";
 import {useNavigate} from "react-router-dom";
-//import '../styles/CityCard.css'
+import { setCity } from "../store/slices/citySlice";
+import { useDispatch } from "react-redux";
 
 const CityCard = (props) => {
 
     const city = props.city;
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const onCitiesButtonClick = () => {
-        navigate(ROUTES.city + "/" + city.name);
+        dispatch(setCity(city));
+        setTimeout(() => {
+            navigate(ROUTES.root);
+        }, 50);
     }
 
     return (

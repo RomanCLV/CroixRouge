@@ -67,11 +67,11 @@ const router = createBrowserRouter([
                 element: <Cities />,
                 //loader: citiesLoader
             },
-            {
-                path: ROUTES.city + "/:id",
-                element: <SelectedCity />,
-                loader: selectedCityLoader
-            },
+            // {
+            //     path: ROUTES.city + "/:id",
+            //     element: <SelectedCity />,
+            //     loader: selectedCityLoader
+            // },
             {
                 path: ROUTES.search,
                 element: <RequireCity><Search /></RequireCity>,

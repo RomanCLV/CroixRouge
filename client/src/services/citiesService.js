@@ -46,3 +46,34 @@ export const getCitiesCoordinates = async () => {
     })
     .catch((error) => ({ error: error }));
 }
+
+export const getCreateCity = async (name, address, longitude, latitude, imagePath) => {
+    const url = `${process.env.REACT_APP_API_URL}/cities/city`;
+
+    return await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            name: name,
+            address: address,
+            longitude: longitude,
+            latitude: latitude,
+            imagePath: imagePath
+        })
+    })
+    .then(res => res.json())
+    .then(city => {
+        if (!city) {
+            throw new Error("Villes non trouvées.");
+        }
+        else if (city.error) {
+            throw new Error(city.error.message);
+        }
+        else {
+            return city;
+        }
+    })
+    .catch((error) => ({ error: error }));
+}

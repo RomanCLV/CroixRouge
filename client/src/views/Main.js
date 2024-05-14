@@ -45,7 +45,7 @@ const Main = () => {
         if (result.categories) {
             setCategories(result.categories);
         }
-    })
+    }, [])
 
     useEffect(() => {
        if (firstRender) {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Col,
     Row
@@ -11,6 +11,12 @@ const ProductsList = (props) => {
     const category = props.category;
     const [products, setProducts] = useState([]);
     const redirect = props.seeMore || "";
+
+    useEffect(() => {
+        if (false) {
+            setProducts([]);
+        }
+    }, []);
 
     return (
         <Row className={"product-list-container"}>

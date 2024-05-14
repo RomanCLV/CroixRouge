@@ -25,6 +25,7 @@ import { CityAdmin } from './city-admins/city-admin.entity';
 import { SuperAdmin } from './superAdmins/superAdmin.entity';
 import { JsonHeaderMiddleware } from './middlewares/json-header.middleware';
 import { CityAdminsModule } from './city-admins/city-admins.module';
+import { ProductImagesModule } from './product-images/product-images.module';
 
 @Module({
     imports: [
@@ -47,6 +48,7 @@ import { CityAdminsModule } from './city-admins/city-admins.module';
         GendersModule,
         ProductsModule,
         CityAdminsModule,
+        ProductImagesModule,
     ],
     controllers: [AppController],
     providers: [AppService],

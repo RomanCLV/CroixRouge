@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { City } from './city.entity';
+import { CreateCityDto } from './DTOs/create-city.dto';
 
 @Injectable()
 export class CitiesService {
@@ -28,4 +29,26 @@ export class CitiesService {
     async findCityByName(name: string): Promise<City> {
         return await this.citiesRepository.findOne({ where: { name: name } })
     }
-}
+
+    async createCity(body: CreateCityDto) {
+        const cityToSave = this.citiesRepository.create({
+            name: body.name,
+            address: body.address,
+            lat: body.latitude,
+            lng: body.longitude,
+            image_path: body.image,
+        });
+        if (cityToSave) {
+            const savedCity = await this.citiesRepository.save(cityToSave);
+            if (savedCity) {
+                return savedCity;
+            }
+            else {
+                throw new HttpException("City not saved.", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+        else {
+            throw new HttpException("City not created.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+} 

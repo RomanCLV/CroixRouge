@@ -87,18 +87,23 @@ const Cities = () => {
                     </Row>
                 </Container>
             </div>
-            <Container className={"margin-top-10vh"}>
-                {
-                    isAdmin && <Row>
-                        <Button
-                            onClick={onCreateClick}
-                            className={"bg-primary-red border-0  fw-semibold"}
-                            block
-                            size="lg">
-                            Créer un magasin
-                        </Button>
+            {
+                isAdmin && 
+                <Container className={"margin-top-10vh"}>
+                    <Row>
+                        <Col xs={2}>
+                            <Button
+                                onClick={onCreateClick}
+                                className={"bg-primary-red border-0  fw-semibold"}
+                                block
+                                size="lg">
+                                Créer un magasin
+                            </Button>
+                        </Col>
                     </Row>
-                }
+                </Container>
+            }
+            <Container className={"margin-top-10vh"}>
                 <h2>Sélectionnez votre magasin</h2>
                 {
                     cities.length === 0 ?

@@ -24,7 +24,16 @@ export class AuthController {
     @Get("status")
     @UseGuards(JwtGuard)
     @UseFilters(DatabaseException)
-    status(@Req() req: Request) {
-        return req.user;
+    async status(@Req() req: Request) {
+        const update = await this.authService.updateStatus(req.user);
+        return {
+            user: {
+                username: update.user.username,
+                email: update.user.email,
+                imagePath: update.user.image_path,
+                creationDate: update.user.creation_date,
+            },
+            jwt: update.jwt
+        };
     }
 }

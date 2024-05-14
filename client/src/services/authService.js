@@ -34,12 +34,12 @@ export const status = async (jwt) => {
         }
     })
     .then(res => res.json())
-    .then(user => {
-        if (!user || user.error) {
+    .then(result => {
+        if (!result || result.error) {
             throw new Error("Session expirée.");
         }
         else {
-            return user;
+            return result;
         }
     })
     .catch((error) => ({ error: error }));

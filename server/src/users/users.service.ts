@@ -6,8 +6,8 @@ import { Repository } from 'typeorm';
 import * as bcrypt from "bcrypt"
 import { AuthService } from 'src/auth/auth.service';
 import { CitiesService } from 'src/cities/cities.service';
-import { City } from 'src/cities/city.entity';
 import { CityAdminsService } from 'src/city-admins/city-admins.service';
+import { SuperAdminsService } from 'src/super-admins/super-admins.service';
 
 @Injectable()
 export class UsersService {
@@ -19,7 +19,9 @@ export class UsersService {
         @Inject(CitiesService)
         private readonly citiesService: CitiesService,
         @Inject(CityAdminsService)
-        private readonly cityAdminsService: CityAdminsService
+        private readonly cityAdminsService: CityAdminsService,
+        @Inject(SuperAdminsService)
+        private readonly superAdminsService: SuperAdminsService
     ) { }
 
     private validateEmail(email: string) {
@@ -67,29 +69,38 @@ export class UsersService {
     async updateImagePath(user: any, imagePath: string): Promise<string> {
         const fullUser = await this.findByEmail(user.email);
         if (fullUser) {
-            console.log(fullUser);
-            return "";
+            fullUser.image_path = imagePath;
+            await this.usersRepository.save(fullUser);
+            return fullUser.image_path;
         }
         else {
             throw new NotFoundException("User " + user.email + " not found.");
         }
     }
 
-    async isAdmin(user: any, city: string) {
+    async isAdmin(user: any, city: string): Promise<boolean> {
         const fullUser = await this.findByEmail(user.email);
         if (fullUser) {
             const fullCity = await this.citiesService.findCityByName(city);
             if (fullCity) {
-                const userId = fullUser.id;
-                const cityId = fullCity.id;
-                return await this.cityAdminsService.find(userId, cityId);
+                return await this.cityAdminsService.find(fullUser.id, fullCity.id);
             }
             else {
-                throw new NotFoundException("city not found");
+                throw new NotFoundException("city " + city + " not found");
             }
         }
         else {
-            throw new NotFoundException("user not found");
+            throw new NotFoundException("user" + user.email + " not found");
+        }
+    }
+
+    async isSuperAdmin(user: any): Promise<boolean> {
+        const fullUser = await this.findByEmail(user.email);
+        if (fullUser) {
+            return await this.superAdminsService.isSuperAdmin(fullUser.id);
+        }
+        else {
+            throw new NotFoundException("user" + user.email + " not found");
         }
     }
 }

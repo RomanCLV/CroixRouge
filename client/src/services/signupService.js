@@ -1,4 +1,3 @@
-
 export const canRegister = async (email) => {
     const url = `${process.env.REACT_APP_API_URL}/users/can-register`;
 
@@ -12,9 +11,6 @@ export const canRegister = async (email) => {
         })
     })
     .then(res => res.json())
-    .then(result => {
-        return result;
-    })
     .catch((error) => ({ error: error.message }));
 }
 
@@ -33,8 +29,5 @@ export const signup = async (username, email, password) => {
         })
     })
     .then(res => res.json())
-    .then(user => {
-        return user;
-    })
     .catch((error) => ({ error: error }));
 }

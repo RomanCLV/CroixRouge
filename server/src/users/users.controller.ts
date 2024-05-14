@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Patch, Post, Req, UseFilters, UseGuards, UseInterceptors, UsePipes } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Patch, Post, Req, UseFilters, UseGuards, UseInterceptors, UsePipes } from '@nestjs/common';
 import { CreateUserDto, createUserSchema } from './DTOs/create-user.dto';
 import { CanCreateUserDto, canCreateUserSchema } from './DTOs/can-create-user.dto';
 import { UsersService } from './users.service';
@@ -11,8 +11,6 @@ import { UpdateImagePipe } from './pipes/update-image.pipe';
 import { UpdateImageDto, updateImageSchema } from './DTOs/update-image.dto';
 import { Request } from 'express';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
-import { IsAdminPipe } from './pipes/is-admin.pipe';
-import { IsAdminDto, isAdminSchema } from './DTOs/is-admin.tdo';
 
 @Controller('users')
 export class UsersController {
@@ -34,17 +32,25 @@ export class UsersController {
         return await this.usersService.canRegister(user.email);
     }
 
-    @Post("is-admin")
+    @Get("is-admin/:city")
     @UseFilters(DatabaseException)
-    @UsePipes(new IsAdminPipe(isAdminSchema))
     @UseGuards(JwtGuard)
     @UseInterceptors(BooleanInterceptor)
-    async isAdmin(@Req() req: Request, @Body() body: IsAdminDto) {
-        return await this.usersService.isAdmin(req.user, body.city);
+    async isAdmin(@Req() req: Request, @Param("city") city: string) {
+        return await this.usersService.isAdmin(req.user, city);
+    }
+
+    @Get("is-super-admin")
+    @UseFilters(DatabaseException)
+    @UseGuards(JwtGuard)
+    @UseInterceptors(BooleanInterceptor)
+    async isSuperAdmin(@Req() req: Request) {
+        return await this.usersService.isSuperAdmin(req.user);
     }
 
     @Patch("image")
     @UseFilters(DatabaseException)
+    @UseGuards(JwtGuard)
     @UsePipes(new UpdateImagePipe(updateImageSchema))
     @UseInterceptors(BooleanInterceptor)
     async updateImage(@Req() req: Request, @Body() body: UpdateImageDto): Promise<string> {

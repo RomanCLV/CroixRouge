@@ -20,7 +20,6 @@ const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const [hasTryAutoAuth, setHasTryAutoAuth] = useState(false);
     const [isFormValid, setIsFormValid] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -38,15 +37,18 @@ const Login = () => {
 
     useEffect(() => {
         const currentJWT = localStorage.getItem('jwt');
-        if (currentJWT && !hasTryAutoAuth) {
+        if (currentJWT) {
             const fetchStatus = async () => {
-                const user = await status(currentJWT);
-                if (!user.error) {
-                    successAuth(user);
+                const result = await status(currentJWT);
+                if (result.error) {
+                    localStorage.removeItem("jwt");
+                }
+                else {
+                    localStorage.setItem('jwt', result.jwt)
+                    successAuth(result.user);
                 }
             };
             fetchStatus();
-            setHasTryAutoAuth(true);
         }
         
         const isValid = valueNotEmpty(username) && validateEmail(username) && valueNotEmpty(password);
@@ -54,7 +56,7 @@ const Login = () => {
             setIsFormValid(isValid);
         }
 
-    }, [username, password, isFormValid, hasTryAutoAuth, successAuth]);
+    }, [username, password, isFormValid, successAuth]);
 
     const valueNotEmpty = (value) => value.length !== 0;
 
@@ -84,9 +86,9 @@ const Login = () => {
             setPassword("");
         }
         else {
-            localStorage.setItem("jwt", result.jwt);
-            const user = await status(result.jwt);
-            successAuth(user);
+            const result2 = await status(result.jwt);
+            localStorage.setItem("jwt", result2.jwt);
+            successAuth(result2.user);
         }
     }
 

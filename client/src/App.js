@@ -36,8 +36,12 @@ function App() {
             if (currentJWT) {
                 const fetchStatus = async () => {
                     const result = await status(currentJWT);
-                    if (!result.error) {
-                        successAuth(result);
+                    if (result.error) {
+                        localStorage.removeItem("jwt");
+                    }
+                    else {
+                        localStorage.setItem("jwt", result.jwt);
+                        successAuth(result.user);
                     }
                 };
                 fetchStatus();

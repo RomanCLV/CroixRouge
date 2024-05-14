@@ -107,7 +107,7 @@ const Account = () => {
                             </Row>
                             :  
                             <Button onClick={() => setUpdatePicture(true)}>
-                                Edit
+                                Changer de photo de profil
                             </Button>
                         }
                     </Row>

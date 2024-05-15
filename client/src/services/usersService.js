@@ -14,3 +14,29 @@ export const updateImage = async (jwt, imagePath) => {
     .then(res => res.json())
     .catch((error) => ({ error: error.message }));
 }
+
+export const isSuperAdmin = async (jwt) => {
+    const url = `${process.env.REACT_APP_API_URL}/users/is-super-admin`;
+
+    return await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + jwt
+        },
+    })
+    .then(res => res.json())
+    .catch((error) => ({ error: error.message }));
+}
+
+export const isAdmin = async (jwt, city) => {
+    const url = `${process.env.REACT_APP_API_URL}/users/is-admin/${city}`;
+
+    return await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + jwt
+        },
+    })
+    .then(res => res.json())
+    .catch((error) => ({ error: error.message }));
+}

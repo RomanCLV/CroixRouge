@@ -1,25 +1,29 @@
 import { Container, Row, Col, FormGroup, Label, Input, Button } from 'reactstrap';
 import StarRatings from 'react-star-ratings';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import InputManager from "../components/InputManager";
-import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../router/routes";
-import product from "../services/addProductService";
-import { selectCity } from '../store/slices/citySlice';
 import ImagesSelector from '../components/ImagesSelector';
+import { selectCity } from '../store/slices/citySlice';
+import { ROUTES } from "../router/routes";
+import { addProduct } from "../services/productsService";
+import { getGenders } from "../services/gendersService";
+import { getCategories } from "../services/categoriesService";
+import { getSizes } from "../services/sizesService";
 
 function AddProduct() {
     const navigate = useNavigate();
     const city = useSelector(selectCity);
 
+    const [firstFetch, setFirstFetch] = useState(true);
     const [sizes, setSizes] = useState([]);
     const [categories, setCategories] = useState([]);
     const [genders, setGenders] = useState([]);
 
     const [title, setTitle] = useState("");
-    const [url, setUrl] = useState("https://www.google.com/url?sa=i&url=https%3A%2F%2Fgarcon-francais.fr%2Ffr%2Fslip-bleu-marine-homme-made-in-france&psig=AOvVaw3Lxm7RW45w7ZtjaW376Oov&ust=1715685825057000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCJD09fLBioYDFQAAAAAdAAAAABAE");
+    const [urls, setUrls] = useState([]);
     const [price, setPrice] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedGender, setSelectedGender] = useState("");
@@ -30,12 +34,63 @@ function AddProduct() {
     const [isFormValid, setIsFormValid] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
+
+    const fetchCategories = useCallback(async () => {
+        const response = await getCategories();
+        if (response.error) {
+            setErrorMessage(response.error.message);
+        }
+        else {
+            setCategories(response.categories);
+        }
+    }, []);
+
+    const fetchGenders = useCallback(async () => {
+        const response = await getGenders();
+        if (response.error) {
+            setErrorMessage(response.error.message);
+        }
+        else {
+            setGenders(response.genders);
+        }
+    }, []);
+
+    const fetchSizes = useCallback(async () => {
+        const response = await getSizes();
+        if (response.error) {
+            setErrorMessage(response.error.message);
+        }
+        else {
+            setSizes(response.sizes);
+        }
+    }, []);
+
     useEffect(() => {
-        const valid = valueNotEmpty(title) && valueNotEmpty(price) && selectedCategory && selectedGender && selectedSize && valueNotEmpty(description);
+        const valid =
+            valueNotEmpty(title) &&
+            valueNotEmpty(price) &&
+            valueNotEmpty(selectedCategory) &&
+            valueNotEmpty(selectedGender) &&
+            valueNotEmpty(selectedSize) &&
+            valueNotEmpty(description) &&
+            urls.length > 0 &&
+            valueNotEmpty(city.name);
+
         if (valid !== isFormValid) {
             setIsFormValid(valid);
         }
-    }, [title, price, selectedCategory, selectedGender, selectedSize, description, isFormValid]);
+        if (valid && valueNotEmpty(errorMessage)) {
+            setErrorMessage("");
+        }
+
+        if (firstFetch) {
+            setFirstFetch(false);
+            fetchCategories();
+            fetchGenders();
+            fetchSizes();
+        }
+
+    }, [title, price, selectedCategory, selectedGender, selectedSize, description, isFormValid, firstFetch, city.name, errorMessage, urls.length, fetchCategories, fetchGenders, fetchSizes]);
 
     const valueNotEmpty = (value) => value.length !== 0;
 
@@ -48,14 +103,12 @@ function AddProduct() {
             title: title,
             price: price,
             description: description,
-            city: "Paris",
+            city: city.name,
             size: selectedSize,
             gender: selectedGender,
             category: selectedCategory,
             state: rate,
-            images: [
-                url
-            ]
+            images: urls
         };
     };
 
@@ -68,61 +121,26 @@ function AddProduct() {
 
         console.log("Données du produit à envoyer :", productData);
 
-        const result = await product(productData);
+        const result = await addProduct(productData);
         if (result.error) {
             setErrorMessage(result.error.message);
-        } else {
+        }
+        else {
             navigate(ROUTES.addProduct);
         }
     };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/categories`);
-                const data = await response.json();
-                setCategories(data.categories);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/genders`);
-                const data = await response.json();
-                setGenders(data.genders);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/sizes`);
-                const data = await response.json();
-                setSizes(data.sizes);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        fetchData();
-    }, []);
-
     const imageChanged = (urls) => {
-        setUrl(urls.length === 0 ? "" : urls[0]);
+        setUrls(urls);
+        if (urls.length === 0) {
+            setErrorMessage("Charger au moins une image.")
+        }
     }
 
     return (
         <Container className={"margin-top-10vh margin-bottom-10vh"}>
             <Row >
-                <h2>Ajout d'un produit à {city}</h2>
+                <h2>Ajout d'un produit à {city.name}</h2>
             </Row>
             <Row>
                 {
@@ -131,9 +149,7 @@ function AddProduct() {
             </Row>
             <Row className={"margin-top-10vh"}>
                 <Col md={6}>
-                    <Row>
-                        <ImagesSelector onUrlsChanged={imageChanged} />
-                    </Row>
+                    <ImagesSelector onUrlsChanged={imageChanged} />
                 </Col>
                 <Col md={6}>
                     <Row>
@@ -154,7 +170,6 @@ function AddProduct() {
                                     "Champ obligatoire."
                                 ]}
                                 onChange={onTitleChanged}
-
                             />
                         </Col>
                         <Col md={6}>
@@ -186,10 +201,8 @@ function AddProduct() {
                             <FormGroup>
                                 <Label for="categories">Catégorie :</Label>
                                 <Input type="select" name="selectCategory" id="selectCategory" value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} disabled={categories.length === 0}>
-                                    <option value={null}>Sélection</option>
-                                    {categories.map((category, id) => (
-                                        <option key={id} value={category}>{category}</option>
-                                    ))}
+                                    <option value={""}>Sélection</option>
+                                    {categories.map((category, id) => <option key={id} value={category}>{category}</option>)}
                                 </Input>
                             </FormGroup>
                         </Col>
@@ -197,10 +210,8 @@ function AddProduct() {
                             <FormGroup>
                                 <Label for="genders">Genre :</Label>
                                 <Input type="select" name="selectGender" id="selectGender" value={selectedGender} onChange={(e) => setSelectedGender(e.target.value)} disabled={genders.length === 0}>
-                                    <option value={null}>Sélection</option>
-                                    {genders.map((gender, id) => (
-                                        <option key={id} value={gender}>{gender}</option>
-                                    ))}
+                                    <option value={""}>Sélection</option>
+                                    {genders.map((gender, id) => <option key={id} value={gender}>{gender}</option>)}
                                 </Input>
                             </FormGroup>
                         </Col>
@@ -208,10 +219,8 @@ function AddProduct() {
                             <FormGroup>
                                 <Label for="sizes">Taille :</Label>
                                 <Input type="select" name="selectSize" id="selectSize" value={selectedSize} onChange={(e) => setSelectedSize(e.target.value)} disabled={sizes.length === 0}>
-                                    <option value={null}>Sélection</option>
-                                    {sizes.map((size, id) => (
-                                        <option key={id} value={size}>{size}</option>
-                                    ))}
+                                    <option value={""}>Sélection</option>
+                                    {sizes.map((size, id) => <option key={id} value={size}>{size}</option>)}
                                 </Input>
                             </FormGroup>
                         </Col>

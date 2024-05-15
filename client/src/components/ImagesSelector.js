@@ -33,7 +33,9 @@ function ImagesSelector(props) {
         <Container>
             {
                 urls.length === 0 ?
-                <Row>No images loaded</Row> :
+                <Row>
+                    <p>Pas d'image chargé.</p>
+                </Row> :
                 <Row>
                     <UncontrolledCarousel
                         dark

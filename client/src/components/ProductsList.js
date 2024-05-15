@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
     Col,
     Row
@@ -9,26 +9,30 @@ import {Link} from "react-router-dom";
 const ProductsList = (props) => {
 
     const category = props.category;
-    const products = props.products;
+    const [products, setProducts] = useState([]);
     const redirect = props.seeMore || "";
 
-    const productsToDisplay = [];
-    for (let i = 0; i < Math.min(products.length, 4); i++) {
-        productsToDisplay.push(products[i]);
-    }
+    useEffect(() => {
+        if (false) {
+            setProducts([]);
+        }
+    }, []);
 
     return (
         <Row className={"product-list-container"}>
             <h3 className={"product-list-category"}>{category}</h3>
             {
-                productsToDisplay.map(product =>
+                products.length === 0 ?
+                <p>Pas de produit.</p>
+                :
+                products.map(product =>
                     <Col key={product.id} lg={3} md={4} sm={6}>
                         <ProductCard product={product} />
                     </Col>
                 )
             }
             {
-                redirect && <Link to={redirect}>Voir plus</Link>
+                products.length !== 0 && redirect && <Link to={redirect}>Voir plus</Link>
             }
         </Row>
     );

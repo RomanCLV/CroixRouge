@@ -17,7 +17,7 @@ import RequireNotAuth from "./router/requires/RequireNotAuth";
 import App from "./App";
 import Main from "./views/Main";
 import Cities from "./views/Cities";
-import SelectedCity from "./views/SelectedCity";
+//import SelectedCity from "./views/SelectedCity";
 import Search from "./views/Search";
 import Product from "./views/Product";
 import Cart from "./views/Cart";
@@ -32,7 +32,7 @@ import AddProduct from './views/AddProduct';
 
 import { generateData } from "./data/data";
 //import { citiesLoader } from "./router/loaders/citiesLoader";
-import { selectedCityLoader } from "./router/loaders/selectedCityLoader";
+//import { selectedCityLoader } from "./router/loaders/selectedCityLoader";
 import { searchLoader } from "./router/loaders/searchLoader";
 import { productLoader } from "./router/loaders/productLoader";
 import RequireHasProducts from "./router/requires/RequireHasProducts";
@@ -67,11 +67,11 @@ const router = createBrowserRouter([
                 element: <Cities />,
                 //loader: citiesLoader
             },
-            {
-                path: ROUTES.city + "/:id",
-                element: <SelectedCity />,
-                loader: selectedCityLoader
-            },
+            // {
+            //     path: ROUTES.city + "/:id",
+            //     element: <SelectedCity />,
+            //     loader: selectedCityLoader
+            // },
             {
                 path: ROUTES.search,
                 element: <RequireCity><Search /></RequireCity>,

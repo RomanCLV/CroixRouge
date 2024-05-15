@@ -8,10 +8,10 @@ import InputManager from "../components/InputManager";
 import ImagesSelector from '../components/ImagesSelector';
 import { selectCity } from '../store/slices/citySlice';
 import { ROUTES } from "../router/routes";
-import {addProduct} from "../services/productsService";
-import {getGenders} from "../services/gendersService";
-import {getCategories} from "../services/categoriesService";
-import {getSizes} from "../services/sizesService";
+import { addProduct } from "../services/productsService";
+import { getGenders } from "../services/gendersService";
+import { getCategories } from "../services/categoriesService";
+import { getSizes } from "../services/sizesService";
 
 function AddProduct() {
     const navigate = useNavigate();
@@ -66,14 +66,14 @@ function AddProduct() {
     }, []);
 
     useEffect(() => {
-        const valid = 
+        const valid =
             valueNotEmpty(title) &&
-            valueNotEmpty(price) && 
-            valueNotEmpty(selectedCategory) && 
-            valueNotEmpty(selectedGender) && 
-            valueNotEmpty(selectedSize) && 
-            valueNotEmpty(description) && 
-            urls.length > 0 && 
+            valueNotEmpty(price) &&
+            valueNotEmpty(selectedCategory) &&
+            valueNotEmpty(selectedGender) &&
+            valueNotEmpty(selectedSize) &&
+            valueNotEmpty(description) &&
+            urls.length > 0 &&
             valueNotEmpty(city.name);
 
         if (valid !== isFormValid) {
@@ -124,7 +124,7 @@ function AddProduct() {
         const result = await addProduct(productData);
         if (result.error) {
             setErrorMessage(result.error.message);
-        } 
+        }
         else {
             navigate(ROUTES.addProduct);
         }

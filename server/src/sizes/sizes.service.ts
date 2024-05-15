@@ -8,7 +8,7 @@ export class SizesService {
     constructor(
         @InjectRepository(Size)
         private readonly sizesRepository: Repository<Size>,
-      ) {}
+    ) { }
 
     async findAll(): Promise<Size[]> {
         const sizes = await this.sizesRepository.find();
@@ -17,12 +17,21 @@ export class SizesService {
         }
         return sizes;
     }
-    
-    async findOne(id: number): Promise<Size> {
+
+    async findById(id: number): Promise<Size> {
         const size = await this.sizesRepository.findOneBy({ id });
         if (!size) {
             throw new NotFoundException(`sze ${id} not found.`)
         }
         return size;
     }
+
+    async findBySize(size: string): Promise<Size> {
+        const result = await this.sizesRepository.findOneBy({ size });
+        if (!result) {
+            throw new NotFoundException(`size ${size} not found.`)
+        }
+        return result;
+    }
+
 }

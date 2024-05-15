@@ -25,6 +25,7 @@ import { CityAdmin } from './city-admins/city-admin.entity';
 import { SuperAdmin } from './super-admins/super-admin.entity';
 import { JsonHeaderMiddleware } from './middlewares/json-header.middleware';
 import { CityAdminsModule } from './city-admins/city-admins.module';
+import { ProductImagesModule } from './product-images/product-images.module';
 import { SuperAdminsModule } from './super-admins/super-admins.module';
 
 @Module({
@@ -48,6 +49,7 @@ import { SuperAdminsModule } from './super-admins/super-admins.module';
         GendersModule,
         ProductsModule,
         CityAdminsModule,
+        ProductImagesModule,
         SuperAdminsModule,
     ],
     controllers: [AppController],

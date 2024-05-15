@@ -7,19 +7,19 @@ import { GenderInterceptor } from './interceptors/gender.interceptor';
 
 @Controller('genders')
 export class GendersController {
-    constructor(private readonly gendersService: GendersService) {}
+    constructor(private readonly gendersService: GendersService) { }
 
     @Get()
     @UseFilters(DatabaseException)
     @UseInterceptors(GendersInterceptor)
-    findAll(): Promise<Gender[]> {
-        return this.gendersService.findAll();
+    async findAll(): Promise<Gender[]> {
+        return await this.gendersService.findAll();
     }
 
     @Get(":id")
     @UseFilters(DatabaseException)
     @UseInterceptors(GenderInterceptor)
-    findOne(@Param("id", ParseIntPipe) id: number): Promise<Gender> {
-        return this.gendersService.findOne(id);
+    async findOne(@Param("id", ParseIntPipe) id: number): Promise<Gender> {
+        return await this.gendersService.findById(id);
     }
 }

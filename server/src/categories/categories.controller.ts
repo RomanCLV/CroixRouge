@@ -12,22 +12,14 @@ export class CategoriesController {
     @Get()
     @UseFilters(DatabaseException)
     @UseInterceptors(CategoriesInterceptor)
-    findAll(): Promise<Category[]> {
-        return this.categoriesService.findAll();
+    async findAll(): Promise<Category[]> {
+        return await this.categoriesService.findAll();
     }
-
-    @Get("category/:category")
-    @UseFilters(DatabaseException)
-    @UseInterceptors(CategoryInterceptor)
-    find(@Param("category") category: string): Promise<Category> {
-        return this.categoriesService.findByCategory(category);
-    }
-
 
     @Get(":id")
     @UseFilters(DatabaseException)
     @UseInterceptors(CategoryInterceptor)
-    findOne(@Param("id", ParseIntPipe) id: number): Promise<Category> {
-        return this.categoriesService.findOne(id);
+    async findOne(@Param("id", ParseIntPipe) id: number): Promise<Category> {
+        return await this.categoriesService.findById(id);
     }
 }

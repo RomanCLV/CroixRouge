@@ -7,19 +7,19 @@ import { SizeInterceptor } from './interceptors/size.interceptor';
 
 @Controller('sizes')
 export class SizesController {
-    constructor(private readonly sizesService: SizesService) {}
+    constructor(private readonly sizesService: SizesService) { }
 
     @Get()
     @UseFilters(DatabaseException)
     @UseInterceptors(SizesInterceptor)
-    findAll(): Promise<Size[]> {
-        return this.sizesService.findAll();
+    async findAll(): Promise<Size[]> {
+        return await this.sizesService.findAll();
     }
 
     @Get(":id")
     @UseFilters(DatabaseException)
     @UseInterceptors(SizeInterceptor)
-    findOne(@Param("id", ParseIntPipe) id: number): Promise<Size> {
-        return this.sizesService.findOne(id);
+    async findOne(@Param("id", ParseIntPipe) id: number): Promise<Size> {
+        return await this.sizesService.findById(id);
     }
 }

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/Product.css";
 import {
     Button,
@@ -6,18 +6,18 @@ import {
     Col,
     Row
 } from "reactstrap";
-import {useLoaderData, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {addProduct, deleteProduct, selectProducts} from "../store/slices/productsSlice";
-import {clearToast, setToast} from "../store/slices/toastSlice";
+import { useLoaderData, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addProduct, deleteProduct, selectProducts } from "../store/slices/productsSlice";
+import { clearToast, setToast } from "../store/slices/toastSlice";
 import ProductImages from "../components/ProductImages";
 import VestingState from "../components/VestingState";
 import ProductsList from "../components/ProductsList";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faLocationDot, faArrowLeft} from "@fortawesome/free-solid-svg-icons";
-import {getCityById, getProductById, searchProducts} from "../data/data";
-import {ROUTES} from "../router/routes";
-import {getPriceToDisplay} from "../components/CartTicket";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationDot, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { getCityById, getProductById, searchProducts } from "../data/data";
+import { ROUTES } from "../router/routes";
+import { getPriceToDisplay } from "../components/CartTicket";
 
 const Product = () => {
 
@@ -59,7 +59,7 @@ const Product = () => {
     const onRemoveProductClick = () => {
         if (hasProduct) {
             dispatch(deleteProduct(currentProduct));
-            dispatchToast("Produit retiré", "Ce produit a été retiré de votre panier.", "success",5000);
+            dispatchToast("Produit retiré", "Ce produit a été retiré de votre panier.", "success", 5000);
         }
         else {
             dispatchToast("Produit non retiré", "Ce produit n'est pas dans votre panier.", "warning", 5000);
@@ -77,7 +77,7 @@ const Product = () => {
         }, timeout);
     }
 
-    const similarProducts = searchProducts(currentProduct.cityId,{
+    const similarProducts = searchProducts(currentProduct.cityId, {
         categories: [currentProduct.category],
     });
 
@@ -150,7 +150,7 @@ const Product = () => {
             <Container>
                 <ProductsList
                     category="Produits similaires"
-                    products={similarProducts.map(id=>getProductById(id))}
+                    products={similarProducts.map(id => getProductById(id))}
                     seeMore={ROUTES.search + "/categories=" + currentProduct.category}
                 />
             </Container>

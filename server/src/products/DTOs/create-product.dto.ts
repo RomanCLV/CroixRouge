@@ -2,14 +2,15 @@ import { z } from 'zod';
 
 export const createProductSchema = z
   .object({
-    title: z.string(),
-    description: z.string(),
-    price: z.number(),
-    state: z.number(),
-    city: z.object({ id: z.number() }),
-    size: z.object({ id: z.number() }),
-    gender: z.object({ id: z.number() }),
-    category: z.object({ id: z.number() }),
+    title: z.string().max(64),
+    description: z.string().max(512),
+    price: z.number().nonnegative(),
+    state: z.number().min(1).max(5),
+    city: z.string(),
+    size: z.string(),
+    gender: z.string(),
+    category: z.string(),
+    images: z.string().array()
   })
   .required();
 

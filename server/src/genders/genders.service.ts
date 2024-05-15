@@ -8,8 +8,8 @@ export class GendersService {
     constructor(
         @InjectRepository(Gender)
         private readonly gendersRepository: Repository<Gender>,
-      ) {}
-    
+    ) { }
+
     async findAll(): Promise<Gender[]> {
         const genders = await this.gendersRepository.find();
         if (!genders) {
@@ -17,12 +17,20 @@ export class GendersService {
         }
         return genders;
     }
-    
-    async findOne(id: number): Promise<Gender> {
+
+    async findById(id: number): Promise<Gender> {
         const gender = await this.gendersRepository.findOneBy({ id });
         if (!gender) {
             throw new NotFoundException(`gender ${id} not found.`)
         }
         return gender;
+    }
+
+    async findByGender(gender: string): Promise<Gender> {
+        const result = await this.gendersRepository.findOneBy({ gender });
+        if (!result) {
+            throw new NotFoundException(`gender ${gender} not found.`)
+        }
+        return result;
     }
 }

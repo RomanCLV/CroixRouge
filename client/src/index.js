@@ -117,11 +117,11 @@ const router = createBrowserRouter([
             },
             {
                 path: ROUTES.addProduct,
-                element: <AddProduct />
+                element: <RequireAuth><RequireCity><AddProduct /></RequireCity></RequireAuth>
             },
             {
                 path: ROUTES.addCity,
-                element: <AddCity />
+                element: <RequireAuth><AddCity /></RequireAuth>
             }
         ]
     }

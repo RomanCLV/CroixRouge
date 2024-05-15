@@ -58,9 +58,9 @@ export const getCreateCity = async (name, address, longitude, latitude, imagePat
         body: JSON.stringify({
             name: name,
             address: address,
-            longitude: longitude,
-            latitude: latitude,
-            imagePath: imagePath
+            longitude: parseFloat(longitude),
+            latitude: parseFloat(latitude),
+            image: imagePath
         })
     })
     .then(res => res.json())

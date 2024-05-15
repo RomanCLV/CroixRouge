@@ -42,13 +42,9 @@ function AddCity() {
         setAddress(value);
     }
 
-    const onLatitudeChanged = (value) => {
-        setLatitude(value);
-    }
+    const onLatitudeChanged = (value) => setLatitude(parseFloat(value));
 
-    const onLongitudeChanged = (value) => {
-        setLongitude(value);
-    }
+    const onLongitudeChanged = (value) => setLongitude(parseFloat(value));
     
     const onSubmit = async () => {
         if (!isFormValid) {
@@ -56,17 +52,13 @@ function AddCity() {
             return;
         }
 
-
         const result = await getCreateCity(name,address,longitude,latitude,url);
-        console.log("Result")
-        
         if (result.error) {
             setErrorMessage(result.error.message);
         }
         else {
             navigate(ROUTES.cities);
         }
-        
     };
 
     const imageChanged = (urls) => {
@@ -75,6 +67,11 @@ function AddCity() {
 
     return (
         <Container className={"margin-top-10vh"}>
+            <Row>
+                {
+                    errorMessage && <p className={"errorElement"}>{errorMessage}</p>
+                }
+            </Row>
             <Row>
                 <Col md={6}>
                     <ImagesSelector onUrlsChanged={imageChanged} />

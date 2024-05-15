@@ -21,6 +21,7 @@ const Cities = () => {
     const [cities, setCities] = useState([]);
     const [citiesCoordinates, setCitiesCoordinates] = useState([]);
     const [isAdmin, setIsAdmin] = useState(false);
+    const [search, setSearch] = useState("");
 
     const fetchCities = async (name=null) => {
         const data = await getCities(CITIES_LIMIT, name);
@@ -64,6 +65,7 @@ const Cities = () => {
     }, [hasFetch, fetchIsSuperAdmin])
 
     const onInputChanged = async (value) => {
+        setSearch(value);
         await fetchCities(value);
     }
 
@@ -107,7 +109,11 @@ const Cities = () => {
                 <h2>Sélectionnez votre magasin</h2>
                 {
                     cities.length === 0 ?
-                        <p>Aucune ville.</p>
+                        (
+                            search.length === 0 ?
+                            <p>Aucune ville.</p> :
+                            <p>Aucune ville ne correspond à votre recherche.</p>
+                        )
                         :
                         <Row className={"margin-top-10vh margin-bottom-10vh"}>
                             {

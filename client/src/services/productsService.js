@@ -1,6 +1,6 @@
 const API_URL = process.env.REACT_APP_API_URL;
 
-const addProduct = async (productData) => {
+export const addProduct = async (productData) => {
     const url = `${API_URL}/products`;
 
     return await fetch(url, {
@@ -18,4 +18,3 @@ const addProduct = async (productData) => {
         .catch((error) => ({ error: error.message }));
 }
 
-export default addProduct;

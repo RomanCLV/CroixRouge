@@ -1,14 +1,14 @@
-import { ConsoleLogger, HttpException, HttpStatus, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './DTOs/create-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './product.entity';
 import { Repository } from 'typeorm';
-import { Category } from 'src/categories/category.entity';
 import { CategoriesService } from 'src/categories/categories.service';
 import { GendersService } from 'src/genders/genders.service';
 import { SizesService } from 'src/sizes/sizes.service';
 import { CitiesService } from 'src/cities/cities.service';
-import { error } from 'console';
+import { ProductImagesService } from 'src/product-images/product-images.service';
+import { ProductImagesProductAssociation } from './interfaces/product-images-product-association.interface';
 
 @Injectable()
 export class ProductsService {
@@ -23,13 +23,15 @@ export class ProductsService {
         private readonly gendersService: GendersService,
         @Inject(SizesService)
         private readonly sizesService: SizesService,
+        @Inject(ProductImagesService)
+        private readonly productImagesService: ProductImagesService,
     ) { }
 
     async findByTitle(title: string): Promise<Product> {
         return await this.productsRepository.findOne({ where: { title: title } });
     }
 
-    async create(productData: CreateProductDto): Promise<Product> {
+    async create(productData: CreateProductDto): Promise<ProductImagesProductAssociation> {
         const city = await this.citiesService.findCityByName(productData.city);
         if (!city) {
             throw new NotFoundException(`City ${productData.city} not found`);
@@ -58,14 +60,22 @@ export class ProductsService {
             category: category,
         });
 
-        console.log(newProduct);
-
         if (!newProduct) {
             throw new HttpException("Product not created", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        const savedProduct = await this.productsRepository.save(newProduct);
-        console.log(savedProduct);
-        return savedProduct;
+        const productSaved = await this.productsRepository.save(newProduct);
+        if (!productSaved) {
+            throw new HttpException("Product not save", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        const imagesSaved = await this.productImagesService.saveImagesOfProduct(productSaved, productData.images);
+
+        const association: ProductImagesProductAssociation = {
+            product: productSaved,
+            images: imagesSaved
+        }
+
+        return association;
     }
 }

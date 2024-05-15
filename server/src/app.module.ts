@@ -20,7 +20,7 @@ import { Size } from './sizes/size.entity';
 import { Gender } from './genders/gender.entity';
 import { City } from './cities/city.entity';
 import { Product } from './products/product.entity';
-import { ProductImage } from './products/productImage.entity';
+import { ProductImages } from './product-images/product-images.entity';
 import { CityAdmin } from './city-admins/city-admin.entity';
 import { SuperAdmin } from './super-admins/super-admin.entity';
 import { JsonHeaderMiddleware } from './middlewares/json-header.middleware';
@@ -38,7 +38,7 @@ import { SuperAdminsModule } from './super-admins/super-admins.module';
             username: process.env.DATABASE_USER,
             password: process.env.DATABASE_PASSWORD,
             database: process.env.DATABASE_NAME,
-            entities: [Category, Size, Gender, User, City, Product, ProductImage, Cart, CityAdmin, SuperAdmin],
+            entities: [Category, Size, Gender, User, City, Product, ProductImages, Cart, CityAdmin, SuperAdmin],
             synchronize: false,
         }),
         AuthModule,

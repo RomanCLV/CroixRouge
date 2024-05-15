@@ -2,6 +2,10 @@ import React, { useState , useEffect} from 'react';
 import { Button, Container, Row, Col } from 'reactstrap'; // Import des composants depuis reactstrap
 import InputManager from '../components/InputManager';
 import ImagesSelector from '../components/ImagesSelector';
+import { getCreateCity } from '../services/citiesService'; 
+import { ROUTES } from "../router/routes";
+import { useNavigate } from "react-router-dom";
+
 
 function AddCity() {
 
@@ -11,6 +15,9 @@ function AddCity() {
     const [longitude, setLongitude] = useState(0);
     const [url, setUrl] = useState("");
     const [isFormValid, setIsFormValid] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const navigate = useNavigate();
+
 
     const valueNotEmpty = (value) => value.length !== 0;
 
@@ -43,15 +50,24 @@ function AddCity() {
         setLongitude(value);
     }
     
-    const onSubmit = () => {
-        
-        if (name && address && latitude && longitude) {
-            console.log("Soumettre les données:", { name, address, latitude, longitude });
-            setIsFormValid(true);
-        } else {
-            setIsFormValid(false);
+    const onSubmit = async () => {
+        if (!isFormValid) {
+            setErrorMessage("Veuillez saisir tous les champs obligatoires.");
+            return;
         }
-    }
+
+
+        const result = await getCreateCity(name,address,longitude,latitude,url);
+        console.log("Result")
+        
+        if (result.error) {
+            setErrorMessage(result.error.message);
+        }
+        else {
+            navigate(ROUTES.cities);
+        }
+        
+    };
 
     const imageChanged = (urls) => {
         setUrl(urls.length === 0 ? "" : urls[0]);

@@ -95,7 +95,7 @@ function AddProduct() {
     const valueNotEmpty = (value) => value.length !== 0;
 
     const onTitleChanged = (value) => setTitle(value);
-    const onPriceChanged = (value) => setPrice(value);
+    const onPriceChanged = (value) => setPrice(parseFloat(value));
     const onDescriptionChanged = (value) => setDescription(value);
 
     const createProductData = () => {
@@ -119,14 +119,12 @@ function AddProduct() {
             return;
         }
 
-        console.log("Données du produit à envoyer :", productData);
-
         const result = await addProduct(productData);
         if (result.error) {
             setErrorMessage(result.error.message);
         }
         else {
-            navigate(ROUTES.addProduct);
+            navigate(ROUTES.root);
         }
     };
 

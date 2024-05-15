@@ -1,9 +1,10 @@
-import { Body, Controller, Post, UseFilters, UsePipes } from '@nestjs/common';
+import { Body, Controller, Post, UseFilters, UseInterceptors, UsePipes } from '@nestjs/common';
 import { CreateProductPipe } from './pipes/create-product.pipe';
 import { CreateProductDto, createProductSchema } from './DTOs/create-product.dto';
 import { ProductsService } from './products.service';
-import { Product } from './product.entity';
 import { DatabaseException } from 'src/filters/databaseException.filter';
+import { ProductImagesProductAssociation } from './interfaces/product-images-product-association.interface';
+import { ProductImagesProductInterceptor } from './interceptors/product-img-association.interceptor';
 
 @Controller('products')
 export class ProductsController {
@@ -13,7 +14,8 @@ export class ProductsController {
     @Post()
     @UseFilters(DatabaseException)
     @UsePipes(new CreateProductPipe(createProductSchema))
-    create(@Body() product: CreateProductDto): Promise<Product> {
+    @UseInterceptors(ProductImagesProductInterceptor)
+    create(@Body() product: CreateProductDto): Promise<ProductImagesProductAssociation> {
         return this.productsService.create(product);
     }
 }

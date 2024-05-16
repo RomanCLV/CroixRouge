@@ -94,7 +94,6 @@ const Payment = () => {
         }
 
         const result = await pay(products.map(product => product.id));
-        console.log("pay result:", result)
         if (result.products) {
             dispatch(clearProducts());
             dispatch(setCommand(result.products));

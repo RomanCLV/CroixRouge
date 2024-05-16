@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "../styles/Product.css";
 import {
     Button,
@@ -15,41 +15,38 @@ import VestingState from "../components/VestingState";
 import ProductsList from "../components/ProductsList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-// import { getCityById, getProductById, searchProducts } from "../data/data";
-import { ROUTES } from "../router/routes";
+import { getProductById } from "../services/productsService";
 import { getPriceToDisplay } from "../components/CartTicket";
 
 const Product = () => {
 
     const navigate = useNavigate()
     const dispatch = useDispatch();
-    const currentProduct = useLoaderData();
-    const products = useSelector(selectProducts);
+    const productID = useLoaderData();
+
     //const city = getCityById(currentProduct.cityId);
-    const city = null;
+    const [city, setCity] = useState(null);
 
     const [hasProduct, setHasProduct] = useState(false);
+    const [product, setProduct] = useState(null);
 
-    useEffect(() => {
-        if (!currentProduct) {
-            return;
-        }
-        const match = products.find(product => product.id === currentProduct.id);
-        if (match) {
-            if (!hasProduct) {
-                setHasProduct(true);
-            }
+    const fetchProduct = useCallback(async () => {
+        const result = await getProductById(productID);
+        if (result.error || !result.product) {
+            setProduct(null);
         }
         else {
-            if (hasProduct) {
-                setHasProduct(false);
-            }
+            setProduct(result.product);
         }
-    }, [products, currentProduct, hasProduct]);
+    }, [])
+
+    useEffect(() => {
+        fetchProduct();
+    }, [fetchProduct]);
 
     const onAddProductClick = () => {
         if (!hasProduct) {
-            dispatch(addProduct(currentProduct));
+            dispatch(addProduct(product));
             dispatchToast("Produit ajouté", "Ce produit a été ajouté à votre panier.", "success", 5000);
         }
         else {
@@ -59,7 +56,7 @@ const Product = () => {
 
     const onRemoveProductClick = () => {
         if (hasProduct) {
-            dispatch(deleteProduct(currentProduct));
+            dispatch(deleteProduct(product));
             dispatchToast("Produit retiré", "Ce produit a été retiré de votre panier.", "success", 5000);
         }
         else {
@@ -83,7 +80,7 @@ const Product = () => {
     // });
     const similarProducts = [];
 
-    return currentProduct ?
+    return product ?
         <Container className={"mainContentView"}>
             <Row>
                 <Col>
@@ -95,32 +92,32 @@ const Product = () => {
             <Row>
                 <Col xs={12} sm={8} >
                     <div className={"productImagesContainer"}>
-                        <ProductImages images={currentProduct.images} />
+                        <ProductImages images={product.images} />
                     </div>
                 </Col>
                 <Col xs={12} sm={4}>
                     <Row>
                         <div className={"productNamePriceContainer"}>
-                            <h3 className={"productNamePriceContainerItem"}>{currentProduct.name}</h3>
-                            <p className={"productNamePriceContainerItem price-text"}>{getPriceToDisplay(currentProduct.price)} €</p>
+                            <h3 className={"productNamePriceContainerItem"}>{product.title}</h3>
+                            <p className={"productNamePriceContainerItem price-text"}>{getPriceToDisplay(product.price)} €</p>
                         </div>
                     </Row>
                     <Row className={"margin-top-20px"}>
                         <Col>
-                            <p>{currentProduct.category} {currentProduct.gender}</p>
-                            <p>Taille : {currentProduct.size.toUpperCase()}</p>
+                            <p>{product.category} {product.gender}</p>
+                            <p>Taille : {product.size.toUpperCase()}</p>
                         </Col>
                         <Col className={"d-flex justify-content-end"}>
-                            <VestingState vestingState={currentProduct.vestingState} />
+                            <VestingState state={product.state} />
                         </Col>
                     </Row>
                     <Row>
-                        <p>{currentProduct.description}</p>
+                        <p>{product.description}</p>
                     </Row>
                     <Row>
                         <div className={"d-flex justify-content-start align-items-center"}>
                             <FontAwesomeIcon icon={faLocationDot} />
-                            <p className={"margin-auto-0 margin-left-20px"}>{city.name}</p>
+                            <p className={"margin-auto-0 margin-left-20px"}>{product.city}</p>
                         </div>
                     </Row>
                     {

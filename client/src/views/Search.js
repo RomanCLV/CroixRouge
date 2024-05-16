@@ -30,10 +30,8 @@ const Search = () => {
 
     const fetchProducts = useCallback(async () => {
         const result = await searchProducts(getNavigateUrlSearch(query));
-        console.log("fp result")
-        console.log(result)
         if (result.products) {
-            setProducts(products)
+            setProducts(result.products)
         }
     }, [search])
 
@@ -62,10 +60,10 @@ const Search = () => {
                         <Row xs={12}>
                             {
                                 products.length > 0 ?
-                                    products.map((id, index) =>
+                                    products.map((product, index) =>
                                         index < limit ?
                                         <Col lg={3} md={4} sm={6} key={index}>
-                                            <ProductCard product={index} />
+                                            <ProductCard product={product} />
                                         </Col>
                                     :
                                     null

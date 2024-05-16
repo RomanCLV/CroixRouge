@@ -34,7 +34,7 @@ import AddProduct from './views/AddProduct';
 //import { citiesLoader } from "./router/loaders/citiesLoader";
 //import { selectedCityLoader } from "./router/loaders/selectedCityLoader";
 import { searchLoader } from "./router/loaders/searchLoader";
-// import { productLoader } from "./router/loaders/productLoader";
+import { productLoader } from "./router/loaders/productLoader";
 import RequireHasProducts from "./router/requires/RequireHasProducts";
 
 import './styles/index.css';
@@ -85,7 +85,7 @@ const router = createBrowserRouter([
             {
                 path: ROUTES.product + "/:id",
                 element: <Product />,
-                // loader: productLoader
+                loader: productLoader
             },
             {
                 path: ROUTES.cart,

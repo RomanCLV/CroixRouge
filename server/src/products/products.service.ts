@@ -28,11 +28,7 @@ export class ProductsService {
         private readonly productImagesService: ProductImagesService,
     ) { }
 
-    async findAll(): Promise<ProductImagesProductAssociation[]> {
-        const products = await this.productsRepository.find();
-        if (!products) {
-            throw new NotFoundException("Products not found");
-        }
+    private async createAssociationsFromProducts(products: Product[]): Promise<ProductImagesProductAssociation[]> {
         const associations: ProductImagesProductAssociation[] = [];
         for (let index = 0; index < products.length; index++) {
             const product = products[index];
@@ -40,12 +36,72 @@ export class ProductsService {
             associations.push({product, images});
         }
         return associations;
+    } 
+
+    async findAll(): Promise<ProductImagesProductAssociation[]> {
+        const products = await this.productsRepository.find();
+        if (!products) {
+            throw new NotFoundException("Products not found");
+        }
+        return await this.createAssociationsFromProducts(products);
     }
 
     async search(query: SearchProductDto): Promise<ProductImagesProductAssociation[]> {
-        console.log("query:", query)
-        return [];
-    }
+        const qb = this.productsRepository.createQueryBuilder('product');
+    
+        // Join related tables
+        qb.leftJoinAndSelect('product.city', 'city')
+          .leftJoinAndSelect('product.size', 'size')
+          .leftJoinAndSelect('product.gender', 'gender')
+          .leftJoinAndSelect('product.category', 'category');
+    
+        // Filter by city
+        if (query.city) {
+          qb.andWhere('city.name = :city', { city: query.city });
+        }
+    
+        // Filter by text in title or description
+        if (query.text) {
+          qb.andWhere('(product.title LIKE :text OR product.description LIKE :text)', { text: `%${query.text}%` });
+        }
+    
+        // Filter by categories
+        if (query.categories && query.categories.length > 0) {
+          qb.andWhere('category.category IN (:...categories)', { categories: query.categories });
+        }
+    
+        // Filter by genders
+        if (query.genders && query.genders.length > 0) {
+          qb.andWhere('gender.gender IN (:...genders)', { genders: query.genders });
+        }
+    
+        // Filter by sizes
+        if (query.sizes && query.sizes.length > 0) {
+          qb.andWhere('size.size IN (:...sizes)', { sizes: query.sizes });
+        }
+    
+        // Filter by state
+        if (query.state !== undefined) {
+          qb.andWhere('product.state = :state', { state: query.state });
+        }
+    
+        // Filter by price range
+        if (query.minimumPrice !== undefined && query.minimumPrice > 0) {
+          qb.andWhere('product.price >= :minimumPrice', { minimumPrice: query.minimumPrice });
+        }
+        if (query.maximumPrice !== undefined) {
+          qb.andWhere('product.price <= :maximumPrice', { maximumPrice: query.maximumPrice });
+        }
+    
+        // Set limit for pagination
+        if (query.limit !== undefined) {
+          qb.limit(query.limit);
+        }
+    
+        // Execute the query and return results
+        const products = await qb.getMany();
+        return await this.createAssociationsFromProducts(products);
+      }
 
     async create(productData: CreateProductDto): Promise<ProductImagesProductAssociation> {
         const city = await this.citiesService.findCityByName(productData.city);

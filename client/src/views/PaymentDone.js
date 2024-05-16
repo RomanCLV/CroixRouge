@@ -13,6 +13,7 @@ const PaymentDone = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const command = useSelector(selectCommand);
+    console.log(command)
 
     useEffect(() => {
         if (!command) {
@@ -37,7 +38,7 @@ const PaymentDone = () => {
                         <Row>
                             {
                                 command.map((product, index) => <ProductListItemCart
-                                    key={index} product={product} canDelete={false}/>)
+                                    key={index} productId={product.id} canDelete={false}/>)
                             }
                         </Row>
                     </Col>

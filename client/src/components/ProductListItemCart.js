@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {useNavigate} from "react-router-dom";
 import {
     Button,
@@ -10,7 +10,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrashCan, faLocationDot} from "@fortawesome/free-solid-svg-icons";
 import {ROUTES} from "../router/routes";
 import VestingState from "./VestingState";
-//import { getProductById } from "../services/productsService";
+import { getProductById } from "../services/productsService";
 import {useDispatch} from "react-redux";
 import {deleteProduct} from "../store/slices/productsSlice";
 import {clearToast, setToast} from "../store/slices/toastSlice";
@@ -20,17 +20,29 @@ const ProductListItemCart = (props) => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
-    const product = props.product;
-    console.log("product cart:", product)
-    const image = product.images.length > 0 ? product.images[0] : "";
+    const productId = props.productId;
     let canDelete = true;
     if (props.canDelete === true || props.canDelete === false) {
         canDelete = props.canDelete;
     }
+    const [product, setProduct] = useState(null);
+    const [image, setImage] = useState("");
 
-    // eslint-disable-next-line
-    const [city, setCity] = useState(null);
+    const fetchProduct = useCallback(async () => {
+        const result = await getProductById(productId);
+        if (result.error || !result.product) {
+            setProduct(null);
+            setImage("");
+        }
+        else {
+            setProduct(result.product)
+            setImage(result.product.images.length > 0 ? result.product.images[0] : "");
+        }
+    }, [productId])
+
+    useEffect(() => {
+        fetchProduct();
+    }, [fetchProduct])
 
     const onNavigate = () => {
         navigate(ROUTES.product + "/" + product.id)
@@ -53,10 +65,7 @@ const ProductListItemCart = (props) => {
             dispatch(clearToast());
         }, timeout);
     }
-
-    return city ? 
-        <div className={"item-cart-container"}><p>Ce produit n'existe pas.</p></div> :
-        (
+    return product ? (
         <div className={"item-cart-container"}>
             <Col xs={12} sm={3} onClick={onNavigate} className={"cursor-pointer"}>
                 <Card>
@@ -69,7 +78,7 @@ const ProductListItemCart = (props) => {
                     <VestingState vestingState={product.vestingState} />
                     <div className={"d-flex align-items-center margin-top-20px"}>
                         <FontAwesomeIcon icon={faLocationDot} />
-                        <p className={"margin-auto"}>{city.name}</p>
+                        <p className={"margin-auto"}>{product.city}</p>
                     </div>
                     <p className={"margin-auto margin-top-20px"}>Taille : {product.size}</p>
                 </Row>
@@ -87,7 +96,8 @@ const ProductListItemCart = (props) => {
                 </Row>
             </Col>
         </div>
-    );
+    ) :
+    <div className={"item-cart-container"}><p>Ce produit n'existe pas.</p></div>;
 }
 
 export default ProductListItemCart;

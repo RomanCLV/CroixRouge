@@ -16,7 +16,6 @@ export const addProduct = async (productData) => {
 
 export const searchProducts = async (query) => {
     const url = `${API_URL}/products/search/${query}`;
-    console.log(url)
     return await fetch(url, {
         method: 'GET',
         headers: {
@@ -29,7 +28,6 @@ export const searchProducts = async (query) => {
 
 export const getProductById = async (id) => {
     const url = `${API_URL}/products/${id}`;
-    console.log(url)
     return await fetch(url, {
         method: 'GET',
         headers: {

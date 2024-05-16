@@ -17,14 +17,12 @@ import {
 import {useNavigate} from "react-router-dom";
 import {ROUTES} from "../router/routes";
 import VestingStateFilter from "./VestingStateFilter";
-// import {selectCity} from "../store/slices/citySlice";
 import { getGenders } from "../services/gendersService";
 import { getSizes } from "../services/sizesService";
 import { getCategories } from "../services/categoriesService";
 
 
 export const getNavigateUrlSearch = (query) => {
-    console.log("getNavigateUrlSearch:", query)
     let url = "";
     const add = (str) => {
         if (url.length !== 0) {

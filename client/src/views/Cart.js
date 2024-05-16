@@ -84,7 +84,7 @@ const Cart = () => {
                 <Col xs={7}>
                     {
                         canPay ?
-                            products.map((product, index) => <ProductListItemCart key={index} product={product}/>)
+                            products.map((product, index) => <ProductListItemCart key={index} productId={product.id}/>)
                             :
                             <p>Aucun produit dans le panier.</p>
                     }

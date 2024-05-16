@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const citiesSchema = z
     .object({
-        limit: z.number().nonnegative().default(0),
+        limit: z.number().nonnegative().default(0).nullable(),
         name: z.string().nullable().optional(),
     })
     .optional();

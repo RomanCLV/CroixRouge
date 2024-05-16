@@ -79,19 +79,17 @@ export class UsersService {
     }
 
     async isAdmin(user: any, city: string): Promise<boolean> {
+        if (await this.isSuperAdmin(user)) {
+            return true;
+        }
         const fullUser = await this.findByEmail(user.email);
         if (fullUser) {
-            if (await this.isSuperAdmin(user.email)) {
-                return true;
+            const fullCity = await this.citiesService.findCityByName(city);
+            if (fullCity) {
+                return await this.cityAdminsService.find(fullUser.id, fullCity.id);
             }
             else {
-                const fullCity = await this.citiesService.findCityByName(city);
-                if (fullCity) {
-                    return await this.cityAdminsService.find(fullUser.id, fullCity.id);
-                }
-                else {
-                    throw new NotFoundException("city " + city + " not found");
-                }
+                throw new NotFoundException("city " + city + " not found");
             }
         }
         else {

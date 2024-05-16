@@ -11,10 +11,7 @@ export class SuperAdminsService {
         }
 
     async isSuperAdmin(userId: number) : Promise<boolean> {
-        const line = await this.superAdminsRepository
-            .createQueryBuilder("super_admins")
-            .where("user_id = :userId", { userId })
-            .getOne();
+        const line = await this.superAdminsRepository.findOne({where: {user: {id: userId}}});
         return line !== null;
     }
 }

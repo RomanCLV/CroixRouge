@@ -30,7 +30,7 @@ import { SuperAdminsModule } from './super-admins/super-admins.module';
 
 @Module({
     imports: [
-        ConfigModule.forRoot({ envFilePath: ".env.development.local" }),
+        ConfigModule.forRoot({ envFilePath: ".env" }),
         TypeOrmModule.forRoot({
             type: 'mysql',
             host: process.env.DATABASE_HOST,

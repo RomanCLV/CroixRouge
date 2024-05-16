@@ -6,7 +6,8 @@ import {
 } from "reactstrap";
 import CheckBoxGroup from "./CheckBoxGroup";
 import {CATEGORIES, GENDER, SIZE} from "../data/dataType";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+
 import {
     clearSearch,
     setSearchCategories,
@@ -16,9 +17,12 @@ import {
 import {useNavigate} from "react-router-dom";
 import {ROUTES} from "../router/routes";
 import VestingStateFilter from "./VestingStateFilter";
+import {selectCity} from "../store/slices/citySlice";
+
 
 export const getNavigateUrlSearch = (query) => {
     let url = "";
+    const city = useSelector(selectCity);
 
     const add = (str) => {
         if (url.length !== 0) {
@@ -26,6 +30,7 @@ export const getNavigateUrlSearch = (query) => {
         }
         url += str
     }
+    add("city=" + city.name);
     if (query.text) {
         add("text=" + query.text)
     }

@@ -36,6 +36,7 @@ export class ProductsController {
         const q = this.prepareQuery(query);
         return await this.productsService.search(q);
     }
+    
     private prepareQuery(query: string): SearchProductDto {
         const args = query.split("&");
         const q: SearchProductDto = {};

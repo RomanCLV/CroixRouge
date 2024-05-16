@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Param, Post, Query, UseFilters, UseInterceptors, UsePipes } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, ParseIntPipe, Post, Query, UseFilters, UseInterceptors, UsePipes } from '@nestjs/common';
 import { CreateProductPipe } from './pipes/create-product.pipe';
 import { CreateProductDto, createProductSchema } from './DTOs/create-product.dto';
 import { ProductsService } from './products.service';
@@ -8,6 +8,7 @@ import { ProductImagesProductInterceptor } from './interceptors/product-img-asso
 import { ProductImagesProductsInterceptor } from './interceptors/products-img-association.interceptor copy';
 import { SearchProductPipe } from './pipes/search.pipe';
 import { SearchProductDto, searchProductSchema } from './DTOs/search-product.dto';
+import { Product } from './product.entity';
 
 @Controller('products')
 export class ProductsController {
@@ -20,6 +21,16 @@ export class ProductsController {
     @UseInterceptors(ProductImagesProductInterceptor)
     async create(@Body() product: CreateProductDto): Promise<ProductImagesProductAssociation> {
         return await this.productsService.create(product);
+    }
+
+    @Get("/:id")
+    @UseFilters(DatabaseException)
+    @UseInterceptors(ProductImagesProductInterceptor)
+    async findProductById(@Param("id", ParseIntPipe) id: number): Promise<ProductImagesProductAssociation> {
+        console.log("Received product ID:", id);
+        const product = await this.productsService.findProductById(id);
+        console.log("Product found:", product);
+        return product;
     }
 
     @Get("/search")
@@ -36,7 +47,7 @@ export class ProductsController {
         const q = this.prepareQuery(query);
         return await this.productsService.search(q);
     }
-    
+
     private prepareQuery(query: string): SearchProductDto {
         const args = query.split("&");
         const q: SearchProductDto = {};

@@ -8,7 +8,7 @@ import {
 } from "reactstrap";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addProduct, deleteProduct, hasProducts } from "../store/slices/productsSlice";
+import { addProduct, deleteProduct, selectProducts } from "../store/slices/productsSlice";
 import { clearToast, setToast } from "../store/slices/toastSlice";
 import ProductImages from "../components/ProductImages";
 import VestingState from "../components/VestingState";
@@ -23,8 +23,9 @@ const Product = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch();
     const productID = useLoaderData();
+    const products = useSelector(selectProducts);
 
-    const [hasProduct, setHasProduct] = useState(useSelector(hasProducts));
+    const [hasProduct, setHasProduct] = useState(false);
     const [product, setProduct] = useState(null);
 
     const fetchProduct = useCallback(async () => {
@@ -39,13 +40,25 @@ const Product = () => {
 
     useEffect(() => {
         fetchProduct();
-    }, [fetchProduct]);
+
+        const match = products.find(product => product.id === parseInt(productID));
+        if (match) {
+            if (!hasProduct) {
+                setHasProduct(true);
+            }
+        }
+        else {
+            if (hasProduct) {
+                setHasProduct(false);
+            }
+        }
+
+    }, [products, fetchProduct, hasProduct, productID]);
 
     const onAddProductClick = () => {
         if (!hasProduct) {
             dispatch(addProduct(product));
             dispatchToast("Produit ajouté", "Ce produit a été ajouté à votre panier.", "success", 5000);
-            setHasProduct(true);
         }
         else {
             dispatchToast("Produit non ajouté", "Ce produit est déjà dans votre panier.", "warning", 5000);
@@ -56,7 +69,6 @@ const Product = () => {
         if (hasProduct) {
             dispatch(deleteProduct(product));
             dispatchToast("Produit retiré", "Ce produit a été retiré de votre panier.", "success", 5000);
-            setHasProduct(false);
         }
         else {
             dispatchToast("Produit non retiré", "Ce produit n'est pas dans votre panier.", "warning", 5000);

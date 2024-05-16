@@ -54,6 +54,7 @@ export const searchSlice = createSlice({
             state.limit = action.payload;
         },
         clearSearch: (state) => {
+            state.city = state.city,
             state.text = "";
             state.categories = [];
             state.genders = [];
@@ -61,6 +62,7 @@ export const searchSlice = createSlice({
             state.vestingState = 1;
             state.minimumPrice = 0;
             state.maximumPrice = 10000;
+            state.limit = 20;
         }
     }
 });

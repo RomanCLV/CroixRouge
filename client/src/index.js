@@ -30,11 +30,11 @@ import PasswordReset from "./views/PasswordReset";
 import ErrorPage from "./views/ErrorPage";
 import AddProduct from './views/AddProduct';
 
-import { generateData } from "./data/data";
+// import { generateData } from "./data/data";
 //import { citiesLoader } from "./router/loaders/citiesLoader";
 //import { selectedCityLoader } from "./router/loaders/selectedCityLoader";
 import { searchLoader } from "./router/loaders/searchLoader";
-import { productLoader } from "./router/loaders/productLoader";
+// import { productLoader } from "./router/loaders/productLoader";
 import RequireHasProducts from "./router/requires/RequireHasProducts";
 
 import './styles/index.css';
@@ -50,7 +50,7 @@ import AddCity from './views/AddCity';
 // map         : https://www.npmjs.com/package/google-map-react
 // map         : https://github.com/giorgiabosello/google-maps-react-markers
 
-generateData();
+// generateData();
 
 const router = createBrowserRouter([
     {
@@ -85,7 +85,7 @@ const router = createBrowserRouter([
             {
                 path: ROUTES.product + "/:id",
                 element: <Product />,
-                loader: productLoader
+                // loader: productLoader
             },
             {
                 path: ROUTES.cart,

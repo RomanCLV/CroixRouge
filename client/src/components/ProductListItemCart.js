@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {useNavigate} from "react-router-dom";
 import {
     Button,
@@ -10,7 +10,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrashCan, faLocationDot} from "@fortawesome/free-solid-svg-icons";
 import {ROUTES} from "../router/routes";
 import VestingState from "./VestingState";
-import {getCityById} from "../data/data";
+// import {getCityById} from "../data/data";
 import {useDispatch} from "react-redux";
 import {deleteProduct} from "../store/slices/productsSlice";
 import {clearToast, setToast} from "../store/slices/toastSlice";
@@ -28,7 +28,8 @@ const ProductListItemCart = (props) => {
         canDelete = props.canDelete;
     }
 
-    const city = getCityById(product.cityId);
+    //const city = getCityById(product.cityId);
+    const [city, setCity] = useState(null);
 
     const onNavigate = () => {
         navigate(ROUTES.product + "/" + product.id)
@@ -52,7 +53,9 @@ const ProductListItemCart = (props) => {
         }, timeout);
     }
 
-    return (
+    return city ? 
+        <div className={"item-cart-container"}><p>Ce produit n'existe pas.</p></div> :
+        (
         <div className={"item-cart-container"}>
             <Col xs={12} sm={3} onClick={onNavigate} className={"cursor-pointer"}>
                 <Card>

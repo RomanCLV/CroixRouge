@@ -93,7 +93,7 @@ const Main = () => {
                         <ProductsList
                             key={index}
                             category={category}
-                            seeMore={ROUTES.search + "/categories=" + category}
+                            seeMore={ROUTES.search + `/city=${city.name}&categories=${category}`}
                         />)
                 }
             </Container>

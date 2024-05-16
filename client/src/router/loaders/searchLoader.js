@@ -1,13 +1,15 @@
 export async function searchLoader ({params}) {
 
     const search = params.search;
+    let city = "";
     let text = "";
     let categories = [];
     let sizes = [];
     let genders = [];
-    let vestingState = 1;
+    let state = 1;
     let minimumPrice = 0;
     let maximumPrice = 10000;
+    let limit = 20;
 
     if (search) {
         const searchTags = search.split("&");
@@ -16,6 +18,9 @@ export async function searchLoader ({params}) {
             const key = tmp[0];
             const value = tmp[1];
 
+            if (key === "city") {
+                city = value;
+            }
             if (key === "text") {
                 text = value;
             }
@@ -28,13 +33,13 @@ export async function searchLoader ({params}) {
             if (key === "genders") {
                 genders = value.split("|");
             }
-            if (key === "vestingState") {
-                vestingState = parseInt(value) || 1;
-                if (vestingState < 1) {
-                    vestingState = 1;
+            if (key === "state") {
+                state = parseInt(value) || 1;
+                if (state < 1) {
+                    state = 1;
                 }
-                else if (vestingState > 5) {
-                    vestingState = 5;
+                else if (state > 5) {
+                    state = 5;
                 }
             }
             if (key === "minimumPrice") {
@@ -55,16 +60,21 @@ export async function searchLoader ({params}) {
                     maximumPrice = 10000;
                 }
             }
+            if (key === "limit") {
+                limit = value;
+            }
         }
     }
 
     return {
+        city: city,
         text: text,
         categories: categories,
         sizes: sizes,
         genders: genders,
-        vestingState: vestingState,
+        state: state,
         minimumPrice: minimumPrice,
-        maximumPrice: maximumPrice
+        maximumPrice: maximumPrice,
+        limit: limit
     };
 }

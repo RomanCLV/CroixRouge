@@ -5,17 +5,17 @@ import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
 
 const VestingState = (props) => {
 
-    let vestingState = parseInt(props.state) || 1;
-    if (vestingState > 5) {
-        vestingState = 5;
+    let state = parseInt(props.state) || 1;
+    if (state > 5) {
+        state = 5;
     }
-    else if (vestingState < 1) {
-        vestingState = 1;
+    else if (state < 1) {
+        state = 1;
     }
 
     const stars = [];
     for (let i = 0; i < 5; i++) {
-        stars.push(vestingState - 1 >= i);
+        stars.push(state - 1 >= i);
     }
 
     return (

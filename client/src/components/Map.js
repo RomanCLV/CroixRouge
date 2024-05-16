@@ -1,10 +1,10 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import "../styles/map.css";
 import {Spinner} from "reactstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLocationDot} from "@fortawesome/free-solid-svg-icons";
 import GoogleMap from "google-maps-react-markers";
-import {getCities} from "../data/data";
+import { getCities } from "../services/citiesService";
 
 const Marker = () => <FontAwesomeIcon
     icon={faLocationDot}
@@ -18,6 +18,14 @@ const Map = () => {
     const [mapReady, setMapReady] = useState(false);
     const [zoom, setZoom] = useState(5.7);
     const [isZoomSet, setIsZoomSet] = useState(false);
+    const [cities, setCities] = useState([]);
+
+    const fetchCities = useCallback(async () => {
+        const result = await getCities();
+        if (result.cities) {
+            setCities(result.cities);
+        }
+    }, [setCities])
 
     useEffect(() => {
         const trySetZoom = () => {
@@ -37,7 +45,9 @@ const Map = () => {
             setIsZoomSet(true);
             trySetZoom();
         }
-    },  [zoom, isZoomSet] )
+
+        fetchCities();
+    },  [zoom, isZoomSet, fetchCities] )
 
     const onGoogleApiLoaded = ({ map, maps }) => {
         mapRef.current = map;
@@ -61,8 +71,6 @@ const Map = () => {
         const b = p1.y - a * p1.x;
         return Math.round((a * height + b) * 10) / 10;
     }
-
-    const cities = getCities();
 
     return (
         <GoogleMap

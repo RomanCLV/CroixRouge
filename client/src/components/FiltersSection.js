@@ -1,11 +1,11 @@
 import "../styles/FiltersSection.css";
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
     Button,
     Container, FormGroup, FormText, Input, Label
 } from "reactstrap";
 import CheckBoxGroup from "./CheckBoxGroup";
-import {CATEGORIES, GENDER, SIZE} from "../data/dataType";
+// import {CATEGORIES, GENDER, SIZE} from "../data/dataType";
 import {useDispatch, useSelector} from "react-redux";
 
 import {
@@ -17,10 +17,13 @@ import {
 import {useNavigate} from "react-router-dom";
 import {ROUTES} from "../router/routes";
 import VestingStateFilter from "./VestingStateFilter";
-import {selectCity} from "../store/slices/citySlice";
+// import {selectCity} from "../store/slices/citySlice";
+import { getGenders } from "../services/gendersService";
+import { getSizes } from "../services/sizesService";
+import { getCategories } from "../services/categoriesService";
 
 
-export const getNavigateUrlSearch = (city, query) => {
+export const getNavigateUrlSearch = (query) => {
     console.log("getNavigateUrlSearch:", query)
     let url = "";
     const add = (str) => {
@@ -29,7 +32,9 @@ export const getNavigateUrlSearch = (city, query) => {
         }
         url += str
     }
-    add("city=" + city.name);
+    if (query.city) {
+        add("city=" + query.city);
+    }
     if (query.text) {
         add("text=" + query.text)
     }
@@ -42,8 +47,8 @@ export const getNavigateUrlSearch = (city, query) => {
     if (query.sizes && query.sizes.length > 0) {
         add("sizes=" + query.sizes.join("|"));
     }
-    if (query.vestingState && query.vestingState > 1) {
-        add("state=" + query.vestingState);
+    if (query.state && query.state > 1) {
+        add("state=" + query.state);
     }
     if (query.minimumPrice && query.minimumPrice > 0) {
         add("minimumPrice=" + query.minimumPrice);
@@ -61,10 +66,39 @@ export const navigateSearch = (url, navigate) => {
 const FiltersSection = (props) => {
 
     const query = {...props.query};
-    const city = useSelector(selectCity);
+    const [genders, setGenders] = useState([]); 
+    const [sizes, setSizes] = useState([]); 
+    const [categories, setCategories] = useState([]); 
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const fetchGenders = useCallback(async () => {
+        const result = await getGenders();
+        if (result.genders) {
+            setGenders(result.genders);
+        }
+    }, [getGenders])
+    
+    const fetchCategories = useCallback(async () => {
+        const result = await getCategories();
+        if (result.categories) {
+            setCategories(result.categories);
+        }
+    }, [getGenders])
+    
+    const fetchSizes = useCallback(async () => {
+        const result = await getSizes();
+        if (result.sizes) {
+            setSizes(result.sizes);
+        }
+    }, [getSizes])
+
+    useEffect(() => {
+        fetchGenders();
+        fetchCategories();
+        fetchSizes();
+    }, [fetchGenders, fetchCategories, fetchSizes])
 
     const onCategoryCheckboxClick = (value) => {
         if (query.categories.includes(value)) {
@@ -74,7 +108,7 @@ const FiltersSection = (props) => {
             query.categories = query.categories.concat(value);
         }
         dispatch(setSearchCategories(query.categories));
-        navigateSearch(getNavigateUrlSearch(city, query), navigate);
+        navigateSearch(getNavigateUrlSearch(query), navigate);
     }
 
     const onGenderCheckboxClick = (value) => {
@@ -85,7 +119,7 @@ const FiltersSection = (props) => {
             query.genders = query.genders.concat(value);
         }
         dispatch(setSearchCategories(query.genders));
-        navigateSearch(getNavigateUrlSearch(city, query), navigate);
+        navigateSearch(getNavigateUrlSearch(query), navigate);
     }
 
     const onSizeCheckboxClick = (value) => {
@@ -96,19 +130,19 @@ const FiltersSection = (props) => {
             query.sizes = query.sizes.concat(value);
         }
         dispatch(setSearchCategories(query.sizes));
-        navigateSearch(getNavigateUrlSearch(city, query), navigate);
+        navigateSearch(getNavigateUrlSearch(query), navigate);
     }
 
     const minimumPriceChanged = (value) => {
         dispatch(setSearchMinimumPrice(value));
         query.minimumPrice = value;
-        navigateSearch(getNavigateUrlSearch(city, query), navigate);
+        navigateSearch(getNavigateUrlSearch(query), navigate);
     }
 
     const maximumPriceChanged = (value) => {
         dispatch(setSearchMaximumPrice(value));
         query.maximumPrice = value;
-        navigateSearch(getNavigateUrlSearch(city, query), navigate);
+        navigateSearch(getNavigateUrlSearch(query), navigate);
     }
 
     const onRemoveFilters = () => {
@@ -127,18 +161,18 @@ const FiltersSection = (props) => {
                 </Container>
                 <CheckBoxGroup
                     title={"Catégories"}
-                    values={Object.values(CATEGORIES)}
+                    values={Object.values(categories)}
                     selectedValues={query.categories}
                     onClick={onCategoryCheckboxClick} />
 
                 <CheckBoxGroup
                     title={"Genre"}
-                    values={Object.values(GENDER)}
+                    values={Object.values(genders)}
                     selectedValues={query.genders}
                     onClick={onGenderCheckboxClick} />
                 <CheckBoxGroup
                     title={"Taille"}
-                    values={Object.values(SIZE)}
+                    values={Object.values(sizes)}
                     selectedValues={query.sizes}
                     onClick={onSizeCheckboxClick} />
                 <VestingStateFilter

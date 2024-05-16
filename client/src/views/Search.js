@@ -18,6 +18,7 @@ import {selectSearch, setSearch} from "../store/slices/searchSlice";
 const Search = () => {
 
     const query = useLoaderData();
+    console.log("search query:", query)
     const dispatch = useDispatch();
     //const city = useSelector(selectCity);
     const search = useSelector(selectSearch);

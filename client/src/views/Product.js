@@ -15,7 +15,7 @@ import VestingState from "../components/VestingState";
 import ProductsList from "../components/ProductsList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { getCityById, getProductById, searchProducts } from "../data/data";
+// import { getCityById, getProductById, searchProducts } from "../data/data";
 import { ROUTES } from "../router/routes";
 import { getPriceToDisplay } from "../components/CartTicket";
 
@@ -25,7 +25,8 @@ const Product = () => {
     const dispatch = useDispatch();
     const currentProduct = useLoaderData();
     const products = useSelector(selectProducts);
-    const city = getCityById(currentProduct.cityId);
+    //const city = getCityById(currentProduct.cityId);
+    const city = null;
 
     const [hasProduct, setHasProduct] = useState(false);
 
@@ -77,9 +78,10 @@ const Product = () => {
         }, timeout);
     }
 
-    const similarProducts = searchProducts(currentProduct.cityId, {
-        categories: [currentProduct.category],
-    });
+    // const similarProducts = searchProducts(currentProduct.cityId, {
+    //     categories: [currentProduct.category],
+    // });
+    const similarProducts = [];
 
     return currentProduct ?
         <Container className={"mainContentView"}>
@@ -148,11 +150,11 @@ const Product = () => {
                 </Col>
             </Row>
             <Container>
-                <ProductsList
+                {/* <ProductsList
                     category="Produits similaires"
                     products={similarProducts.map(id => getProductById(id))}
                     seeMore={ROUTES.search + "/categories=" + currentProduct.category}
-                />
+                /> */}
             </Container>
         </Container>
 

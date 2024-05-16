@@ -11,7 +11,7 @@ import CartStatement from "../components/CartStatement";
 import {ROUTES} from "../router/routes";
 import {useNavigate} from "react-router-dom";
 import InputManager from "../components/InputManager";
-import {pay} from "../data/data";
+// import {pay} from "../data/data";
 import {useDispatch, useSelector} from "react-redux";
 import {clearProducts, selectProducts} from "../store/slices/productsSlice";
 import {clearCommand, selectCommand, setCommand} from "../store/slices/commandSlice";
@@ -93,7 +93,8 @@ const Payment = () => {
             return;
         }
 
-        const result = pay(products.map(product => product.id));
+        //const result = pay(products.map(product => product.id));
+        const result = { success: true };
         if (result.success) {
             dispatch(clearProducts());
             dispatch(setCommand(products));

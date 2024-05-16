@@ -7,7 +7,7 @@ const ProductModel = (props) => {
         category: props.category || "",
         name: props.name || "",
         gender: props.gender || "",
-        vestingState: props.vestingState || 1,
+        state: props.state || 1,
         description: props.description || "",
         creationDateYear: props.creationDateYear || 1970,
         creationDateMonth: props.creationDateMonth || 0,

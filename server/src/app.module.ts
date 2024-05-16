@@ -31,7 +31,7 @@ import { CartsModule } from './carts/carts.module';
 
 @Module({
     imports: [
-        ConfigModule.forRoot({ envFilePath: ".env.development.local" }),
+        ConfigModule.forRoot({ envFilePath: ".env" /*".env.development.local"*/ }),
         TypeOrmModule.forRoot({
             type: 'mysql',
             host: process.env.DATABASE_HOST,

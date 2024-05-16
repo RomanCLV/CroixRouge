@@ -37,7 +37,7 @@ const ProductCard = (props) => {
                             <p>Taille : {product.size}</p>
                         </Col>
                         <Col className={"d-flex justify-content-end"}>
-                            <VestingState vestingState={product.vestingState} />
+                            <VestingState state={product.state} />
                         </Col>
                     </Row>
                 </CardSubtitle>

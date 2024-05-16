@@ -11,10 +11,18 @@ export const addProduct = async (productData) => {
         body: JSON.stringify(productData)
     })
         .then(res => res.json())
-        .then(product => {
-            console.log("Product created:", product);
-            return product;
-        })
-        .catch((error) => ({ error: error.message }));
+        .catch((error) => ({ error: error }));
 }
 
+export const search = async (query) => {
+    const url = `${API_URL}/products/search/${query}`;
+    console.log(url)
+    return await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+        .then(res => res.json())
+        .catch((error) => ({ error: error }));
+}

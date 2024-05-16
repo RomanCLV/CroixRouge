@@ -1,22 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
     Col,
     Row
 } from "reactstrap";
-import ProductCard from "./ProductCard";
+import {useSelector} from "react-redux";
 import {Link} from "react-router-dom";
+import {selectCity} from "../store/slices/citySlice";
+import ProductCard from "./ProductCard";
+import { search } from "../services/productsService";
+
 
 const ProductsList = (props) => {
 
+    const city = useSelector(selectCity);
     const category = props.category;
     const [products, setProducts] = useState([]);
     const redirect = props.seeMore || "";
 
-    useEffect(() => {
-        if (false) {
-            setProducts([]);
+    const fetchProducts = useCallback(async () => {
+        const result = await search(`city=${city.name}&categories=${category}&limit=4`);
+        if (result.error) {
+
         }
-    }, []);
+        else {
+            setProducts(result.products);
+        }
+    }, [city.name, category])
+
+    useEffect(() => {
+        fetchProducts();
+    }, [fetchProducts]);
 
     return (
         <Row className={"product-list-container"}>

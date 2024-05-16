@@ -5,7 +5,7 @@ import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
 
 const VestingState = (props) => {
 
-    let vestingState = parseInt(props.vestingState) || 1;
+    let vestingState = parseInt(props.state) || 1;
     if (vestingState > 5) {
         vestingState = 5;
     }

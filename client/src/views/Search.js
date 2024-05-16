@@ -9,9 +9,9 @@ import {
 import {useLoaderData} from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import FiltersSection from "../components/FiltersSection";
-import {getProductById, searchProducts} from "../data/data";
+//import {getProductById, searchProducts} from "../data/data";
 import {useDispatch, useSelector} from "react-redux";
-import {selectCity} from "../store/slices/citySlice";
+//import {selectCity} from "../store/slices/citySlice";
 import ProductCard from "../components/ProductCard";
 import {selectSearch, setSearch} from "../store/slices/searchSlice";
 
@@ -19,9 +19,9 @@ const Search = () => {
 
     const query = useLoaderData();
     const dispatch = useDispatch();
-    const city = useSelector(selectCity);
+    //const city = useSelector(selectCity);
     const search = useSelector(selectSearch);
-    const products = searchProducts(city.id, query);
+    const products = [];
 
     const [searchIsSet, setSearchIsSet] = useState(false);
     const [limit, setLimit] = useState(20);
@@ -53,7 +53,7 @@ const Search = () => {
                                     products.map((id, index) =>
                                         index < limit ?
                                         <Col lg={3} md={4} sm={6} key={index}>
-                                            <ProductCard product={getProductById(id)} />
+                                            <ProductCard product={index} />
                                         </Col>
                                     :
                                     null

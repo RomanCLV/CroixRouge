@@ -20,10 +20,9 @@ import VestingStateFilter from "./VestingStateFilter";
 import {selectCity} from "../store/slices/citySlice";
 
 
-export const getNavigateUrlSearch = (query) => {
+export const getNavigateUrlSearch = (city, query) => {
+    console.log("getNavigateUrlSearch:", query)
     let url = "";
-    const city = useSelector(selectCity);
-
     const add = (str) => {
         if (url.length !== 0) {
             url += "&";
@@ -62,6 +61,8 @@ export const navigateSearch = (url, navigate) => {
 const FiltersSection = (props) => {
 
     const query = {...props.query};
+    const city = useSelector(selectCity);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -73,7 +74,7 @@ const FiltersSection = (props) => {
             query.categories = query.categories.concat(value);
         }
         dispatch(setSearchCategories(query.categories));
-        navigateSearch(getNavigateUrlSearch(query), navigate);
+        navigateSearch(getNavigateUrlSearch(city, query), navigate);
     }
 
     const onGenderCheckboxClick = (value) => {
@@ -84,7 +85,7 @@ const FiltersSection = (props) => {
             query.genders = query.genders.concat(value);
         }
         dispatch(setSearchCategories(query.genders));
-        navigateSearch(getNavigateUrlSearch(query), navigate);
+        navigateSearch(getNavigateUrlSearch(city, query), navigate);
     }
 
     const onSizeCheckboxClick = (value) => {
@@ -95,19 +96,19 @@ const FiltersSection = (props) => {
             query.sizes = query.sizes.concat(value);
         }
         dispatch(setSearchCategories(query.sizes));
-        navigateSearch(getNavigateUrlSearch(query), navigate);
+        navigateSearch(getNavigateUrlSearch(city, query), navigate);
     }
 
     const minimumPriceChanged = (value) => {
         dispatch(setSearchMinimumPrice(value));
         query.minimumPrice = value;
-        navigateSearch(getNavigateUrlSearch(query), navigate);
+        navigateSearch(getNavigateUrlSearch(city, query), navigate);
     }
 
     const maximumPriceChanged = (value) => {
         dispatch(setSearchMaximumPrice(value));
         query.maximumPrice = value;
-        navigateSearch(getNavigateUrlSearch(query), navigate);
+        navigateSearch(getNavigateUrlSearch(city, query), navigate);
     }
 
     const onRemoveFilters = () => {
@@ -141,7 +142,7 @@ const FiltersSection = (props) => {
                     selectedValues={query.sizes}
                     onClick={onSizeCheckboxClick} />
                 <VestingStateFilter
-                    vestingState={query.vestingState} />
+                    vestingState={query.state} />
                 <Container>
                     <FormGroup>
                         <Label for="minimumPrice">

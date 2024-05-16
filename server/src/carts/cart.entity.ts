@@ -15,7 +15,4 @@ export class Cart {
     @ManyToOne(() => Product)
     @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
     product: Product;
-
-    @Column({ type: 'tinyint' })
-    available: number;
 }

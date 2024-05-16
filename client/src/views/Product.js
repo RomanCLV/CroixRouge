@@ -17,6 +17,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { getProductById } from "../services/productsService";
 import { getPriceToDisplay } from "../components/CartTicket";
+import { ROUTES } from "../router/routes";
+import ProductsList from "../components/ProductsList";
+import { createCart } from "../services/cartsService";
 
 const Product = () => {
 
@@ -55,10 +58,14 @@ const Product = () => {
 
     }, [products, fetchProduct, hasProduct, productID]);
 
-    const onAddProductClick = () => {
+    const onAddProductClick = async () => {
         if (!hasProduct) {
             dispatch(addProduct(product));
             dispatchToast("Produit ajouté", "Ce produit a été ajouté à votre panier.", "success", 5000);
+            const currentJWT = localStorage.getItem("jwt");
+            if (currentJWT) {
+                await createCart(currentJWT, product.id);
+            }
         }
         else {
             dispatchToast("Produit non ajouté", "Ce produit est déjà dans votre panier.", "warning", 5000);
@@ -85,10 +92,6 @@ const Product = () => {
             dispatch(clearToast());
         }, timeout);
     }
-
-    // const similarProducts = searchProducts(currentProduct.cityId, {
-    //     categories: [currentProduct.category],
-    // });
 
     return product ?
         <Container className={"mainContentView"}>
@@ -157,11 +160,11 @@ const Product = () => {
                 </Col>
             </Row>
             <Container>
-                {/* <ProductsList
-                    category="Produits similaires"
-                    products={similarProducts.map(id => getProductById(id))}
-                    seeMore={ROUTES.search + "/categories=" + currentProduct.category}
-                /> */}
+                <ProductsList
+                    title="Produits similaires"
+                    category={product.category}
+                    seeMore={ROUTES.search + `/city=${product.city}&categories=${product.category}`}
+                />
             </Container>
         </Container>
 

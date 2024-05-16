@@ -27,6 +27,7 @@ import { JsonHeaderMiddleware } from './middlewares/json-header.middleware';
 import { CityAdminsModule } from './city-admins/city-admins.module';
 import { ProductImagesModule } from './product-images/product-images.module';
 import { SuperAdminsModule } from './super-admins/super-admins.module';
+import { CartsModule } from './carts/carts.module';
 
 @Module({
     imports: [
@@ -51,6 +52,7 @@ import { SuperAdminsModule } from './super-admins/super-admins.module';
         CityAdminsModule,
         ProductImagesModule,
         SuperAdminsModule,
+        CartsModule
     ],
     controllers: [AppController],
     providers: [AppService],

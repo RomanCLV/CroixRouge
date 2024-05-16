@@ -33,7 +33,7 @@ const ProductsList = (props) => {
 
     return (
         <Row className={"product-list-container"}>
-            <h3 className={"product-list-category"}>{category}</h3>
+            <h3 className={"product-list-category"}>{props.title || category}</h3>
             {
                 products.length === 0 ?
                 <p>Pas de produit.</p>

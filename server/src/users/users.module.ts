@@ -20,6 +20,7 @@ import { SuperAdminsService } from 'src/super-admins/super-admins.service';
     AuthModule
   ],
   controllers: [UsersController],
-  providers: [UsersService, CitiesService, CityAdminsService, SuperAdminsService]
+  providers: [UsersService, CitiesService, CityAdminsService, SuperAdminsService],
+  exports: [UsersService]
 })
 export class UsersModule { }

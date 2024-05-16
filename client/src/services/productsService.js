@@ -37,3 +37,17 @@ export const getProductById = async (id) => {
         .then(res => res.json())
         .catch((error) => ({ error: error }));
 }
+
+export const pay = async (productIds) => {
+    const url = `${API_URL}/products/pay`;
+
+    return await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({products: productIds})
+    })
+        .then(res => res.json())
+        .catch((error) => ({ error: error }));
+}

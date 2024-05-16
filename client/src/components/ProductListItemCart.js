@@ -21,12 +21,13 @@ const ProductListItemCart = (props) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const productId = props.productId;
+    
     let canDelete = true;
     if (props.canDelete === true || props.canDelete === false) {
         canDelete = props.canDelete;
     }
-    const [product, setProduct] = useState(null);
-    const [image, setImage] = useState("");
+    const [product, setProduct] = useState(props.product || null);
+    const [image, setImage] = useState(props.product && props.product.images.length > 0 ? props.product.images[0] : "");
 
     const fetchProduct = useCallback(async () => {
         const result = await getProductById(productId);
@@ -41,8 +42,10 @@ const ProductListItemCart = (props) => {
     }, [productId])
 
     useEffect(() => {
-        fetchProduct();
-    }, [fetchProduct])
+        if (!product && productId) {
+            fetchProduct();
+        }
+    }, [product, productId, fetchProduct])
 
     const onNavigate = () => {
         navigate(ROUTES.product + "/" + product.id)

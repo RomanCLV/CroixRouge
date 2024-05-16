@@ -11,7 +11,7 @@ export class ProductImagesProductsInterceptor implements NestInterceptor<Product
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
         return next.handle().pipe(
             map((associations: ProductImagesProductAssociation[]) => ({
-                products: associations.map((association: ProductImagesProductAssociation) => ({
+                products: associations.map((association: ProductImagesProductAssociation) => association ? ({
                     id: association.product.id,
                     title: association.product.title,
                     description: association.product.description,
@@ -22,7 +22,7 @@ export class ProductImagesProductsInterceptor implements NestInterceptor<Product
                     size: association.product.size.size,
                     gender: association.product.gender.gender,
                     images: association.images.map((imageProduct: ProductImages) => imageProduct.image_path)
-                }))
+                }) : null)
             }))
         );
     }

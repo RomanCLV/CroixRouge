@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Inject, Injectable, NotFoundException } from
 import { CreateProductDto } from './DTOs/create-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './product.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { CategoriesService } from 'src/categories/categories.service';
 import { GendersService } from 'src/genders/genders.service';
 import { SizesService } from 'src/sizes/sizes.service';
@@ -32,8 +32,13 @@ export class ProductsService {
         const associations: ProductImagesProductAssociation[] = [];
         for (let index = 0; index < products.length; index++) {
             const product = products[index];
-            const images = await this.productImagesService.findImagesByProductId(product.id);
-            associations.push({ product, images });
+            if (product) {
+                const images = await this.productImagesService.findImagesByProductId(product.id);
+                associations.push({ product, images });
+            }
+            else {
+                associations.push(null);
+            }
         }
         return associations;
     }
@@ -43,12 +48,15 @@ export class ProductsService {
             where: { id },
             relations: ['city', 'size', 'gender', 'category'],
         });
-        const images = await this.productImagesService.findImagesByProductId(product.id);
-        const association: ProductImagesProductAssociation = {
-            product: product,
-            images: images
+        if (product) {
+            const images = await this.productImagesService.findImagesByProductId(product.id);
+            const association: ProductImagesProductAssociation = {
+                product: product,
+                images: images
+            }
+            return association;
         }
-        return association;
+        return null;
     }
 
     async findAll(): Promise<ProductImagesProductAssociation[]> {
@@ -155,10 +163,18 @@ export class ProductsService {
     }
 
     async pay(productIds: number[]): Promise<ProductImagesProductAssociation[]> {
-        const qb = this.productsRepository.createQueryBuilder('product');
-        qb.where("product.id IN (:...ids)", {ids: productIds});
-        const products = await qb.getMany();
-        console.log("pay products:", products)
-        return this.createAssociationsFromProducts(products);
+        const products = await this.productsRepository.find({
+            where: {id: In(productIds) },
+            relations: ['city', 'size', 'gender', 'category'],
+        });
+
+        if (products.length !== productIds.length) {
+            throw new HttpException("Un ou plusieurs produit n'existe plus.", HttpStatus.GONE);
+        }
+        const associations = await this.createAssociationsFromProducts(products);
+
+        await this.productsRepository.delete({ id: In(productIds) });
+
+        return associations;
     }
 }

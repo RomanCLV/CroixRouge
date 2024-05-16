@@ -11,7 +11,7 @@ import CartStatement from "../components/CartStatement";
 import {ROUTES} from "../router/routes";
 import {useNavigate} from "react-router-dom";
 import InputManager from "../components/InputManager";
-// import {pay} from "../data/data";
+import { pay } from "../services/productsService";
 import {useDispatch, useSelector} from "react-redux";
 import {clearProducts, selectProducts} from "../store/slices/productsSlice";
 import {clearCommand, selectCommand, setCommand} from "../store/slices/commandSlice";
@@ -69,7 +69,7 @@ const Payment = () => {
         navigate(ROUTES.cart);
     }
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
         const valid =
             valueNotEmpty(carte) &&
             valueNotEmpty(expirationDate) &&
@@ -93,11 +93,11 @@ const Payment = () => {
             return;
         }
 
-        //const result = pay(products.map(product => product.id));
-        const result = { success: true };
-        if (result.success) {
+        const result = await pay(products.map(product => product.id));
+        console.log("pay result:", result)
+        if (result.products) {
             dispatch(clearProducts());
-            dispatch(setCommand(products));
+            dispatch(setCommand(result.products));
             navigate(ROUTES.paymentDone);
         }
         else {

@@ -7,6 +7,8 @@ import { ProductImagesProductAssociation } from './interfaces/product-images-pro
 import { ProductImagesProductInterceptor } from './interceptors/product-img-association.interceptor';
 import { ProductImagesProductsInterceptor } from './interceptors/products-img-association.interceptor copy';
 import { SearchProductDto } from './DTOs/search-product.dto';
+import { PayProductPipe } from './pipes/pay-product.pipe';
+import { PayProductDto, payProductSchema } from './DTOs/pay-products.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -202,5 +204,13 @@ export class ProductsController {
         }
 
         return q;
+    }
+
+    @Post("pay")
+    @UseFilters(DatabaseException)
+    @UseInterceptors(ProductImagesProductsInterceptor)
+    @UsePipes(new PayProductPipe(payProductSchema))
+    async pay(@Body() body: PayProductDto): Promise<ProductImagesProductAssociation[]> {
+        return await this.productsService.pay(body.products);
     }
 }

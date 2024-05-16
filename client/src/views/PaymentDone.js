@@ -38,7 +38,7 @@ const PaymentDone = () => {
                         <Row>
                             {
                                 command.map((product, index) => <ProductListItemCart
-                                    key={index} productId={product.id} canDelete={false}/>)
+                                    key={index} product={product} canDelete={false}/>)
                             }
                         </Row>
                     </Col>

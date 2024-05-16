@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import "../styles/Search.css";
 import {
     Button,
@@ -14,24 +14,35 @@ import {useDispatch, useSelector} from "react-redux";
 //import {selectCity} from "../store/slices/citySlice";
 import ProductCard from "../components/ProductCard";
 import {selectSearch, setSearch} from "../store/slices/searchSlice";
+import { searchProducts } from "../services/productsService";
+import { getNavigateUrlSearch } from "../components/FiltersSection";
 
 const Search = () => {
 
     const query = useLoaderData();
     console.log("search query:", query)
     const dispatch = useDispatch();
-    //const city = useSelector(selectCity);
     const search = useSelector(selectSearch);
-    const products = [];
+    const [products, setProducts] = useState([]);
 
     const [searchIsSet, setSearchIsSet] = useState(false);
     const [limit, setLimit] = useState(20);
+
+    const fetchProducts = useCallback(async () => {
+        const result = await searchProducts(getNavigateUrlSearch(query));
+        console.log("fp result")
+        console.log(result)
+        if (result.products) {
+            setProducts(products)
+        }
+    }, [search])
 
     useEffect(() => {
         if (!searchIsSet) {
             setSearchIsSet(true);
             dispatch(setSearch(query));
         }
+        fetchProducts();
     }, [searchIsSet, search, query , dispatch])
 
     const onSeeMoreClick = () => {

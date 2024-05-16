@@ -7,7 +7,7 @@ import {useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 import {selectCity} from "../store/slices/citySlice";
 import ProductCard from "./ProductCard";
-import { search } from "../services/productsService";
+import { searchProducts } from "../services/productsService";
 
 
 const ProductsList = (props) => {
@@ -18,7 +18,7 @@ const ProductsList = (props) => {
     const redirect = props.seeMore || "";
 
     const fetchProducts = useCallback(async () => {
-        const result = await search(`city=${city.name}&categories=${category}&limit=4`);
+        const result = await searchProducts(`city=${city.name}&categories=${category}&limit=4`);
         if (result.error) {
 
         }

@@ -14,7 +14,7 @@ export const addProduct = async (productData) => {
         .catch((error) => ({ error: error }));
 }
 
-export const search = async (query) => {
+export const searchProducts = async (query) => {
     const url = `${API_URL}/products/search/${query}`;
     console.log(url)
     return await fetch(url, {

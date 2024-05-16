@@ -6,7 +6,7 @@ import {
 } from "reactstrap";
 import CheckBoxGroup from "./CheckBoxGroup";
 // import {CATEGORIES, GENDER, SIZE} from "../data/dataType";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 
 import {
     clearSearch,
@@ -78,21 +78,21 @@ const FiltersSection = (props) => {
         if (result.genders) {
             setGenders(result.genders);
         }
-    }, [getGenders])
+    }, [])
     
     const fetchCategories = useCallback(async () => {
         const result = await getCategories();
         if (result.categories) {
             setCategories(result.categories);
         }
-    }, [getGenders])
+    }, [])
     
     const fetchSizes = useCallback(async () => {
         const result = await getSizes();
         if (result.sizes) {
             setSizes(result.sizes);
         }
-    }, [getSizes])
+    }, [])
 
     useEffect(() => {
         fetchGenders();

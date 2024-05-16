@@ -26,3 +26,16 @@ export const searchProducts = async (query) => {
         .then(res => res.json())
         .catch((error) => ({ error: error }));
 }
+
+export const getProductById = async (id) => {
+    const url = `${API_URL}/products/${id}`;
+    console.log(url)
+    return await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+        .then(res => res.json())
+        .catch((error) => ({ error: error }));
+}

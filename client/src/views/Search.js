@@ -9,9 +9,7 @@ import {
 import {useLoaderData} from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import FiltersSection from "../components/FiltersSection";
-//import {getProductById, searchProducts} from "../data/data";
 import {useDispatch, useSelector} from "react-redux";
-//import {selectCity} from "../store/slices/citySlice";
 import ProductCard from "../components/ProductCard";
 import {selectSearch, setSearch} from "../store/slices/searchSlice";
 import { searchProducts } from "../services/productsService";
@@ -22,6 +20,7 @@ const Search = () => {
     const query = useLoaderData();
     const dispatch = useDispatch();
     const search = useSelector(selectSearch);
+
     const [products, setProducts] = useState([]);
 
     const [searchIsSet, setSearchIsSet] = useState(false);

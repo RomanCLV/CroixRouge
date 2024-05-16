@@ -35,7 +35,7 @@ const VestingStateFilter = (props) => {
 
     return (
         <Container>
-            <FormText>Etat de vestuté :</FormText>
+            <FormText>Etat :</FormText>
             <div>
                 {
                     stars.map((star, index) => star ?

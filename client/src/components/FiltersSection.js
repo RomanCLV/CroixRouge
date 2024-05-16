@@ -5,15 +5,16 @@ import {
     Container, FormGroup, FormText, Input, Label
 } from "reactstrap";
 import CheckBoxGroup from "./CheckBoxGroup";
-// import {CATEGORIES, GENDER, SIZE} from "../data/dataType";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 import {
     clearSearch,
     setSearchCategories,
+    setSearchCity,
     setSearchMaximumPrice,
     setSearchMinimumPrice
 } from "../store/slices/searchSlice";
+import {selectCity} from "../store/slices/citySlice";
 import {useNavigate} from "react-router-dom";
 import {ROUTES} from "../router/routes";
 import VestingStateFilter from "./VestingStateFilter";
@@ -64,6 +65,8 @@ export const navigateSearch = (url, navigate) => {
 const FiltersSection = (props) => {
 
     const query = {...props.query};
+    const city = useSelector(selectCity);
+
     const [genders, setGenders] = useState([]); 
     const [sizes, setSizes] = useState([]); 
     const [categories, setCategories] = useState([]); 
@@ -145,7 +148,8 @@ const FiltersSection = (props) => {
 
     const onRemoveFilters = () => {
         dispatch(clearSearch());
-        navigate(ROUTES.search);
+        dispatch(setSearchCity(city.name));
+        navigateSearch(getNavigateUrlSearch({city: city.name}), navigate);
     }
 
     return (
@@ -174,7 +178,7 @@ const FiltersSection = (props) => {
                     selectedValues={query.sizes}
                     onClick={onSizeCheckboxClick} />
                 <VestingStateFilter
-                    vestingState={query.state} />
+                    state={query.state} />
                 <Container>
                     <FormGroup>
                         <Label for="minimumPrice">

@@ -96,7 +96,7 @@ export class ProductsService {
         }
 
         if (query.state !== undefined) {
-            qb.andWhere('product.state = :state', { state: query.state });
+            qb.andWhere('product.state >= :state', { state: query.state });
         }
 
         if (query.minimumPrice !== undefined && query.minimumPrice > 0) {

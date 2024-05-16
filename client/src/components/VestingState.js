@@ -20,7 +20,7 @@ const VestingState = (props) => {
 
     return (
         <div>
-            <p>Vestuté :</p>
+            <p>Etat :</p>
             {
                 stars.map((star, index) => star ?
                     <FontAwesomeIcon key={index} icon={solidStar} color={"gold"} /> :

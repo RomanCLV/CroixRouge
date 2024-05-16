@@ -31,7 +31,7 @@ const Cart = () => {
         if (canClear !== canClearProducts) {
             setCanClearProducts(canClear);
         }
-    },[products.length, canClearProducts]);
+    }, [products.length, canClearProducts]);
 
     const onCommanderClick = () => {
         if (canPay) {

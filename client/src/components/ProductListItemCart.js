@@ -10,7 +10,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrashCan, faLocationDot} from "@fortawesome/free-solid-svg-icons";
 import {ROUTES} from "../router/routes";
 import VestingState from "./VestingState";
-// import {getCityById} from "../data/data";
+//import { getProductById } from "../services/productsService";
 import {useDispatch} from "react-redux";
 import {deleteProduct} from "../store/slices/productsSlice";
 import {clearToast, setToast} from "../store/slices/toastSlice";
@@ -22,13 +22,14 @@ const ProductListItemCart = (props) => {
     const dispatch = useDispatch();
 
     const product = props.product;
+    console.log("product cart:", product)
     const image = product.images.length > 0 ? product.images[0] : "";
     let canDelete = true;
     if (props.canDelete === true || props.canDelete === false) {
         canDelete = props.canDelete;
     }
 
-    //const city = getCityById(product.cityId);
+    // eslint-disable-next-line
     const [city, setCity] = useState(null);
 
     const onNavigate = () => {

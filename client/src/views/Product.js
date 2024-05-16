@@ -8,11 +8,11 @@ import {
 } from "reactstrap";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addProduct, deleteProduct, selectProducts } from "../store/slices/productsSlice";
+import { addProduct, deleteProduct, hasProducts } from "../store/slices/productsSlice";
 import { clearToast, setToast } from "../store/slices/toastSlice";
 import ProductImages from "../components/ProductImages";
 import VestingState from "../components/VestingState";
-import ProductsList from "../components/ProductsList";
+// import ProductsList from "../components/ProductsList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { getProductById } from "../services/productsService";
@@ -24,10 +24,7 @@ const Product = () => {
     const dispatch = useDispatch();
     const productID = useLoaderData();
 
-    //const city = getCityById(currentProduct.cityId);
-    const [city, setCity] = useState(null);
-
-    const [hasProduct, setHasProduct] = useState(false);
+    const [hasProduct, setHasProduct] = useState(useSelector(hasProducts));
     const [product, setProduct] = useState(null);
 
     const fetchProduct = useCallback(async () => {
@@ -38,7 +35,7 @@ const Product = () => {
         else {
             setProduct(result.product);
         }
-    }, [])
+    }, [productID])
 
     useEffect(() => {
         fetchProduct();
@@ -48,6 +45,7 @@ const Product = () => {
         if (!hasProduct) {
             dispatch(addProduct(product));
             dispatchToast("Produit ajouté", "Ce produit a été ajouté à votre panier.", "success", 5000);
+            setHasProduct(true);
         }
         else {
             dispatchToast("Produit non ajouté", "Ce produit est déjà dans votre panier.", "warning", 5000);
@@ -58,6 +56,7 @@ const Product = () => {
         if (hasProduct) {
             dispatch(deleteProduct(product));
             dispatchToast("Produit retiré", "Ce produit a été retiré de votre panier.", "success", 5000);
+            setHasProduct(false);
         }
         else {
             dispatchToast("Produit non retiré", "Ce produit n'est pas dans votre panier.", "warning", 5000);
@@ -78,7 +77,6 @@ const Product = () => {
     // const similarProducts = searchProducts(currentProduct.cityId, {
     //     categories: [currentProduct.category],
     // });
-    const similarProducts = [];
 
     return product ?
         <Container className={"mainContentView"}>

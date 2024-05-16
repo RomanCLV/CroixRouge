@@ -20,7 +20,6 @@ import { getNavigateUrlSearch } from "../components/FiltersSection";
 const Search = () => {
 
     const query = useLoaderData();
-    console.log("search query:", query)
     const dispatch = useDispatch();
     const search = useSelector(selectSearch);
     const [products, setProducts] = useState([]);
@@ -33,7 +32,7 @@ const Search = () => {
         if (result.products) {
             setProducts(result.products)
         }
-    }, [search])
+    }, [query])
 
     useEffect(() => {
         if (!searchIsSet) {
@@ -41,7 +40,7 @@ const Search = () => {
             dispatch(setSearch(query));
         }
         fetchProducts();
-    }, [searchIsSet, search, query , dispatch])
+    }, [searchIsSet, search, query , dispatch, fetchProducts])
 
     const onSeeMoreClick = () => {
         setLimit(limit + 20);

@@ -9,6 +9,7 @@ import { SizesService } from 'src/sizes/sizes.service';
 import { CitiesService } from 'src/cities/cities.service';
 import { ProductImagesService } from 'src/product-images/product-images.service';
 import { ProductImagesProductAssociation } from './interfaces/product-images-product-association.interface';
+import { SearchProductDto } from './DTOs/search-product.dto';
 
 @Injectable()
 export class ProductsService {
@@ -27,8 +28,23 @@ export class ProductsService {
         private readonly productImagesService: ProductImagesService,
     ) { }
 
-    async findByTitle(title: string): Promise<Product> {
-        return await this.productsRepository.findOne({ where: { title: title } });
+    async findAll(): Promise<ProductImagesProductAssociation[]> {
+        const products = await this.productsRepository.find();
+        if (!products) {
+            throw new NotFoundException("Products not found");
+        }
+        const associations: ProductImagesProductAssociation[] = [];
+        for (let index = 0; index < products.length; index++) {
+            const product = products[index];
+            const images = await this.productImagesService.findImagesByProductId(product.id);
+            associations.push({product, images});
+        }
+        return associations;
+    }
+
+    async search(query: SearchProductDto): Promise<ProductImagesProductAssociation[]> {
+        console.log("query:", query)
+        return [];
     }
 
     async create(productData: CreateProductDto): Promise<ProductImagesProductAssociation> {

@@ -39,7 +39,7 @@ export const getNavigateUrlSearch = (query) => {
         add("sizes=" + query.sizes.join("|"));
     }
     if (query.vestingState && query.vestingState > 1) {
-        add("vestingState=" + query.vestingState);
+        add("state=" + query.vestingState);
     }
     if (query.minimumPrice && query.minimumPrice > 0) {
         add("minimumPrice=" + query.minimumPrice);

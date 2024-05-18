@@ -14,6 +14,7 @@ const CityCard = (props) => {
 
     const onCitiesButtonClick = () => {
         dispatch(setCity(city));
+        localStorage.setItem("city", city.name);
         setTimeout(() => {
             navigate(ROUTES.root);
         }, 50);

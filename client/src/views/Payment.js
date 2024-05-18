@@ -59,7 +59,15 @@ const Payment = () => {
     }
 
     const validateExpirationDate = (date) => {
-        return date.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/) !== null;
+        return date.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/) !== null && isFutureDate(date);
+    }
+
+    function isFutureDate(dateStr) {
+        const [month, year] = dateStr.split('/').map(Number);
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth() + 1;
+        const currentYear = currentDate.getFullYear() % 100;
+        return year > currentYear || (year === currentYear && month > currentMonth);
     }
 
     const validateCode = (code) => {
@@ -74,6 +82,7 @@ const Payment = () => {
         const valid =
             valueNotEmpty(carte) &&
             valueNotEmpty(expirationDate) &&
+            isFutureDate(expirationDate) &&
             valueNotEmpty(codeCarte) &&
             valueNotEmpty(name);
 

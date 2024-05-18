@@ -70,7 +70,7 @@ function App() {
                 fetchCity();
             }
         }
-    }, [userIsConnected, successAuth, dispatch]);
+    }, [userIsConnected, successAuth, dispatch, navigate]);
 
     return (
         <div>

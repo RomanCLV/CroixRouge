@@ -54,6 +54,7 @@ const Payment = () => {
         if (valid !== isFormValid) {
             setIsFormValid(valid);
         }
+        //eslint-disable-next-line
     }, [command, dispatch, carte, expirationDate, codeCarte, name, surname, isFormValid]);
 
     const valueNotEmpty = (value) => value.length !== 0;

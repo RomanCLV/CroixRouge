@@ -12,6 +12,8 @@ import {status} from "./services/authService"
 import {selectToast} from "./store/slices/toastSlice";
 import {isConnected, setUser} from "./store/slices/userSlice";
 import {clearToast, setToast} from "./store/slices/toastSlice";
+import { getCarts } from "./services/cartsService";
+import { addProduct } from "./store/slices/productsSlice";
 
 function App() {
     const dispatch = useDispatch();
@@ -41,6 +43,10 @@ function App() {
                     }
                     else {
                         localStorage.setItem("jwt", result.jwt);
+                        const cart = await getCarts(result.jwt);
+                        if (cart.products) {
+                            cart.products.forEach(product => dispatch(addProduct(product)))
+                        }
                         successAuth(result.user);
                     }
                 };

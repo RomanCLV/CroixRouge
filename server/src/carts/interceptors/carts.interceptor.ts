@@ -4,12 +4,19 @@ import { map } from 'rxjs/operators';
 import { Cart } from '../cart.entity';
 
 @Injectable()
-export class CartInterceptor implements NestInterceptor<Cart[]> {
+export class CartsInterceptor implements NestInterceptor<Cart[]> {
 
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
         return next.handle().pipe(
             map((data: Cart[]) => ({ 
-                carts: data.map((cart: Cart) => cart.product)
+                products: data.map((data: Cart) => {
+                    const product: any = data.product;
+                    product.city = product.city.name;
+                    product.category = product.category.category;
+                    product.gender = product.gender.gender;
+                    product.size = product.size.size;
+                    return product;
+                })
             }))
         );
     }

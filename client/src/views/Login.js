@@ -6,12 +6,14 @@ import {
     Form, Row,
 } from "reactstrap";
 import {auth, status} from "../services/authService"
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {setUser} from "../store/slices/userSlice";
 import {Link} from "react-router-dom";
 import {ROUTES} from "../router/routes";
 import InputManager from "../components/InputManager";
 import {clearToast, setToast} from "../store/slices/toastSlice";
+import { addProduct, selectProducts } from "../store/slices/productsSlice";
+import { createCart, getCarts } from "../services/cartsService";
 
 const Login = () => {
 
@@ -22,6 +24,7 @@ const Login = () => {
 
     const [isFormValid, setIsFormValid] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+    const currentCart = useSelector(selectProducts);
 
     const successAuth = useCallback((user) => {
         dispatch(setUser(user));
@@ -88,6 +91,17 @@ const Login = () => {
         else {
             const result2 = await status(result.jwt);
             localStorage.setItem("jwt", result2.jwt);
+            // fusion du panier local et du panier de la bdd
+            const cart = await getCarts(result2.jwt);
+            for (let i = 0; i < currentCart.length; i++) {
+                if (!cart.products.find(p => p.id === currentCart[i].id)) {
+                    await createCart(result2.jwt, currentCart[i].id)
+                }
+            }
+            // ajout des produits du panier de la bdd dans le panier local
+            if (cart.products) {
+                cart.products.forEach(product => dispatch(addProduct(product)))
+            }
             successAuth(result2.user);
         }
     }

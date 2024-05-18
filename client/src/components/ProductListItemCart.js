@@ -15,6 +15,7 @@ import {useDispatch} from "react-redux";
 import {deleteProduct} from "../store/slices/productsSlice";
 import {clearToast, setToast} from "../store/slices/toastSlice";
 import {getPriceToDisplay} from "./CartTicket";
+import { deleteCart } from "../services/cartsService";
 
 const ProductListItemCart = (props) => {
 
@@ -51,10 +52,23 @@ const ProductListItemCart = (props) => {
         navigate(ROUTES.product + "/" + product.id)
     }
 
-    const deleteItem = () => {
+    const deleteItem = async () => {
         if (canDelete) {
-            dispatch(deleteProduct(product));
-            dispatchToast("Produit retiré", "Ce produit a été retiré de votre panier.", "success",5000);
+            const currentJWT = localStorage.getItem("jwt");
+            if (currentJWT) {
+                const result = await deleteCart(currentJWT, product.id);
+                if (result.value) {
+                    dispatch(deleteProduct(product));
+                    dispatchToast("Produit retiré", "Ce produit a été retiré de votre panier.", "success", 5000);
+                }
+                else {
+                    dispatchToast("Produit non retiré", "Ce produit n'est pas dans votre panier.", "warning", 5000);
+                }
+            }
+            else {
+                dispatch(deleteProduct(product));
+                dispatchToast("Produit retiré", "Ce produit a été retiré de votre panier.", "success", 5000);
+            }
         }
     }
 

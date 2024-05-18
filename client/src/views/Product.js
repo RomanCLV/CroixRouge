@@ -12,19 +12,20 @@ import { addProduct, deleteProduct, selectProducts } from "../store/slices/produ
 import { clearToast, setToast } from "../store/slices/toastSlice";
 import ProductImages from "../components/ProductImages";
 import VestingState from "../components/VestingState";
-// import ProductsList from "../components/ProductsList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { getProductById } from "../services/productsService";
 import { getPriceToDisplay } from "../components/CartTicket";
 import { ROUTES } from "../router/routes";
 import ProductsList from "../components/ProductsList";
-import { createCart } from "../services/cartsService";
+import { createCart, deleteCart } from "../services/cartsService";
+import { selectCity } from "../store/slices/citySlice";
 
 const Product = () => {
 
     const navigate = useNavigate()
     const dispatch = useDispatch();
+    const city = useSelector(selectCity);
     const productID = useLoaderData();
     const products = useSelector(selectProducts);
 
@@ -60,11 +61,20 @@ const Product = () => {
 
     const onAddProductClick = async () => {
         if (!hasProduct) {
-            dispatch(addProduct(product));
-            dispatchToast("Produit ajouté", "Ce produit a été ajouté à votre panier.", "success", 5000);
             const currentJWT = localStorage.getItem("jwt");
             if (currentJWT) {
-                await createCart(currentJWT, product.id);
+                const result = await createCart(currentJWT, product.id);
+                if (result.product) {
+                    dispatchToast("Produit ajouté", "Ce produit a été ajouté à votre panier.", "success", 5000);
+                    dispatch(addProduct(result.product));
+                }
+                else {
+                    dispatchToast("Produit non ajouté", "Ce produit est déjà dans votre panier.", "warning", 5000);
+                }
+            }
+            else {
+                dispatchToast("Produit ajouté", "Ce produit a été ajouté à votre panier.", "success", 5000);
+                dispatch(addProduct(product));
             }
         }
         else {
@@ -72,11 +82,24 @@ const Product = () => {
         }
     }
 
-    const onRemoveProductClick = () => {
+    const onRemoveProductClick = async () => {
         if (hasProduct) {
-            dispatch(deleteProduct(product));
-            dispatchToast("Produit retiré", "Ce produit a été retiré de votre panier.", "success", 5000);
-        }
+            const currentJWT = localStorage.getItem("jwt");
+            if (currentJWT) {
+                const result = await deleteCart(currentJWT, product.id);
+                if (result.value) {
+                    dispatch(deleteProduct(product));
+                    dispatchToast("Produit retiré", "Ce produit a été retiré de votre panier.", "success", 5000);
+                }
+                else {
+                    dispatchToast("Produit non retiré", "Ce produit n'est pas dans votre panier.", "warning", 5000);
+                }
+            }
+            else {
+                dispatch(deleteProduct(product));
+                dispatchToast("Produit retiré", "Ce produit a été retiré de votre panier.", "success", 5000);
+            }
+          }
         else {
             dispatchToast("Produit non retiré", "Ce produit n'est pas dans votre panier.", "warning", 5000);
         }
@@ -160,11 +183,11 @@ const Product = () => {
                 </Col>
             </Row>
             <Container>
-                <ProductsList
+                { city && <ProductsList
                     title="Produits similaires"
                     category={product.category}
                     seeMore={ROUTES.search + `/city=${product.city}&categories=${product.category}`}
-                />
+                />}
             </Container>
         </Container>
 

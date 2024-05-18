@@ -10,6 +10,7 @@ import {logout, selectUser, setUser} from "../store/slices/userSlice";
 import ImagesSelector from "../components/ImagesSelector";
 import { updateImage } from "../services/usersService";
 import { status } from "../services/authService";
+import { clearProducts } from "../store/slices/productsSlice";
 
 const Account = () => {
 
@@ -23,6 +24,7 @@ const Account = () => {
     const onLogoutClick = () => {
         localStorage.removeItem("jwt");
         dispatch(logout());
+        dispatch(clearProducts());
     };
 
     const toggle = () => setModal(!modal);

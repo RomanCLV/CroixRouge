@@ -15,6 +15,7 @@ import { pay } from "../services/productsService";
 import {useDispatch, useSelector} from "react-redux";
 import {clearProducts, selectProducts} from "../store/slices/productsSlice";
 import {clearCommand, selectCommand, setCommand} from "../store/slices/commandSlice";
+import { deleteCartOfUser } from "../services/cartsService";
 
 const Payment = () => {
 
@@ -95,6 +96,7 @@ const Payment = () => {
 
         const result = await pay(products.map(product => product.id));
         if (result.products) {
+            await deleteCartOfUser(localStorage.getItem("jwt"));
             dispatch(clearProducts());
             dispatch(setCommand(result.products));
             navigate(ROUTES.paymentDone);
@@ -182,7 +184,7 @@ const Payment = () => {
                             id={"inputCodeCarte"}
                             name={"inputCodeCarte"}
                             label={"XXX"}
-                            placeholder={"MM / YY"}
+                            placeholder={"XXX"}
                             type={null}
                             required={true}
                             value={codeCarte}

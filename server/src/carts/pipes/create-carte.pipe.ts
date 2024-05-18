@@ -5,7 +5,6 @@ export class CreateCartPipe implements PipeTransform {
     constructor(private schema: ZodSchema) {}
 
     transform(value: unknown, metadata: ArgumentMetadata) {
-        console.log("in pipie")
         try {
             const parsedValue = this.schema.parse(value);
             return parsedValue;

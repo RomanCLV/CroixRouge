@@ -15,6 +15,7 @@ import {clearProducts, hasProducts, selectProducts} from "../store/slices/produc
 import {clearToast, setToast} from "../store/slices/toastSlice";
 
 import {ROUTES} from "../router/routes";
+import { deleteCartOfUser } from "../services/cartsService";
 
 const Cart = () => {
 
@@ -39,10 +40,23 @@ const Cart = () => {
         }
     }
 
-    const onClearClick = () => {
+    const onClearClick = async () => {
         if (canClearProducts) {
-            dispatch(clearProducts());
-            dispatchToast("Panier vidé", "Le panier à été vidé.", "success",5000);
+            const currentJWT = localStorage.getItem("jwt");
+            if (currentJWT) {
+                const result = await deleteCartOfUser(currentJWT);
+                if (result.value) {
+                    dispatch(clearProducts());
+                    dispatchToast("Panier vidé", "Le panier à été vidé.", "success", 5000);
+                }
+                else {
+                    dispatchToast("Panier non vidé", "Le panier à été vidé.", "warning", 5000);
+                }
+            }
+            else {
+                dispatch(clearProducts());
+                dispatchToast("Panier vidé", "Le panier à été vidé.", "success", 5000);
+            }
         }
     }
 

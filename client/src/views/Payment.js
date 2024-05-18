@@ -33,6 +33,10 @@ const Payment = () => {
     const [isFormValid, setIsFormValid] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
+    const validateExpirationDate = (date) => {
+        return date.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/) !== null && isFutureDate(date);
+    }
+
     useEffect(() => {
         if (command) {
             dispatch(clearCommand())
@@ -56,10 +60,6 @@ const Payment = () => {
 
     const validateCart = (carte) => {
         return carte.match(/^[0-9]{16}$/) !== null;
-    }
-
-    const validateExpirationDate = (date) => {
-        return date.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/) !== null && isFutureDate(date);
     }
 
     function isFutureDate(dateStr) {

@@ -16,7 +16,7 @@ export const getPriceToDisplay = (price) => {
 const CartTicket = (props) => {
     const products = props.products || [];
 
-    let totalPrice = products.map(p => p.price).reduce((a, b) => a + b, 0);
+    let totalPrice = products.map(p => p ? p.price : 0).reduce((a, b) => a + b, 0);
     if (totalPrice !== Math.round(totalPrice)) {
         // si on a des décimales
         const price = Math.round(totalPrice)
@@ -30,8 +30,8 @@ const CartTicket = (props) => {
                 {
                     products.map((product, index) =>
                         <div key={index} className={"d-flex justify-content-between"}>
-                            <p>{product.name}</p>
-                            <p>{getPriceToDisplay(product.price)} €</p>
+                            <p>{product ? product.title : "Produit supprimé"}</p>
+                            <p>{getPriceToDisplay(product ? product.price : 0)} €</p>
                         </div>
                     )
                 }

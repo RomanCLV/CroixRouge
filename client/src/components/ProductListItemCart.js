@@ -12,7 +12,7 @@ import {ROUTES} from "../router/routes";
 import VestingState from "./VestingState";
 import { getProductById } from "../services/productsService";
 import {useDispatch} from "react-redux";
-import {deleteProduct} from "../store/slices/productsSlice";
+import {deleteProduct, deleteProductIndex} from "../store/slices/productsSlice";
 import {clearToast, setToast} from "../store/slices/toastSlice";
 import {getPriceToDisplay} from "./CartTicket";
 import { deleteCart } from "../services/cartsService";
@@ -56,17 +56,33 @@ const ProductListItemCart = (props) => {
         if (canDelete) {
             const currentJWT = localStorage.getItem("jwt");
             if (currentJWT) {
-                const result = await deleteCart(currentJWT, product.id);
+                const result = await deleteCart(currentJWT, product ? product.id : null);
                 if (result.value) {
-                    dispatch(deleteProduct(product));
+                    if (product) {
+                        dispatch(deleteProduct(product));
+                    }
+                    else {
+                        dispatch(deleteProductIndex(props.index));
+                    }
                     dispatchToast("Produit retiré", "Ce produit a été retiré de votre panier.", "success", 5000);
                 }
                 else {
-                    dispatchToast("Produit non retiré", "Ce produit n'est pas dans votre panier.", "warning", 5000);
+                    if (!product) {
+                        dispatch(deleteProduct(product));
+                        dispatchToast("Produit retiré", "Ce produit a été retiré de votre panier.", "success", 5000);
+                    }
+                    else {
+                        dispatchToast("Produit non retiré", "Ce produit n'est pas dans votre panier.", "warning", 5000);
+                    }
                 }
             }
             else {
-                dispatch(deleteProduct(product));
+                if (product) {
+                    dispatch(deleteProduct(product));
+                }
+                else {
+                    dispatch(deleteProductIndex(props.key));
+                }
                 dispatchToast("Produit retiré", "Ce produit a été retiré de votre panier.", "success", 5000);
             }
         }
@@ -82,25 +98,32 @@ const ProductListItemCart = (props) => {
             dispatch(clearToast());
         }, timeout);
     }
-    return product ? (
+
+    return (
         <div className={"item-cart-container"}>
             <Col xs={12} sm={3} onClick={onNavigate} className={"cursor-pointer"}>
                 <Card>
-                    <img src={image} alt={"product"} />
+                    <img src={product ? image : "http://www.image-heberg.fr/files/17160391993863747883.png"} alt={"product"} />
                 </Card>
             </Col>
             <Col xs={12} sm={9} className={"item-cart-description-container"}>
                 <Row className={"item-cart-description-container-1"}>
-                    <h4 onClick={onNavigate} className={"cursor-pointer"}>{product.name}</h4>
-                    <VestingState vestingState={product.vestingState} />
-                    <div className={"d-flex align-items-center margin-top-20px"}>
-                        <FontAwesomeIcon icon={faLocationDot} />
-                        <p className={"margin-auto"}>{product.city}</p>
-                    </div>
-                    <p className={"margin-auto margin-top-20px"}>Taille : {product.size}</p>
+                    <h4 onClick={onNavigate} className={"cursor-pointer"}>{product ? product.title : "Produit supprimé"}</h4>
+                    { product ?
+                        <>
+                        <VestingState vestingState={product.vestingState} />
+                        <div className={"d-flex align-items-center margin-top-20px"}>
+                            <FontAwesomeIcon icon={faLocationDot} />
+                            <p className={"margin-auto"}>{product.city}</p>
+                        </div>
+                        <p className={"margin-auto margin-top-20px"}>Taille : {product.size}</p>
+                        </>
+                        : 
+                        <p>Ce produit a déjà été acheté.</p>
+                    }
                 </Row>
                 <Row className={"item-cart-description-container-2"}>
-                    <p>{getPriceToDisplay(product.price)} €</p>
+                    { product && <p>{getPriceToDisplay(product.price)} €</p>}
                     {
                         canDelete &&
                             <Button
@@ -113,8 +136,7 @@ const ProductListItemCart = (props) => {
                 </Row>
             </Col>
         </div>
-    ) :
-    <div className={"item-cart-container"}><p>Ce produit n'existe pas.</p></div>;
+    );
 }
 
 export default ProductListItemCart;

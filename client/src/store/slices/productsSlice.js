@@ -8,14 +8,29 @@ export const productsSlice = createSlice({
     reducers: {
         addProduct: (state, action) => {
             const product = action.payload;
-            const match = state.value.find(x => x.id === product.id);
+            const match = state.value.find(x => x ? x.id === product.id : true);
             if (!match) {
                 state.value.push(product);
             }
         },
         deleteProduct: (state, action) => {
-            const newItems = state.value.filter(x => x.id !== action.payload.id);
+            let newItems;
+            if (action.payload) {
+                newItems = state.value.filter(x => x ? x.id !== action.payload.id : true);
+            }
+            else {
+                newItems = state.value.filter(x => x !== null);
+            }
             // clearProducts
+            while (state.value.length > 0) {
+                state.value.pop();
+            }
+            for (let i = 0; i < newItems.length; i++) {
+                state.value.push(newItems[i]);
+            }
+        },
+        deleteProductIndex: (state, action) => {
+            const newItems = state.value.filter((x, index) => index !== action.payload);
             while (state.value.length > 0) {
                 state.value.pop();
             }
@@ -40,6 +55,7 @@ export const hasProducts = (state) => {
 export const {
     addProduct,
     deleteProduct,
+    deleteProductIndex,
     clearProducts
 } = productsSlice.actions;
 

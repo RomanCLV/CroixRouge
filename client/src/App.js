@@ -53,7 +53,7 @@ function App() {
                 fetchStatus();
             }
         }
-    }, [userIsConnected, successAuth]);
+    }, [userIsConnected, successAuth, dispatch]);
 
     return (
         <div>

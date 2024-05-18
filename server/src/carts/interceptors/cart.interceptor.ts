@@ -9,12 +9,17 @@ export class CartInterceptor implements NestInterceptor<Cart> {
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
         return next.handle().pipe(
             map((data: Cart) => {
-                const product: any = data.product;
-                product.city = product.city.name;
-                product.category = product.category.category;
-                product.gender = product.gender.gender;
-                product.size = product.size.size;
-                return {product: product};
+                if (data.product) {
+                    const product: any = data.product;
+                    product.city = product.city.name;
+                    product.category = product.category.category;
+                    product.gender = product.gender.gender;
+                    product.size = product.size.size;
+                    return {product: product};
+                }
+                else {
+                    return {product: null};
+                }
             })
         );
     }

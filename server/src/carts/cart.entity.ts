@@ -1,4 +1,4 @@
-import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, ManyToOne, JoinColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../users/user.entity';
 import { Product } from '../products/product.entity';
 
@@ -12,7 +12,7 @@ export class Cart {
     @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
     user: User;
 
-    @ManyToOne(() => Product)
+    @ManyToOne(() => Product, { nullable: true })
     @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
     product: Product;
 }

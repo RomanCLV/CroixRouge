@@ -24,7 +24,7 @@ const ProductCard = (props) => {
             />
             <CardBody>
                 <CardTitle tag="h5">
-                    {product.name}
+                    {product.title}
                 </CardTitle>
                 <CardSubtitle
                     className="mb-2 text-muted"

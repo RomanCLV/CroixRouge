@@ -13,7 +13,6 @@ const PaymentDone = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const command = useSelector(selectCommand);
-    console.log(command)
 
     useEffect(() => {
         if (!command) {

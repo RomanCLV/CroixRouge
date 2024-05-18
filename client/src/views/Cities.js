@@ -9,7 +9,7 @@ import {
 import {useNavigate} from "react-router-dom";
 import CitiesMap from "../components/CitiesMap";
 import CityCard from "../components/CityCard";
-import { getCities, getCitiesCoordinates } from "../services/citiesService";
+import { getCities } from "../services/citiesService";
 import { isSuperAdmin } from "../services/usersService";
 import { status } from "../services/authService";
 import { ROUTES } from "../router/routes";

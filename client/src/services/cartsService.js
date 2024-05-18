@@ -7,7 +7,7 @@ export const createCart = async (jwt, productId) => {
             'Content-Type': 'application/json',
             'Authorization': "Bearer " + jwt
         },
-        body: JSON.stringify({productId})
+        body: JSON.stringify({productId: productId})
     })
     .then(res => res.json())
     .catch((error) => ({ error: error }));
@@ -36,7 +36,7 @@ export const deleteCart = async (jwt, productId) => {
             'Content-Type': 'application/json',
             'Authorization': "Bearer " + jwt
         },
-        body: JSON.stringify({productId})
+        body: JSON.stringify({productId: productId})
     })
     .then(res => res.json())
     .catch((error) => ({ error: error }));

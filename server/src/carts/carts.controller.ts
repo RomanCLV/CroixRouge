@@ -8,6 +8,7 @@ import { Request } from 'express';
 import { CartInterceptor } from './interceptors/cart.interceptor';
 import { CartsInterceptor } from './interceptors/carts.interceptor';
 import { BooleanInterceptor } from 'src/interceptors/boolean.interceptor';
+import { DeleteCartDto, deleteCartSchema } from './DTOs/delete-cart.dto';
 
 @Controller('carts')
 export class CartsController {
@@ -31,11 +32,11 @@ export class CartsController {
     }
 
     @Delete()
-    @UsePipes(new CreateCartPipe(createCartSchema))
+    @UsePipes(new CreateCartPipe(deleteCartSchema))
     @UseFilters(DatabaseException)
     @UseGuards(JwtGuard)
     @UseInterceptors(BooleanInterceptor)
-    async deleteCart(@Req() req: Request, @Body() body: CreateCartDto) {
+    async deleteCart(@Req() req: Request, @Body() body: DeleteCartDto) {
         return await this.cartsService.deleteCart(req.user, body.productId);
     }
 
@@ -43,7 +44,7 @@ export class CartsController {
     @UseFilters(DatabaseException)
     @UseGuards(JwtGuard)
     @UseInterceptors(BooleanInterceptor)
-    async deleteCartOfUser(@Req() req: Request, @Body() body: CreateCartDto) {
+    async deleteCartOfUser(@Req() req: Request) {
         return await this.cartsService.deleteCartOfUser(req.user);
     }
 }

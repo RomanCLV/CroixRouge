@@ -21,7 +21,8 @@ const Cart = () => {
 
     const navigate = useNavigate();
     const products = useSelector(selectProducts);
-    const canPay = useSelector(hasProducts);
+    const haveProducts = useSelector(hasProducts);
+    const canPay = products.filter(p => p !== null).length > 0;
     const dispatch = useDispatch();
 
     const [modal, setModal] = useState(false);
@@ -44,18 +45,13 @@ const Cart = () => {
         if (canClearProducts) {
             const currentJWT = localStorage.getItem("jwt");
             if (currentJWT) {
-                const result = await deleteCartOfUser(currentJWT);
-                if (result.value) {
-                    dispatch(clearProducts());
-                    dispatchToast("Panier vidé", "Le panier à été vidé.", "success", 5000);
-                }
-                else {
-                    dispatchToast("Panier non vidé", "Le panier à été vidé.", "warning", 5000);
-                }
+                await deleteCartOfUser(currentJWT);
+                dispatch(clearProducts());
+                dispatchToast("Panier vidé", "Le panier a été vidé.", "success", 5000);
             }
             else {
                 dispatch(clearProducts());
-                dispatchToast("Panier vidé", "Le panier à été vidé.", "success", 5000);
+                dispatchToast("Panier vidé", "Le panier a été vidé.", "success", 5000);
             }
         }
     }
@@ -97,8 +93,8 @@ const Cart = () => {
             <Row>
                 <Col xs={7}>
                     {
-                        canPay ?
-                            products.map((product, index) => <ProductListItemCart key={index} productId={product.id}/>)
+                        haveProducts ?
+                            products.map((product, index) => <ProductListItemCart key={index} index={index} productId={product ? product.id : null}/>)
                             :
                             <p>Aucun produit dans le panier.</p>
                     }

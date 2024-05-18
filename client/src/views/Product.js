@@ -45,7 +45,7 @@ const Product = () => {
     useEffect(() => {
         fetchProduct();
 
-        const match = products.find(product => product.id === parseInt(productID));
+        const match = products.find(product => product && product.id === parseInt(productID));
         if (match) {
             if (!hasProduct) {
                 setHasProduct(true);

@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cart } from './cart.entity';
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 import { UsersService } from 'src/users/users.service';
 import { ProductsService } from 'src/products/products.service';
 import { User } from 'src/users/user.entity';
@@ -48,18 +48,24 @@ export class CartsService {
         });
     }
 
-    async deleteCart(user: any, productId: number): Promise<boolean> {
+    async deleteCart(user: any, productId?: number): Promise<boolean> {
         const fullUser: User = await this.usersService.findByEmail(user.email);
         if (!fullUser) {
             throw new Error(`User with id ${user.email} not found`);
         };
-
-        const carts = await this.cartsRepository.find({
+        const carts = productId ?
+        await this.cartsRepository.find({
             where: {
                 user: {id: fullUser.id},
                 product: {id: productId}
             }
-        })
+        }) :
+        await this.cartsRepository.find({
+            where: {
+                user: {id: fullUser.id},
+                product: IsNull()
+            }
+        });
         let deleted = 0;
         for (let i = 0; i < carts.length; i++) {
             const deletion = await this.cartsRepository.delete(carts[i]);

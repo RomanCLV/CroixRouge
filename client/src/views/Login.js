@@ -94,7 +94,7 @@ const Login = () => {
             // fusion du panier local et du panier de la bdd
             const cart = await getCarts(result2.jwt);
             for (let i = 0; i < currentCart.length; i++) {
-                if (!cart.products.find(p => p.id === currentCart[i].id)) {
+                if (!cart.products.find(p => p ? p.id === currentCart[i].id : true)) {
                     await createCart(result2.jwt, currentCart[i].id)
                 }
             }

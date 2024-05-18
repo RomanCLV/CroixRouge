@@ -48,4 +48,11 @@
 .header-icon {
     margin: 20px;
     cursor: pointer;
+    transition-duration: 0.2s;
+}
+
+.header-icon:hover {
+    color: var(--primary-red);
+    transition-duration: 0.2s;
+    margin-bottom: 15px;
 }

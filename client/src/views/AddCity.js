@@ -1,8 +1,8 @@
 import React, { useState , useEffect} from 'react';
-import { Button, Container, Row, Col } from 'reactstrap'; // Import des composants depuis reactstrap
+import { Button, Container, Row, Col } from 'reactstrap';
 import InputManager from '../components/InputManager';
 import ImagesSelector from '../components/ImagesSelector';
-import { getCreateCity } from '../services/citiesService'; 
+import { createCity } from '../services/citiesService'; 
 import { ROUTES } from "../router/routes";
 import { useNavigate } from "react-router-dom";
 
@@ -52,7 +52,7 @@ function AddCity() {
             return;
         }
 
-        const result = await getCreateCity(name,address,longitude,latitude,url);
+        const result = await createCity(name, address, longitude, latitude, url);
         if (result.error) {
             setErrorMessage(result.error.message);
         }

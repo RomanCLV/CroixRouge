@@ -19,7 +19,6 @@ const Cities = () => {
     const CITIES_LIMIT = 8;
     const [hasFetch, setHasFetch] = useState(false);
     const [cities, setCities] = useState([]);
-    const [citiesCoordinates, setCitiesCoordinates] = useState([]);
     const [isAdmin, setIsAdmin] = useState(false);
     const [search, setSearch] = useState("");
 
@@ -27,13 +26,6 @@ const Cities = () => {
         const data = await getCities(CITIES_LIMIT, name);
         if (data.cities) {
             setCities(data.cities);
-        }
-    }
-
-    const fetchCitiesCoordinates = async () => {
-        const data = await getCitiesCoordinates();
-        if (data.coordinates) {
-            setCitiesCoordinates(data.coordinates);
         }
     }
 
@@ -57,7 +49,6 @@ const Cities = () => {
     useEffect(() => {
         if (!hasFetch) {
             setHasFetch(true);
-            fetchCitiesCoordinates();
             fetchCities();
             fetchIsSuperAdmin();
         }
@@ -128,7 +119,7 @@ const Cities = () => {
                             }
                         </Row>
                 }
-                <CitiesMap cities={citiesCoordinates} />
+                <CitiesMap />
             </Container>
         </div>
     );

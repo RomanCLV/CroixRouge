@@ -11,6 +11,15 @@ export class CitiesService {
         private readonly citiesRepository: Repository<City>
     ) { }
 
+    private secureLatLngNumberOfCity(city: City) {
+        city.lat = parseFloat(city.lat.toString());
+        city.lng = parseFloat(city.lng.toString());
+    }
+
+    private secureLatLngNumberOfCities(cities: City[]) {
+        cities.forEach(city => this.secureLatLngNumberOfCity(city));
+    }
+
     async findCities(limit?: number, name?: string): Promise<City[]> {
         let queryBuilder = this.citiesRepository.createQueryBuilder('city');
         if (name) {
@@ -19,15 +28,19 @@ export class CitiesService {
         if (limit != null && limit > 0) {
             queryBuilder = queryBuilder.take(limit);
         }
-        return await queryBuilder.getMany();
-    }
-
-    async findCoordinates(): Promise<City[]> {
-        return await this.citiesRepository.find();
+        const cities = await queryBuilder.getMany();
+        if (cities) {
+            this.secureLatLngNumberOfCities(cities);
+        }
+        return cities;
     }
 
     async findCityByName(name: string): Promise<City> {
-        return await this.citiesRepository.findOne({ where: { name: name } })
+        const city = await this.citiesRepository.findOne({ where: { name: name } });
+        if (city) {
+            this.secureLatLngNumberOfCity(city);
+        }
+        return city;
     }
 
     async createCity(body: CreateCityDto) {

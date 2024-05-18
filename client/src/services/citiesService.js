@@ -26,28 +26,7 @@ export const getCities = async (limit=null, name=null) => {
     .catch((error) => ({ error: error }));
 }
 
-export const getCitiesCoordinates = async () => {
-    const url = `${process.env.REACT_APP_API_URL}/cities/coordinates`;
-
-    return await fetch(url, {
-        method: 'GET'
-    })
-    .then(res => res.json())
-    .then(cities => {
-        if (!cities) {
-            throw new Error("Villes non trouvées.");
-        }
-        else if (cities.error) {
-            throw new Error(cities.error.message);
-        }
-        else {
-            return cities;
-        }
-    })
-    .catch((error) => ({ error: error }));
-}
-
-export const getCreateCity = async (name, address, longitude, latitude, imagePath) => {
+export const createCity = async (name, address, longitude, latitude, imagePath) => {
     const url = `${process.env.REACT_APP_API_URL}/cities/city`;
 
     return await fetch(url, {

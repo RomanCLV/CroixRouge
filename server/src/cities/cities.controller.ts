@@ -5,10 +5,7 @@ import { City } from './city.entity';
 import { CitiesInterceptor } from './interceptors/cities.interceptor';
 import { CitiesPipe } from './pipes/cities.pipe';
 import { CitiesDto, citiesSchema } from './DTOs/cities.dto';
-import { CitiesCoordinatesInterceptor } from './interceptors/coordinates.interceptor';
 import { CityInterceptor } from './interceptors/city.interceptor';
-import { GetCityDto, getCitySchema } from './DTOs/get-city.dto';
-import { GetCityPipe } from './pipes/get-city.pipe';
 import { CreateCityPipe } from './pipes/create-city.pipe';
 import { CreateCityDto, createCitySchema } from './DTOs/create-city.dto';
 
@@ -28,21 +25,9 @@ export class CitiesController {
         return cities;
     }
 
-    @Get("coordinates")
-    @UseFilters(DatabaseException)
-    @UseInterceptors(CitiesCoordinatesInterceptor)
-    async findCoordinates(): Promise<City[]> {
-        const cities = await this.citiesService.findCoordinates();
-        if (!cities) {
-            throw new NotFoundException(`cities not found.`)
-        }
-        return cities;
-    }
-
     @Get("city/:city")
     @UseFilters(DatabaseException)
     @UseInterceptors(CityInterceptor)
-    //@UsePipes(new GetCityPipe(getCitySchema))
     async findCityByName(@Param("city") city: string): Promise<City> {
         return await this.citiesService.findCityByName(city);
     }

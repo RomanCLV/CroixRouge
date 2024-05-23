@@ -8,12 +8,11 @@ import { AuthService } from './auth.service';
 import { User } from 'src/users/user.entity';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
-import { UsersService } from 'src/users/users.service';
 
 @Module({
   imports: [
     PassportModule,
-    ConfigModule.forRoot({ envFilePath: ".env.development.local" }),
+    ConfigModule.forRoot({ envFilePath: ".env" }),
     TypeOrmModule.forFeature([User]),
     JwtModule.register({
       secret: process.env.JWT_SECRET_KEY,

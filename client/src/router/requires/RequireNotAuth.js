@@ -6,9 +6,12 @@ import { ROUTES } from "../routes";
 const RequireNotAuth = ( { children } ) => {
 
     const connected = useSelector(isConnected);
+    console.log("connected:", connected)
     if (connected) {
+        console.log("redirection")
         return <Navigate to={ROUTES.root} />
     }
+    console.log("children")
     return children;
 };
 

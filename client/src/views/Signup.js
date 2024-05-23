@@ -52,6 +52,7 @@ const Signup = () => {
     }
 
     const onEmailChanged = async (value) => {
+        setEmail(value);
         if (validateEmail(value)) {
             if (await isEmailFree(value)) {
                 setErrorMessage("");
@@ -60,7 +61,6 @@ const Signup = () => {
                 setErrorMessage("Email déjà utilisé.");
             }
         }
-        setEmail(value);
     }
 
     const onUsernameChanged = (value) => {

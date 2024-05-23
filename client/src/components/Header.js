@@ -25,7 +25,7 @@ const Header = () => {
     const city = useSelector(selectCity);
 
     const onLocationButtonClick = () => {
-        localStorage.removeItem("city");
+        //localStorage.removeItem("city");
         navigate(ROUTES.cities);
     }
 

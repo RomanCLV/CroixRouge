@@ -17,7 +17,6 @@ import RequireNotAuth from "./router/requires/RequireNotAuth";
 import App from "./App";
 import Main from "./views/Main";
 import Cities from "./views/Cities";
-//import SelectedCity from "./views/SelectedCity";
 import Search from "./views/Search";
 import Product from "./views/Product";
 import Cart from "./views/Cart";
@@ -30,9 +29,6 @@ import PasswordReset from "./views/PasswordReset";
 import ErrorPage from "./views/ErrorPage";
 import AddProduct from './views/AddProduct';
 
-// import { generateData } from "./data/data";
-//import { citiesLoader } from "./router/loaders/citiesLoader";
-//import { selectedCityLoader } from "./router/loaders/selectedCityLoader";
 import { searchLoader } from "./router/loaders/searchLoader";
 import { productLoader } from "./router/loaders/productLoader";
 import RequireHasProducts from "./router/requires/RequireHasProducts";
@@ -49,8 +45,6 @@ import AddCity from './views/AddCity';
 // react-redux : https://react-redux.js.org/tutorials/quick-start
 // map         : https://www.npmjs.com/package/google-map-react
 // map         : https://github.com/giorgiabosello/google-maps-react-markers
-
-// generateData();
 
 const router = createBrowserRouter([
     {

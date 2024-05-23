@@ -27,6 +27,7 @@ const Login = () => {
     const currentCart = useSelector(selectProducts);
 
     const successAuth = useCallback((user) => {
+        console.log("successAuth", user)
         dispatch(setUser(user));
         dispatch(setToast({
             type: "success",
@@ -40,6 +41,7 @@ const Login = () => {
 
     useEffect(() => {
         const currentJWT = localStorage.getItem('jwt');
+        console.log("currentJWT", currentJWT)
         if (currentJWT) {
             const fetchStatus = async () => {
                 const result = await status(currentJWT);
@@ -55,6 +57,7 @@ const Login = () => {
         }
         
         const isValid = valueNotEmpty(username) && validateEmail(username) && valueNotEmpty(password);
+        console.log("isValid:", isValid)
         if (isValid !== isFormValid) {
             setIsFormValid(isValid);
         }
@@ -105,6 +108,8 @@ const Login = () => {
             successAuth(result2.user);
         }
     }
+
+    console.log("return qqch")
 
     return (
         <Container className={"login-container"}>

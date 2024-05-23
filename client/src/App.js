@@ -14,16 +14,15 @@ import {isConnected, setUser} from "./store/slices/userSlice";
 import {clearToast, setToast} from "./store/slices/toastSlice";
 import { getCarts } from "./services/cartsService";
 import { addProduct } from "./store/slices/productsSlice";
-import { getCities } from "./services/citiesService";
-import { setCity } from "./store/slices/citySlice";
-import { ROUTES } from "./router/routes";
+// import { getCities } from "./services/citiesService";
+// import { setCity } from "./store/slices/citySlice";
+// import { ROUTES } from "./router/routes";
 
 function App() {
     const dispatch = useDispatch();
     const toast = useSelector(selectToast);
     const userIsConnected = useSelector(isConnected);
     const navigate = useNavigate();
-
 
     const successAuth = useCallback((user) => {
         dispatch(setUser(user));
@@ -57,18 +56,18 @@ function App() {
                 };
                 fetchStatus();
             }
-            const currentCity = localStorage.getItem("city");
-            if (currentCity) {
-                const fetchCity = async () => {
-                    const result = await getCities(1, currentCity);
-                    if (result.cities && result.cities.length > 0) {
-                        const city = result.cities[0];
-                        dispatch(setCity(city));
-                        navigate(ROUTES.root);
-                    }
-                }
-                fetchCity();
-            }
+            // const currentCity = localStorage.getItem("city");
+            // if (currentCity) {
+            //     const fetchCity = async () => {
+            //         const result = await getCities(1, currentCity);
+            //         if (result.cities && result.cities.length > 0) {
+            //             const city = result.cities[0];
+            //             dispatch(setCity(city));
+            //             navigate(ROUTES.root);
+            //         }
+            //     }
+            //     fetchCity();
+            // }
         }
     }, [userIsConnected, successAuth, dispatch, navigate]);
 
